@@ -87,8 +87,12 @@ npm install --prefix /tmp/opencode/delegates-qa --no-audit --no-fund playwright@
 node test/frontend-browser.mjs
 ```
 
-See the runner for local browser executable configuration. Browser evidence and
-exact results live in `design-review/final/` and `docs/frontend-browser-results.json`.
+See the runner for local browser executable configuration.
+Environment variables for the browser runner:
+- `QA_MODULES`: Points to the `package.json` file for `createRequire` resolution (defaults to `/tmp/opencode/delegates-qa/package.json`).
+- `CHROMIUM_EXECUTABLE`: Explicit path to a compatible Chromium browser executable (validated for existence). When unset, the runner checks `chromium.executablePath()`, then falls back to user cache paths under `~/.cache/ms-playwright/` (`chromium-1248`, `chromium-1234`, or headless shell variants) and standard system binary paths.
+
+Browser evidence and exact results live in `design-review/final/` and `docs/frontend-browser-results.json`.
 Automated accessibility checks supplement, rather than replace, keyboard and
 visual inspection.
 

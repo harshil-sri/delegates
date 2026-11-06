@@ -33,6 +33,24 @@ the demo-only interview in `.plans/courtroom-frontend-spec.md`.
 The separate browser report covers the repeatable interaction checks,
 additional viewports, downloads, and automated accessibility scans.
 
+## Final accessibility pass
+
+The first automated pass found contrast problems while message text faded in.
+The message and verdict animations now move without fading their readable text.
+The room uses an explicit parchment message background, and secondary labels
+use darker ink. Assessment explanations were darkened as well.
+
+The verified browser run passed 22 interaction/layout cases and returned zero
+axe violations across 10 scans: desktop entrance, court, appeal, and verdict;
+mobile entrance, court, room, docket, appeal, and verdict. The runner fails if
+an audit finds a violation; it does not count a completed scan as a clean scan.
+This is automated Chromium evidence, not a claim of complete accessibility or
+cross-browser certification.
+
+The 320px layout also keeps header controls on one line and drops the decorative
+stage footnote rather than crowding the advocate labels. All critical content
+remains available in the stage captions, transcript, and docket.
+
 ## Intentional draft limits
 
 The artwork is an original, editable SVG prototype, not a commissioned raster

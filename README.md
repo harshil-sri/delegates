@@ -20,6 +20,16 @@ The existing backend below remains separate and unchanged.
 See [the frontend handoff](docs/frontend-handoff.md) for controls, asset sources,
 testing, and future integration boundaries. `npm run build` produces `dist/`.
 
+![Delegates courtroom with three judges, GPT and Claude advocates, a living docket, and a clearly labeled sample Switch room](design-review/final/court.png)
+
+More views: [cinematic entrance](design-review/final/intro-revealed.png),
+[human appeal](design-review/final/appeal.png),
+[final verdict](design-review/final/verdict.png), and
+[mobile court](design-review/final/mobile-court.png).
+
+Verification: [Node tests](docs/frontend-test-results.md) and
+[browser, responsive, and accessibility checks](docs/frontend-browser-results.json).
+
 ## Existing backend
 
 Two Codex-backed advocates and a deterministic clerk collaborate in one private

@@ -1,0 +1,502 @@
+{
+  "agents/creator-review.schema.json": {
+    "mtime": 1794005637.7977126,
+    "ast_hash": "09fe2b014352a3033e823a149c16e2a7",
+    "semantic_hash": ""
+  },
+  "agents/lead-board.schema.json": {
+    "mtime": 1794005637.7977126,
+    "ast_hash": "4fa196df68ec1802f970547388b46b44",
+    "semantic_hash": ""
+  },
+  "agents/spike-response.schema.json": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "bfaa5d131424bbe739c4142dbbbcb579",
+    "semantic_hash": ""
+  },
+  "docs/clerk-listener-result.json": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "3de89d998e83817b6caa16c043ce09b7",
+    "semantic_hash": ""
+  },
+  "docs/court-advocate-listener-result.json": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "50a72ce4e3e9ea692ad80bdc854d4f27",
+    "semantic_hash": ""
+  },
+  "docs/court-clerk-listener-result.json": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "eb8730c5e90ca05ac03bb5bcd40ea754",
+    "semantic_hash": ""
+  },
+  "docs/court-engine-live-result.json": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "b29da9ed5c7a8be33eaa773a0de9b548",
+    "semantic_hash": ""
+  },
+  "docs/live-listener-result.json": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "80ab68e88fd01c81caa5e1ed819b656f",
+    "semantic_hash": ""
+  },
+  "docs/negotiation-live-result.json": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "d3727d13d3b789cec629554cb3b2c010",
+    "semantic_hash": ""
+  },
+  "docs/spike-result.json": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "c67c08d42df0d094230debcf7dd6e440",
+    "semantic_hash": ""
+  },
+  "frontend/build.mjs": {
+    "mtime": 1794006972.2769253,
+    "ast_hash": "1310455593afc443827a4b01284b8233",
+    "semantic_hash": ""
+  },
+  "frontend/public/app.mjs": {
+    "mtime": 1794008317.2867658,
+    "ast_hash": "c09fd0d681c18f4407b86aa755ee3474",
+    "semantic_hash": ""
+  },
+  "frontend/public/hearing.mjs": {
+    "mtime": 1794006972.2769253,
+    "ast_hash": "9a9207c115a63fa0c45cfa9617a9b051",
+    "semantic_hash": ""
+  },
+  "frontend/server.mjs": {
+    "mtime": 1794007051.507013,
+    "ast_hash": "6162d5d87a0351ae7e8a59ed111a5b15",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1794006972.2769253,
+    "ast_hash": "7e4a47decef5286b593dc6c1148f0623",
+    "semantic_hash": ""
+  },
+  "scripts/check-clerk.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "d233d5b505367ab4687a936a9c1b2d0b",
+    "semantic_hash": ""
+  },
+  "scripts/check-engine.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "7db0b5687c8901a56cfe7c87db57a353",
+    "semantic_hash": ""
+  },
+  "scripts/check-listener.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "22ddc7a1be956f09d9d2d0041d11860f",
+    "semantic_hash": ""
+  },
+  "scripts/check-negotiation.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "a0ec81de402f48758a0a41f1836ecedf",
+    "semantic_hash": ""
+  },
+  "scripts/export-spike-proof.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "ce9e690a927eb9a3423470ed1e2c6c93",
+    "semantic_hash": ""
+  },
+  "scripts/init-env.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "5e86c61aa4e15f5c99e1db61951292aa",
+    "semantic_hash": ""
+  },
+  "scripts/listen.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "6300f81acec4160e12ebd1b2edee9aab",
+    "semantic_hash": ""
+  },
+  "scripts/run-spike.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "3aaf159afa907e5b45c0c0d536172759",
+    "semantic_hash": ""
+  },
+  "scripts/setup-engine.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "25692602e780b47033814b6296b28192",
+    "semantic_hash": ""
+  },
+  "scripts/setup-room.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "a22dde8a3af9ff738028f4906a0aadb8",
+    "semantic_hash": ""
+  },
+  "scripts/start-stack.ps1": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "5ac24ca1c65df655e889f0e7049985bd",
+    "semantic_hash": ""
+  },
+  "scripts/start-workers.ps1": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "0f4b471a51762773f527dbaa80a19fe5",
+    "semantic_hash": ""
+  },
+  "scripts/status.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "07b0fc525524789634ff1d8765662c44",
+    "semantic_hash": ""
+  },
+  "scripts/stop-workers.ps1": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "613764818886e18f239c0e0fad88e2cd",
+    "semantic_hash": ""
+  },
+  "scripts/verify-receipt.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "9bd70b026801b3a41ab3682f3b79c9d2",
+    "semantic_hash": ""
+  },
+  "src/advocate.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "784d0200c752791c6c97ed9bb8843d47",
+    "semantic_hash": ""
+  },
+  "src/codex-provider.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "fdd992530c5e662f10c94f2c86cc88a2",
+    "semantic_hash": ""
+  },
+  "src/court-engine.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "ec4c72b92767144c33377dc370eb5733",
+    "semantic_hash": ""
+  },
+  "src/court-http.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "6727c3048bec0141b9f92abd96e90061",
+    "semantic_hash": ""
+  },
+  "src/court-page.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "e732bc65ff83753d4d62578cade30ce9",
+    "semantic_hash": ""
+  },
+  "src/court-runtime.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "dc97c9f4e1899ce03cff88edc58e111f",
+    "semantic_hash": ""
+  },
+  "src/court-schema.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "dca98f6794251d57ee294b53950d10f8",
+    "semantic_hash": ""
+  },
+  "src/court-view.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "d669bf3cc34e6fe9db1f1c2f7b892521",
+    "semantic_hash": ""
+  },
+  "src/negotiation-worker.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "5e9eb57d997d08076b482180013786d0",
+    "semantic_hash": ""
+  },
+  "src/negotiation.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "ee0934fdcc13abd87c9e10e7d06571cf",
+    "semantic_hash": ""
+  },
+  "src/receipt-verify.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "8eb7be280ed625cd4dbd12a193134406",
+    "semantic_hash": ""
+  },
+  "src/room-worker.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "695e0cd244fe8f71df60bb306cae44a4",
+    "semantic_hash": ""
+  },
+  "src/runtime.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "df950fc3d47795b2cb1873eaae620da6",
+    "semantic_hash": ""
+  },
+  "src/storyboard.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "7b8651f72dd0de7c70718841bad4831a",
+    "semantic_hash": ""
+  },
+  "src/switch-client.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "52fc357e417f8237bb6e322fe5a9513d",
+    "semantic_hash": ""
+  },
+  "src/switch-identities.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "fae95252ca1bf3e20539386303b116dc",
+    "semantic_hash": ""
+  },
+  "test/court-engine.test.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "7cfef7c3ddd145881caf05d0e6fa137a",
+    "semantic_hash": ""
+  },
+  "test/court-fixture.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "7a64eda118baa9dcdffc9c5db27161a5",
+    "semantic_hash": ""
+  },
+  "test/court-http.test.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "532d1fd1f56fb8f96249f97fad4e6060",
+    "semantic_hash": ""
+  },
+  "test/court-runtime.test.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "e30784fa3d1db8176d37d03a70144f06",
+    "semantic_hash": ""
+  },
+  "test/frontend-hearing.test.mjs": {
+    "mtime": 1794009345.7584522,
+    "ast_hash": "6fd2eaa863826d728d04417dcc88ddf5",
+    "semantic_hash": ""
+  },
+  "test/frontend-server.test.mjs": {
+    "mtime": 1794009345.7584522,
+    "ast_hash": "45c397ecb469f9daa3676b88b963c657",
+    "semantic_hash": ""
+  },
+  "test/hardening.test.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "deaae637701491965e63a88215d76ffa",
+    "semantic_hash": ""
+  },
+  "test/negotiation.test.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "892fea9fe4c66d363281b97213620799",
+    "semantic_hash": ""
+  },
+  "test/switch-client.test.mjs": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "42d2d6f74663862d38e2103397c0da36",
+    "semantic_hash": ""
+  },
+  ".plans/DESIGN.md": {
+    "mtime": 1794007931.8646019,
+    "ast_hash": "a3c0f2b58dd9977fdfece3197f3a81e5",
+    "semantic_hash": ""
+  },
+  ".plans/PRODUCT.md": {
+    "mtime": 1794007931.8646019,
+    "ast_hash": "5fe2477b24e21cf276d62f1ae688d9c3",
+    "semantic_hash": ""
+  },
+  ".plans/courtroom-frontend-spec.md": {
+    "mtime": 1794008945.1505435,
+    "ast_hash": "9b5f59e54445f5ef83deaf1dcc395cde",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1794009173.8402681,
+    "ast_hash": "e425137bc120a446e7862e9a062a739a",
+    "semantic_hash": ""
+  },
+  "agents/creator-negotiation.md": {
+    "mtime": 1794005637.7977126,
+    "ast_hash": "c3ee5e3b82355ce0f8746ee93f4c05ef",
+    "semantic_hash": ""
+  },
+  "agents/creator.md": {
+    "mtime": 1794005637.7977126,
+    "ast_hash": "effc743c0ea484ff7020391d0b18c0d3",
+    "semantic_hash": ""
+  },
+  "agents/lead-negotiation.md": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "13d18323cbc694dc09959a743220edd3",
+    "semantic_hash": ""
+  },
+  "agents/lead.md": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "1fbcc31f536a19a2906bc1eceb417741",
+    "semantic_hash": ""
+  },
+  "creative-veto-court-demo-and-backend-design.md": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "e2fbd65c9226ff70538444e6962c916f",
+    "semantic_hash": ""
+  },
+  "delegates-courtroom-design-blueprint.md": {
+    "mtime": 1794005651.413929,
+    "ast_hash": "c97ed3b56a4dcfeca978957c206d8f36",
+    "semantic_hash": ""
+  },
+  "delegates-courtroom-spec.md": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "bd817cb13923458bc1ccf6b603dcd21c",
+    "semantic_hash": ""
+  },
+  "delegates-research-and-backend-brief.md": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "01fd5174a4afb85373295431aea36a0c",
+    "semantic_hash": ""
+  },
+  "delegates-unusual-cases-and-judge-review.md": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "2e33a2799c1483a054cb1cd2c71fac58",
+    "semantic_hash": ""
+  },
+  "docs/automatic-negotiation.md": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "d076675fb46e825c062cf2f36510d34a",
+    "semantic_hash": ""
+  },
+  "docs/frontend-api.md": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "25f6c97edb1c1f63ff00be8439c18c94",
+    "semantic_hash": ""
+  },
+  "docs/frontend-asset-sources.md": {
+    "mtime": 1794008280.5189106,
+    "ast_hash": "fc5ad86282dbf24fe4eafcd775e2fd58",
+    "semantic_hash": ""
+  },
+  "docs/frontend-test-results.md": {
+    "mtime": 1794009242.366817,
+    "ast_hash": "43934dd0cbfc08f58b52693c8ce27cd6",
+    "semantic_hash": ""
+  },
+  "docs/mandate-engine.md": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "cc1515d43c7c982187a67ce00c5ce46e",
+    "semantic_hash": ""
+  },
+  "docs/spike-result.md": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "604e2d12d6923276abaed62d68fd0425",
+    "semantic_hash": ""
+  },
+  "frontend/public/fonts/OFL-cormorant-garamond.txt": {
+    "mtime": 1794007404.9065511,
+    "ast_hash": "6085761d4b4b031541e48038b5701c6f",
+    "semantic_hash": ""
+  },
+  "frontend/public/fonts/OFL-ibm-plex-sans.txt": {
+    "mtime": 1794007405.2224822,
+    "ast_hash": "4d4949dda4b23922e334f0cbf6179065",
+    "semantic_hash": ""
+  },
+  "frontend/public/index.html": {
+    "mtime": 1794007051.5109818,
+    "ast_hash": "d151f592d19dfbd53d4688ce3c3af947",
+    "semantic_hash": ""
+  },
+  "infra/NOTICE.md": {
+    "mtime": 1794005637.8057175,
+    "ast_hash": "af1a8b011f044c6cb1650baf0edb7041",
+    "semantic_hash": ""
+  },
+  "infra/compose.yml": {
+    "mtime": 1794005637.8097198,
+    "ast_hash": "5e3b39f7fcde74eecc6661ae6d675d3c",
+    "semantic_hash": ""
+  },
+  "assets/hands-sketch.svg": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "a6218392db05caae2f1f178e8e1d2183",
+    "semantic_hash": ""
+  },
+  "assets/light-trails.svg": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "80ca68dbb996cd0d0f3f643412e0992e",
+    "semantic_hash": ""
+  },
+  "assets/notebook.svg": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "2399aa60e081e451ed8dfce20372c6c7",
+    "semantic_hash": ""
+  },
+  "assets/openai-blossom-spacing-diagram.svg": {
+    "mtime": 1794007617.9206865,
+    "ast_hash": "c0ecdc600ff645ee98c8d8e460e2346a",
+    "semantic_hash": ""
+  },
+  "assets/signal-mark.svg": {
+    "mtime": 1794005637.801715,
+    "ast_hash": "20ee4585b78b30a54ae5fac549ce87d4",
+    "semantic_hash": ""
+  },
+  "design-review/court-1440.png": {
+    "mtime": 1794007637.532934,
+    "ast_hash": "a918ca2f4aa6b1eb66a6f7d7783ec31d",
+    "semantic_hash": ""
+  },
+  "design-review/court-desktop-first.png": {
+    "mtime": 1794007501.272055,
+    "ast_hash": "6d8c83aa9f4ec0e2602ee308e8d5769c",
+    "semantic_hash": ""
+  },
+  "design-review/court-desktop-refined.png": {
+    "mtime": 1794007602.672474,
+    "ast_hash": "06fc402af8d9ad920f6b9413b08208b7",
+    "semantic_hash": ""
+  },
+  "design-review/intro-1440.png": {
+    "mtime": 1794007657.6347828,
+    "ast_hash": "3abce6c2c3c439763e393aa801fdc528",
+    "semantic_hash": ""
+  },
+  "design-review/intro-desktop.png": {
+    "mtime": 1794007462.6385617,
+    "ast_hash": "a9c1a764392743f25e188e2fb1f3d5f1",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/courtroom.svg": {
+    "mtime": 1794007593.45273,
+    "ast_hash": "d8f4c5a4d4c9d36c9a8a37ae9e3d2c84",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/judge-aki.svg": {
+    "mtime": 1794006858.2212372,
+    "ast_hash": "ce5a5e933ca15a4a963f47a662421f5c",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/judge-edmund.svg": {
+    "mtime": 1794006858.2212372,
+    "ast_hash": "7751795cb20b28682e355da9488e4fd4",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/judge-mira.svg": {
+    "mtime": 1794006858.2212372,
+    "ast_hash": "5d8c7e6056c1d90e824e8fb5e76d873c",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/seal.svg": {
+    "mtime": 1794007051.5109818,
+    "ast_hash": "125ba004413bcf8360666c3b65f3e119",
+    "semantic_hash": ""
+  },
+  "frontend/public/brands/claude.svg": {
+    "mtime": 1794007392.805343,
+    "ast_hash": "94f6219b9b809bd887ec49a59756c323",
+    "semantic_hash": ""
+  },
+  "frontend/public/brands/openai.svg": {
+    "mtime": 1794007617.9650786,
+    "ast_hash": "b7870b74c9033e004994539c57e0235b",
+    "semantic_hash": ""
+  },
+  "docs/frontend-browser-results.json": {
+    "mtime": 1794009127.1938403,
+    "ast_hash": "02c5c820696ecb7cefc1d4a135c8cac1",
+    "semantic_hash": ""
+  },
+  "test/frontend-browser.mjs": {
+    "mtime": 1794009065.5869887,
+    "ast_hash": "1b84dcca5cace82fe48fd3ae691c077e",
+    "semantic_hash": ""
+  },
+  "docs/frontend-handoff.md": {
+    "mtime": 1794009076.0548024,
+    "ast_hash": "acf21f219f95989f4dd0a674a2da7b55",
+    "semantic_hash": ""
+  },
+  "docs/frontend-visual-review.md": {
+    "mtime": 1794008945.1505435,
+    "ast_hash": "9af2f5a7d6b91cfa5e1e36aa242b4d98",
+    "semantic_hash": ""
+  }
+}

@@ -18,7 +18,7 @@
 
 - Standalone, dependency-free Node ESM static frontend under `frontend/`.
 - Original layered SVG Victorian courtroom (fallback: original handcrafted SVG illustrated courtroom; no image-generation connector currently exposed).
-- CSS / Web Animations. No new runtime libraries.
+- CSS animations and event-driven DOM state. No new runtime libraries.
 
 ## 3. Demo mode approach
 
@@ -47,7 +47,7 @@
 ### Approach
 
 - Static composition first, then character art and state transitions.
-- Original layered SVG Victorian courtroom with CSS/Web Animations; no new runtime libs.
+- Original layered SVG Victorian courtroom with CSS animations; no new runtime libraries.
 
 ### Verification
 

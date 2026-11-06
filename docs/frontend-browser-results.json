@@ -1,0 +1,477 @@
+{
+  "timestamp": "2026-11-06T23:51:20.244Z",
+  "executablePath": "/home/harshil/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome",
+  "baseUrl": "http://127.0.0.1:4173",
+  "summary": {
+    "total": 22,
+    "passed": 22,
+    "failed": 0,
+    "axeViolationsCount": 0
+  },
+  "cases": [
+    {
+      "id": "keyboard_skip_intro",
+      "title": "Immediate Skip intro keyboard first, focuses #main, intro inert",
+      "status": "passed",
+      "durationMs": 695,
+      "details": {
+        "mainFocused": true,
+        "introHidden": true,
+        "introInert": true,
+        "workspaceHidden": false,
+        "workspaceInert": false
+      },
+      "error": null
+    },
+    {
+      "id": "assets_and_resources",
+      "title": "All images and fonts loaded with no resource errors",
+      "status": "passed",
+      "durationMs": 812,
+      "details": {
+        "fontsLoaded": true,
+        "totalImages": 14,
+        "unloadedImages": []
+      },
+      "error": null
+    },
+    {
+      "id": "layout_viewports_and_overflow",
+      "title": "Desktop 3:1 ratio (unless 300px min) and zero horizontal overflow across viewports",
+      "status": "passed",
+      "durationMs": 3971,
+      "details": {
+        "desktop": {
+          "clientWidth": 1440,
+          "scrollWidth": 1440,
+          "hasOverflow": false,
+          "courtMainWidth": 1080,
+          "switchPanelWidth": 360
+        },
+        "compact": {
+          "clientWidth": 1024,
+          "scrollWidth": 1024,
+          "hasOverflow": false,
+          "courtMainWidth": 724,
+          "switchPanelWidth": 300
+        },
+        "tablet": {
+          "clientWidth": 768,
+          "scrollWidth": 768,
+          "hasOverflow": false,
+          "courtMainWidth": 768,
+          "switchPanelWidth": 0
+        },
+        "mobile": {
+          "clientWidth": 390,
+          "scrollWidth": 390,
+          "hasOverflow": false,
+          "courtMainWidth": 390,
+          "switchPanelWidth": 0
+        },
+        "small_mobile": {
+          "clientWidth": 320,
+          "scrollWidth": 320,
+          "hasOverflow": false,
+          "courtMainWidth": 320,
+          "switchPanelWidth": 0
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "judges_scene_bounds_and_widths",
+      "title": "All 3 judges in scene bounds with equal widths",
+      "status": "passed",
+      "durationMs": 820,
+      "details": {
+        "sceneRect": {
+          "x": 25,
+          "y": 195,
+          "width": 1030,
+          "height": 300.4375,
+          "top": 195,
+          "right": 1055,
+          "bottom": 495.4375,
+          "left": 25
+        },
+        "judges": [
+          {
+            "id": "aki",
+            "left": 315.9765625,
+            "right": 455.0234375,
+            "top": 240.0625,
+            "bottom": 399.28125,
+            "width": 139.046875,
+            "height": 159.21875,
+            "inSceneBounds": true
+          },
+          {
+            "id": "edmund",
+            "left": 470.4765625,
+            "right": 609.5234375,
+            "top": 240.0625,
+            "bottom": 399.28125,
+            "width": 139.046875,
+            "height": 159.21875,
+            "inSceneBounds": true
+          },
+          {
+            "id": "mira",
+            "left": 624.9765625,
+            "right": 764.0234375,
+            "top": 240.0625,
+            "bottom": 399.28125,
+            "width": 139.046875,
+            "height": 159.21875,
+            "inSceneBounds": true
+          }
+        ]
+      },
+      "error": null
+    },
+    {
+      "id": "provider_marks_aspect_and_styling",
+      "title": "Provider natural aspects preserved and OpenAI SVG color-scheme:light",
+      "status": "passed",
+      "durationMs": 804,
+      "details": {
+        "openai": {
+          "naturalWidth": 180,
+          "naturalHeight": 180,
+          "renderedWidth": 48.03125,
+          "renderedHeight": 48.03125,
+          "colorScheme": "light"
+        },
+        "claude": {
+          "naturalWidth": 248,
+          "naturalHeight": 248,
+          "renderedWidth": 48.03125,
+          "renderedHeight": 48.03125,
+          "colorScheme": "light"
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "playback_clock_play_pause",
+      "title": "Play/pause and no advances after pause using page.clock",
+      "status": "passed",
+      "durationMs": 288,
+      "details": {
+        "initialProgress": "01 / 16",
+        "advancedProgress": "02 / 16",
+        "afterPauseProgress": "02 / 16"
+      },
+      "error": null
+    },
+    {
+      "id": "step_updates_chat_docket_rounds",
+      "title": "Step to each event updates chat exactly once, docket, and rounds",
+      "status": "passed",
+      "durationMs": 1885,
+      "details": {
+        "stepsVerified": 13
+      },
+      "error": null
+    },
+    {
+      "id": "ruling_markers_and_reset",
+      "title": "Ruling markers complete decisions and reset to LISTENING on subsequent non-ruling event",
+      "status": "passed",
+      "durationMs": 2814,
+      "details": {
+        "finalRulingState": [
+          {
+            "perspective": "Feasibility",
+            "decision": "Narrow",
+            "status": "NARROW",
+            "ariaLabel": "Justice Aki, Feasibility: Narrow. One bounded hearing fits the weekend. Three separate judge services do not."
+          },
+          {
+            "perspective": "Cost",
+            "decision": "Accept",
+            "status": "ACCEPT",
+            "ariaLabel": "Justice Edmund, Cost: Accept. A single evaluator avoids unnecessary model calls."
+          },
+          {
+            "perspective": "Fairness",
+            "decision": "Accept",
+            "status": "ACCEPT",
+            "ariaLabel": "Justice Mira, Fairness: Accept. Both owners keep their essential priorities."
+          }
+        ],
+        "resetMarkers": [
+          {
+            "perspective": "Feasibility",
+            "hasDecision": false,
+            "status": "LISTENING"
+          },
+          {
+            "perspective": "Cost",
+            "hasDecision": false,
+            "status": "LISTENING"
+          },
+          {
+            "perspective": "Fairness",
+            "hasDecision": false,
+            "status": "LISTENING"
+          }
+        ]
+      },
+      "error": null
+    },
+    {
+      "id": "deadlock_indicator",
+      "title": "Deadlock event 14 displays deadlock status and awaits appeal",
+      "status": "passed",
+      "durationMs": 1667,
+      "details": {
+        "hidden": false,
+        "type": "deadlock",
+        "title": "Deadlock.",
+        "label": "FOUR ROUNDS. NO CONSENSUS.",
+        "launchStatus": "Awaiting Appeal"
+      },
+      "error": null
+    },
+    {
+      "id": "appeal_event_15_paused_disabled",
+      "title": "Event 15 appeal pauses playback and disables step/play buttons",
+      "status": "passed",
+      "durationMs": 1750,
+      "details": {
+        "panelHidden": false,
+        "playDisabled": true,
+        "stepDisabled": true,
+        "playbackState": "The people decide",
+        "sessionLabel": "AWAITING THE OWNERS’ DECISION"
+      },
+      "error": null
+    },
+    {
+      "id": "focus_guidance_appeal_and_verdict",
+      "title": "Focus moves from playback to first appeal choice and final download",
+      "status": "passed",
+      "durationMs": 1733,
+      "details": {
+        "focusAtAppeal": {
+          "activeChoice": true,
+          "tag": "BUTTON",
+          "dataset": "local"
+        },
+        "focusAtVerdict": {
+          "activeDownload": true,
+          "tag": "BUTTON",
+          "id": "download-plan"
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "dialogue_expand_collapse",
+      "title": "Dialogue full text expand and collapse toggle operates properly",
+      "status": "passed",
+      "durationMs": 1048,
+      "details": {
+        "beforeExpand": {
+          "hidden": false,
+          "expanded": "false",
+          "text": "Read full statement",
+          "hasExpandedClass": false
+        },
+        "afterExpand": {
+          "hidden": false,
+          "expanded": "true",
+          "text": "Collapse statement",
+          "hasExpandedClass": true
+        },
+        "afterCollapse": {
+          "hidden": false,
+          "expanded": "false",
+          "text": "Read full statement",
+          "hasExpandedClass": false
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "human_choices_and_download",
+      "title": "Both human choices separately complete hearing, 4 items agreed, and plan download verified",
+      "status": "passed",
+      "durationMs": 3520,
+      "details": {
+        "local": {
+          "verdict": {
+            "verdictHidden": false,
+            "agreedCount": "4 of 4 agreed",
+            "allAgreed": true,
+            "summary": "Four items settled across four rounds. The owners chose a guided local demo."
+          },
+          "filename": "delegates-agreed-plan.md",
+          "planLength": 4268
+        },
+        "recording": {
+          "verdict": {
+            "verdictHidden": false,
+            "agreedCount": "4 of 4 agreed",
+            "allAgreed": true,
+            "summary": "Four items settled across four rounds. The owners chose a recorded walkthrough."
+          },
+          "filename": "delegates-agreed-plan.md",
+          "planLength": 4238
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "restart_clears_choice_and_chat",
+      "title": "Restart clears previous choices, resets chat and docket",
+      "status": "passed",
+      "durationMs": 1816,
+      "details": {
+        "progress": "01 / 16",
+        "chatCount": 1,
+        "agreedCount": "0 of 4 agreed",
+        "appealHidden": true,
+        "verdictHidden": true
+      },
+      "error": null
+    },
+    {
+      "id": "docket_details_preserved_on_step",
+      "title": "Docket details open state and focus preserved when stepping",
+      "status": "passed",
+      "durationMs": 900,
+      "details": {
+        "isOpen": true,
+        "summaryActive": true
+      },
+      "error": null
+    },
+    {
+      "id": "chat_scroll_preserve_and_indicator",
+      "title": "Chat scroll up preserves position and displays new message indicator",
+      "status": "passed",
+      "durationMs": 1430,
+      "details": {
+        "scrolledState": {
+          "scrollTop": 0,
+          "indicatorHidden": false,
+          "indicatorText": "1 new message ↓"
+        },
+        "afterClick": {
+          "indicatorHidden": true,
+          "nearBottom": true
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "toggles_about_and_participants",
+      "title": "About and participants panel toggles work with aria-expanded",
+      "status": "passed",
+      "durationMs": 931,
+      "details": {
+        "aboutOpen": {
+          "panelHidden": false,
+          "expanded": "true"
+        },
+        "aboutClosed": {
+          "panelHidden": true,
+          "expanded": "false"
+        },
+        "partOpen": {
+          "panelHidden": false,
+          "expanded": "true"
+        },
+        "partClosed": {
+          "panelHidden": true,
+          "expanded": "false"
+        }
+      },
+      "error": null
+    },
+    {
+      "id": "intro_replay_pauses",
+      "title": "Replaying intro returns to intro and pauses active playback",
+      "status": "passed",
+      "durationMs": 1022,
+      "details": {
+        "introHidden": false,
+        "workspaceHidden": true,
+        "playAriaLabel": "Play hearing"
+      },
+      "error": null
+    },
+    {
+      "id": "mobile_tabs_accessibility",
+      "title": "Mobile tabs expose court, chat, and docket views without inaccessible content",
+      "status": "passed",
+      "durationMs": 948,
+      "details": {
+        "courtTab": true,
+        "chatTab": true,
+        "docketTab": true
+      },
+      "error": null
+    },
+    {
+      "id": "reduced_motion_behavior",
+      "title": "Reduced motion disables camera animations and runtime toggle clears active motion",
+      "status": "passed",
+      "durationMs": 1118,
+      "details": {
+        "initialAnimationNone": true,
+        "runtimeClearedMotion": true
+      },
+      "error": null
+    },
+    {
+      "id": "screenshot_suite",
+      "title": "Capture full-page screenshots: intro, court, ruling, appeal, verdict, docket, chat, mobile-court, mobile-chat, mobile-docket, court-320",
+      "status": "passed",
+      "durationMs": 9429,
+      "details": {
+        "generatedScreenshots": [
+          "intro.png",
+          "court.png",
+          "ruling.png",
+          "appeal.png",
+          "verdict.png",
+          "docket.png",
+          "chat.png",
+          "mobile-court.png",
+          "mobile-chat.png",
+          "mobile-docket.png",
+          "court-320.png"
+        ]
+      },
+      "error": null
+    },
+    {
+      "id": "axe_wcag_accessibility_audit",
+      "title": "Run Axe WCAG 2 A/AA + 2.1 AA across desktop & mobile (explicitly scanning chat and docket tabs)",
+      "status": "passed",
+      "durationMs": 7373,
+      "details": {
+        "totalAxeRulesViolated": 0
+      },
+      "error": null
+    }
+  ],
+  "axeViolations": {
+    "desktop_intro": [],
+    "desktop_court": [],
+    "desktop_appeal": [],
+    "desktop_verdict": [],
+    "mobile_intro": [],
+    "mobile_court": [],
+    "mobile_chat": [],
+    "mobile_docket": [],
+    "mobile_appeal": [],
+    "mobile_verdict": []
+  },
+  "resourceErrors": [],
+  "defects": []
+}
