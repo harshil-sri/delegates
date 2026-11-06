@@ -1,5 +1,7 @@
 # Delegates Courtroom — Product Spec
 
+register: product
+
 **Version:** 1.0
 **Status:** Approved demo scope
 **Date:** 2026-11-06
@@ -20,7 +22,7 @@ Two AI advocates negotiate through Switch; a three-judge theatrical courtroom ma
 ## 3. User journey
 
 1. **Filing** — case topic created (e.g., "Plan our hackathon build").
-2. **Intake** — each owner provides constraints to their advocate via interview/profile.
+2. **Intake (future live product)** — each owner provides constraints privately. The frontend sample uses predefined, fictional constraints and has no intake form.
 3. **Opening statements** — advocates disclose shared constraints.
 4. **Motions and counter-motions** — advocates propose and challenge items (max four rounds).
 5. **Judicial perspectives** — Fairness, Feasibility, Cost assessments shown as three judges' perspectives.
@@ -34,7 +36,7 @@ Two AI advocates negotiate through Switch; a three-judge theatrical courtroom ma
 - Three equal original judges (Aki, Edmund, Mira) on elevated bench.
 - Two advocates as provider marks (Harshil GPT, Daksh Claude).
 - Persistent docket below stage.
-- Switch chat panel (25%) as chat-first live view (scripted in demo).
+- Switch chat panel (25%) as a read-only scripted room preview, not a live view.
 - Objection / ruling / deadlock / appeal / final plan choreography.
 - Provisional configurable judge role mapping.
 - Event IDs + dedup + history + pause/step/restart + download + human appeal.

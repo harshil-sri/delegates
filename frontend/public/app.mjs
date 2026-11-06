@@ -19,7 +19,7 @@ function sceneMarkup() {
   return `<img class="scene-background" src="/art/courtroom.svg" alt="" width="1440" height="800">
     ${characters.map(character => `<div class="judge" data-character="${character.id}"><img class="judge-figure" src="${character.asset}" alt="" width="200" height="330"></div>`).join('')}
     <div class="bench-front" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="judge-markers">${characters.map(character => `<div class="judge-marker" data-perspective="${character.perspective}" aria-label="${character.name}, ${character.perspective}"><span>${character.perspective.toUpperCase()}</span><strong>${character.name.replace('Justice ', '')}</strong><small>LISTENING</small></div>`).join('')}</div>
+    <div class="judge-markers">${characters.map(character => `<div class="judge-marker" role="group" data-perspective="${character.perspective}" aria-label="${character.name}, ${character.perspective}"><span>${character.perspective.toUpperCase()}</span><strong>${character.name.replace('Justice ', '')}</strong><small>LISTENING</small></div>`).join('')}</div>
     <div class="advocate-spotlight left" aria-hidden="true"></div><div class="advocate-spotlight right" aria-hidden="true"></div>
     <div class="advocate-mark left"><img src="/brands/openai.svg" alt="OpenAI, sample GPT advocate" width="64" height="64"></div>
     <div class="advocate-mark right"><img src="/brands/claude.svg" alt="Claude, sample advocate" width="64" height="64"></div>`;
@@ -56,6 +56,8 @@ function showRuling(current) {
   document.querySelectorAll('#court-scene .judge-marker').forEach(marker => {
     marker.removeAttribute('data-decision');
     marker.querySelector('small').textContent = current.assessments ? 'CONSIDERING' : 'LISTENING';
+    const character = characters.find(character => character.perspective === marker.dataset.perspective);
+    marker.setAttribute('aria-label', `${character.name}, ${character.perspective}: ${current.assessments ? 'considering' : 'listening'}`);
   });
   if (!current.assessments) return;
   characters.forEach((character, index) => {
@@ -94,6 +96,7 @@ function renderDocket() {
     const status = details.querySelector('.item-status');
     status.textContent = item.status;
     status.dataset.status = item.status;
+    details.dataset.current = state.current.item === item.id;
     details.querySelector('.item-detail').innerHTML = `<p>${escape(item.text)}</p><h3>Decision history</h3>${item.history.length ? `<ol>${item.history.map(change => `<li><span>Round ${change.round} · ${escape(change.type.replaceAll('_', ' '))} · ${escape(change.status)}</span>${escape(change.text)}</li>`).join('')}</ol>` : '<p>No proposal has been heard yet.</p>'}`;
   }
   $('#agreed-count').textContent = `${state.items.filter(item => item.status === 'Agreed').length} of 4 agreed`;
@@ -138,6 +141,7 @@ function checkDialogueOverflow() {
 }
 
 function render() {
+  const playbackHadFocus = $('.playback').contains(document.activeElement);
   const event = state.current;
   const speaker = speakers[event.speaker];
   const awaiting = event.type === 'appeal' && !state.choice;
@@ -153,6 +157,7 @@ function render() {
   $('#expand-dialogue').textContent = 'Read full statement';
   $('#court-scene').dataset.speaker = event.speaker;
   $('.court-stage').dataset.speaker = event.speaker;
+  $('.court-stage').dataset.event = event.type;
   $('#harshil-state').textContent = event.speaker === 'harshil' ? (event.type === 'objection' ? 'Objecting' : 'Has the floor') : 'Listening';
   $('#daksh-state').textContent = event.speaker === 'daksh' ? (event.type === 'objection' ? 'Objecting' : 'Has the floor') : 'Listening';
   $('#session-label').textContent = state.complete ? 'THE CASE IS CLOSED' : awaiting ? 'AWAITING THE OWNERS’ DECISION' : 'THE COURT IS IN SESSION';
@@ -177,6 +182,8 @@ function render() {
   updatePlaybackUI();
   requestAnimationFrame(checkDialogueOverflow);
   $('#announcer').textContent = `${typeLabels[event.type]}, round ${event.round}. ${speaker.name}.${awaiting ? ' Choose a sample human decision in the court view to continue.' : ''}`;
+  if (playbackHadFocus && awaiting) $('[data-choice="local"]').focus();
+  else if (playbackHadFocus && state.complete) $('#download-plan').focus();
 }
 
 function updatePlaybackUI() {
@@ -280,6 +287,7 @@ $('#download-plan').addEventListener('click', download);
 $('#download-record').addEventListener('click', download);
 reducedMotion.addEventListener('change', () => { if (state.current) showRuling(state.current); });
 window.addEventListener('resize', checkDialogueOverflow);
+document.fonts.ready.then(checkDialogueOverflow);
 document.addEventListener('visibilitychange', () => { if (document.hidden) setPlaying(false); });
 advance(state);
 render();

@@ -13,6 +13,7 @@ Grand Victorian courtroom as hand-drawn courtroom adventure. Two AI advocates on
 ## 2. Approved final palette (autonomous)
 
 | Token | Value | Use |
+|---|---|---|
 | Ink | #211B19 | Deep text, shadows, dark framing |
 | Walnut | #30221D | Main dark wood |
 | Oxblood | #6A3038 | Velvet, active-case accents |
@@ -25,8 +26,8 @@ Semantic colors (muted sage, muted red) used sparingly for status; never rely on
 ## 3. Typography
 
 - **Display / case titles:** Large Cormorant serif ceremonial titles.
-- **Interface / controls / messages:** Clear sans serif (e.g., Inter or Manrope).
-- **Technical metadata / timestamps / event labels:** IBM Plex Mono (sparingly).
+- **Interface / controls / messages:** Self-hosted IBM Plex Sans.
+- **Technical metadata / timestamps / event labels:** System monospace, sparingly.
 
 Do not use ornate Victorian fonts for long dialogue or Switch chat; transcript must remain effortless to scan.
 

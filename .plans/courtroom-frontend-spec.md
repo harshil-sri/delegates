@@ -11,7 +11,7 @@
 - Frontend is a **DEMO ONLY** build. **No backend wiring** in this scope.
 - Demo case: **Harshil GPT vs Daksh Claude** hackathon build.
 - Branch: `harshil-dev` only. No main branch, no deployments.
-- Local preview only via `npm dev` at `127.0.0.1:4173`.
+- Local preview only via `npm run dev` at `127.0.0.1:4173`.
 - No paid calls, no new accounts; backend preserved.
 
 ## 2. Approved technical approach
@@ -52,7 +52,7 @@
 ### Verification
 
 - Local preview at `127.0.0.1:4173`.
-- Scripted demo behavior verified locally; no backend wiring.
+- Verify scripted demo behavior locally; no backend wiring.
 
 ## 6. Boundaries and acceptance tests
 

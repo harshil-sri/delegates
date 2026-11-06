@@ -6,7 +6,7 @@ This document records the provenance, download URLs, and verified file details f
 
 ### OpenAI Logo Mark
 - **Destination:** `frontend/public/brands/openai.svg`
-- **Source URL:** `https://chatgpt.com/cdn/assets/favicon.6a33781f61.svg` (Official OpenAI/ChatGPT source originating from `openai/openai` repo `chatgpt/web/src/assets/favicon.svg`)
+- **Source URL:** `https://chatgpt.com/cdn/assets/favicon.6a33781f61.svg` (official OpenAI/ChatGPT CDN; the source attribution comment is retained in the unmodified file)
 - **Format:** SVG (unmodified official single Blossom logo mark)
 - **File Size:** 4,381 bytes
 - **SHA-256:** `2021463df9935dda89cef407aa564bced9d83b4f9b6ae8945d649e56676624f0`
@@ -63,3 +63,23 @@ Stylesheet query used to resolve font binary endpoints:
 - **License:** SIL Open Font License, Version 1.1
 - **File Size:** 4,456 bytes
 - **SHA-256:** `7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da`
+
+## 4. Original courtroom artwork
+
+`frontend/public/art/courtroom.svg`, `judge-aki.svg`, `judge-edmund.svg`,
+`judge-mira.svg`, and `seal.svg` were created for this draft. They are editable,
+layered SVG illustrations, not extracted game artwork, stock art, or generated
+images. The game references informed the theatrical composition, not copied
+characters or costumes. No image-generation service was called.
+
+## 5. Trademark boundaries
+
+OpenAI and Claude marks remain the property of their respective owners. They
+identify fictional sample advocate configurations, not a live provider
+connection, sponsorship, partnership, or endorsement. The marks are not
+recolored, stretched, textured, or animated. The surrounding lectern and
+lighting communicate speech. Font licenses do not grant rights to these marks.
+
+Reference guidance: [OpenAI brand](https://openai.com/brand/) and
+[Anthropic legal](https://www.anthropic.com/legal). Review current guidance
+before public distribution or a future live integration.

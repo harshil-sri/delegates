@@ -1,5 +1,27 @@
 # Creative Veto Court
 
+## Courtroom frontend demo
+
+The illustrated Delegates frontend runs separately from the backend:
+
+```sh
+npm run dev
+```
+
+Open **http://127.0.0.1:4173/**. No install, account, Docker, API key, or live
+service is needed for this demo. Enter the court, then play or step through the
+sample hearing. A human appeal pauses playback until you choose a sample decision.
+The final plan and full hearing record can be downloaded as Markdown.
+
+This is a **scripted frontend demo**, not a live Switch connection. It does not
+send messages, authenticate approvals, deploy services, or spend model credits.
+The existing backend below remains separate and unchanged.
+
+See [the frontend handoff](docs/frontend-handoff.md) for controls, asset sources,
+testing, and future integration boundaries. `npm run build` produces `dist/`.
+
+## Existing backend
+
 Two Codex-backed advocates and a deterministic clerk collaborate in one private
 Switch room bridged to local Mattermost. A persistent clerk now enforces
 human-owned mandates, amendments, and approvals of immutable storyboard bundles.
