@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "summary": { "type": "string" },
+    "protected_boundary": { "type": "string" },
+    "proposed_next_step": { "type": "string" },
+    "needs_human_decision": { "type": "boolean" }
+  },
+  "required": ["summary", "protected_boundary", "proposed_next_step", "needs_human_decision"]
+}

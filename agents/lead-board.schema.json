@@ -1,0 +1,14 @@
+{
+  "type":"object","additionalProperties":false,"required":["summary","board"],
+  "properties":{
+    "summary":{"type":"string"},
+    "board":{
+      "type":"object","additionalProperties":false,"required":["briefs","title","panels"],
+      "properties":{
+        "briefs":{"type":"object","additionalProperties":false,"required":["lead","creator"],"properties":{"lead":{"type":"string"},"creator":{"type":"string"}}},
+        "title":{"type":"string"},
+        "panels":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["seconds","assetId","scene","onScreen","voiceover"],"properties":{"seconds":{"type":"integer"},"assetId":{"type":"string"},"scene":{"type":"string"},"onScreen":{"type":"string"},"voiceover":{"type":"string"}}}}
+      }
+    }
+  }
+}
