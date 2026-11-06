@@ -1,0 +1,42 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import { request } from 'node:http';
+import { fixture } from './court-fixture.mjs';
+import { createCourtServer } from '../src/court-http.mjs';
+
+test('read-only HTTP serves the frozen preview, blocks forged approvals and gates identical exported bytes',async t=>{
+  const f=fixture();f.ready();
+  const options={roomUrl:'http://localhost:18865/test-room',port:0};
+  const server=createCourtServer(f.engine,options);
+  server.listen(0,'127.0.0.1');await once(server,'listening');
+  const port=server.address().port;
+  const base=`http://127.0.0.1:${port}`;
+  const get=(path,options={})=>fetch(base+path,options);
+  t.after(async()=>{await new Promise(done=>server.close(done));f.engine.close();});
+  const preview=await get('/api/cases/C01/boards/1/preview');
+  assert.equal(preview.status,200);const bytes=await preview.text();
+  const scriptPreview=await get('/api/cases/C01/boards/1/script-preview');
+  assert.equal(scriptPreview.status,200);const script=await scriptPreview.text();
+  const manifest=await (await get('/api/cases/C01/boards/1/manifest')).json();
+  assert.equal(manifest.digest,f.snapshot().currentBundle);
+  assert.equal((await get('/api/cases/C01/boards/1/export')).status,409);
+  assert.equal((await get('/api/cases/C01/approve',{method:'POST',body:'{"role":"lead","approved":true}'})).status,405);
+  const spoofed=await new Promise((done,failed)=>{
+    const call=request(base+'/health',{headers:{host:'attacker.example'}},response=>{response.resume();done(response.statusCode);});
+    call.on('error',failed);call.end();
+  });
+  assert.equal(spoofed,403);
+  assert.equal((await get('/api/cases/C01/events?after=oops')).status,400);
+  assert.equal((await get('/')).status,200);
+  const command=f.snapshot().commands.approve;
+  f.human('lead',command);f.human('creator',command);
+  const exported=await get('/api/cases/C01/boards/1/export');
+  assert.equal(exported.status,200);
+  assert.equal(await exported.text(),bytes);
+  const receipt=await (await get('/api/cases/C01/boards/1/receipt')).json();
+  assert.equal(receipt.approvals.length,2);
+  assert.equal(exported.headers.get('etag'),`"${receipt.digest}"`);
+  const scriptExport=await get('/api/cases/C01/boards/1/script');
+  assert.equal(scriptExport.status,200);assert.equal(await scriptExport.text(),script);
+});
