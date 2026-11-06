@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211b19">
+  <meta name="description" content="Two advocates. Three perspectives. One way forward. An original, interactive courtroom demo where disagreement becomes a shared plan.">
+  <title>Delegates · The Court of Collaboration</title>
+  <link rel="icon" href="/art/seal.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preload" href="/art/courtroom.svg" as="image">
+  <script type="module" src="/app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to proceedings</a>
+  <div id="intro" class="intro">
+    <div class="intro-frame" aria-hidden="true"></div>
+    <header class="intro-header"><a class="brand" href="/" aria-label="Delegates home"><img src="/art/seal.svg" alt="" width="36" height="36"><span>delegates<span class="brand-dot">.</span></span></a><button id="skip-intro" class="quiet-button">Skip intro <span aria-hidden="true">↗</span></button></header>
+    <div class="intro-art" aria-hidden="true"><div class="scene intro-scene" id="intro-scene"></div></div>
+    <div class="intro-shade" aria-hidden="true"></div>
+    <main class="intro-copy">
+      <p class="eyebrow"><span class="little-rule"></span> THE COURT OF COLLABORATION</p>
+      <h1>Two minds.<br>One <em>way forward.</em></h1>
+      <p class="intro-description">When your agents disagree,<br>give them somewhere to work it out.</p>
+      <button id="enter-court" class="primary-button">Enter the courtroom <span aria-hidden="true">↗</span></button>
+      <p class="intro-note">A short, interactive hearing. No account required.</p>
+    </main>
+    <footer class="intro-footer"><span>EST. 2026 <span class="ornament">✦</span> AN EXPERIMENT IN AGREEMENT</span><span>Two advocates. Three perspectives. One plan.</span><span class="demo-tag">SCRIPTED DEMO</span></footer>
+  </div>
+
+  <div id="workspace" class="workspace" hidden inert>
+    <header class="app-header">
+      <a class="brand" href="/" aria-label="Delegates home"><img src="/art/seal.svg" alt="" width="31" height="31"><span>delegates<span class="brand-dot">.</span></span></a>
+      <span class="header-place">THE COURT OF COLLABORATION</span>
+      <nav class="header-actions" aria-label="About this demo"><span class="demo-tag"><span class="square-dot"></span> SCRIPTED DEMO</span><button id="about-button" class="quiet-button" aria-expanded="false" aria-controls="about-panel">How it works <span aria-hidden="true">↗</span></button></nav>
+    </header>
+    <section id="about-panel" class="about-panel" hidden aria-label="About the courtroom">
+      <div><p class="eyebrow">AN EXPERIMENT, NOT A LIVE HEARING</p><h2>Disagreement is a starting point.</h2><p>Two advocates negotiate a plan for Harshil and Daksh. The bench examines fairness, feasibility, and cost. If four rounds cannot settle an issue, the people decide.</p></div>
+      <div><h3>What you are seeing</h3><p>This is a scripted frontend demo. The messages, model identities, and three perspectives are sample data, not connected agents. The room is not connected to Switch. Your appeal choice stays in this browser session and does not represent authenticated approval.</p><p>Original SVG scene and characters. Provider marks identify the sample advocates; no sponsorship or endorsement is implied.</p><button id="replay-intro" class="text-button">Replay the entrance <span aria-hidden="true">↗</span></button></div>
+    </section>
+
+    <nav class="mobile-tabs" aria-label="Courtroom views"><button data-tab="court" aria-pressed="true">The court</button><button data-tab="chat" aria-pressed="false">Switch room <span id="mobile-count">0</span></button><button data-tab="docket" aria-pressed="false">The docket</button></nav>
+
+    <div class="court-layout" data-view="court">
+      <main id="main" class="court-main" tabindex="-1">
+        <section class="case-header" aria-labelledby="case-title">
+          <div><p class="eyebrow">CASE NO. 001 <span class="dot-separator">·</span> THE WEEKEND BUILD</p><h1 id="case-title">One weekend. <em>Two visions.</em></h1><p class="case-subtitle">Harshil &amp; Daksh <span>v.</span> the impossible to-do list</p></div>
+          <div class="case-round"><span class="eyebrow">CURRENT ROUND</span><span><b id="round">01</b><span class="round-total"> / 04</span></span><span id="phase">Opening statements</span></div>
+        </section>
+
+        <section class="court-stage" aria-label="Illustrated courtroom with three judges and two sample advocates">
+          <div class="stage-topline"><span><span class="square-dot"></span> <span id="session-label">THE COURT IS IN SESSION</span></span><span>THREE PERSPECTIVES · ONE SCRIPTED EVALUATOR</span></div>
+          <div class="scene" id="court-scene"></div>
+          <div id="stage-moment" class="stage-moment" hidden><span class="eyebrow" id="moment-label"></span><strong id="moment-title"></strong></div>
+          <div class="advocate-caption advocate-caption-left"><span class="advocate-owner">HARSHIL’S ADVOCATE</span><strong>GPT <span class="speaker-wave" aria-hidden="true">ııııı</span></strong><span class="advocate-state" id="harshil-state">Waiting</span></div>
+          <div class="advocate-caption advocate-caption-right"><span class="advocate-owner">DAKSH’S ADVOCATE</span><strong>Claude <span class="speaker-wave" aria-hidden="true">ııııı</span></strong><span class="advocate-state" id="daksh-state">Waiting</span></div>
+          <span class="stage-footnote">ILLUSTRATED PROTOTYPE <span aria-hidden="true">✦</span> ORIGINAL DELEGATES ART</span>
+        </section>
+
+        <section class="dialogue-strip" aria-label="Current statement"><span class="dialogue-avatar" id="dialogue-avatar" aria-hidden="true">C</span><div class="dialogue-body"><div class="dialogue-meta"><strong id="dialogue-name">The Clerk</strong><span id="dialogue-type">Opening statement</span></div><p id="dialogue-text"></p><button id="expand-dialogue" class="text-button small" aria-expanded="false" hidden>Read full statement</button></div><span class="dialogue-quote" aria-hidden="true">”</span></section>
+
+        <section class="appeal-panel" id="appeal-panel" hidden aria-labelledby="appeal-title"><p class="eyebrow">THE OWNERS HAVE THE FINAL WORD</p><h2 id="appeal-title">Some decisions belong to people.</h2><p>Choose a sample joint decision for Harshil and Daksh. Nothing is sent or deployed.</p><div class="appeal-options"><button data-choice="local"><strong>A polished local demo <span aria-hidden="true">↗</span></strong><span>Show the hearing live, with a guided walkthrough.</span></button><button data-choice="recording"><strong>A recorded walkthrough <span aria-hidden="true">↗</span></strong><span>Share the story. Keep the service offline.</span></button></div></section>
+
+        <section class="verdict-panel" id="verdict-panel" hidden aria-labelledby="verdict-title"><div class="verdict-seal" aria-hidden="true">§</div><div><p class="eyebrow">LET THE RECORD SHOW</p><h2 id="verdict-title">A plan both can stand behind.</h2><p id="verdict-summary"></p></div><button class="primary-button" id="download-plan">Download the plan <span aria-hidden="true">↓</span></button></section>
+
+        <div class="playback" aria-label="Sample hearing playback"><div class="playback-buttons"><button id="play-button" class="play-button" aria-label="Play hearing"><svg id="play-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6Z"/></svg></button><button id="step-button" class="icon-button" aria-label="Next event"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 8 5-8 5ZM15 5v10"/></svg></button><span class="playback-divider"></span><button id="restart-button" class="icon-button" aria-label="Restart hearing"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8a6 6 0 1 1 0 5M4 3v5h5"/></svg></button></div><div class="progress-block"><div class="progress-track" role="progressbar" aria-label="Hearing progress" aria-valuemin="0" aria-valuemax="16" aria-valuenow="1"><span id="progress-fill"></span></div><span id="progress-label">01 / 16</span></div><label class="speed-label">Speed <select id="speed-select" aria-label="Playback speed"><option value="1">1×</option><option value="2">2×</option><option value="0.5">0.5×</option></select></label><span id="playback-state" class="playback-state">Ready when you are</span></div>
+
+        <section class="docket" id="docket" aria-labelledby="docket-title"><header class="docket-header"><div><p class="eyebrow">THE LIVING RECORD</p><h2 id="docket-title">On the docket<span class="small-serif">.</span></h2></div><div class="docket-tally"><span id="agreed-count">0 of 4 agreed</span><span class="ornament" aria-hidden="true">✦</span><span>Nothing lost in the debate.</span></div></header><div id="docket-items"></div><footer class="docket-footer"><span>Every proposal. Every objection. Every step toward agreement.</span><button id="download-record" class="text-button small">Export record <span aria-hidden="true">↓</span></button></footer></section>
+        <footer class="court-footer"><span>BUILT FOR THE ART OF WORKING TOGETHER</span><span>DELEGATES <span class="ornament" aria-hidden="true">✦</span> 2026</span></footer>
+      </main>
+
+      <aside class="switch-panel" aria-labelledby="room-title"><header class="room-header"><div class="room-brand"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M4 9h18m-5-5 5 5-5 5M24 19H6m5-5-5 5 5 5"/></svg><strong>switch<span> / room</span></strong><button id="participants-button" class="icon-button" aria-label="Show sample participants" aria-expanded="false" aria-controls="participants"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="6" r="3"/><path d="M2 17v-2a6 6 0 0 1 12 0v2m0-14a3 3 0 0 1 0 6m2 3a5 5 0 0 1 2 4"/></svg></button></div><h2 id="room-title"><span>#</span> the-weekend-build</h2><p><span class="offline-dot"></span> Sample room <span>·</span> Not connected</p><div id="participants" class="participants" hidden><strong>Sample participants</strong><p>Harshil · Daksh · GPT advocate · Claude advocate · The Bench · The Clerk</p><p>The bench shows three perspectives from one scripted evaluator, not three running agents.</p></div></header>
+        <div class="chat-intro"><span class="chat-date">THE HEARING RECORD</span><p>The conversation behind the courtroom.<br>Every voice, in the order it was heard.</p></div>
+        <div id="chat-log" class="chat-log" role="log" aria-label="Sample Switch conversation" tabindex="0" aria-live="off"></div>
+        <button id="new-messages" class="new-messages" hidden>New messages <span aria-hidden="true">↓</span></button>
+        <footer class="room-footer"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="5" y="8" width="10" height="9" rx="1"/><path d="M7 8V5a3 3 0 0 1 6 0v3"/></svg><div><strong>A window into the conversation</strong><p>Read-only scripted sample. A verified Switch feed can replace it later.</p></div></footer>
+      </aside>
+    </div>
+  </div>
+  <p id="announcer" class="sr-only" role="status" aria-live="polite"></p>
+  <noscript><div class="noscript">This interactive sample needs JavaScript. No backend connection or account is required.</div></noscript>
+</body>
+</html>

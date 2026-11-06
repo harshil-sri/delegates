@@ -13,11 +13,12 @@ build/
 out/
 
 # Zone.Identifier (Windows file metadata)
-Zone.Identifier
+*Zone.Identifier
 
 # Test artifacts
-__tests__/
-*.test.*
+test-results/
+playwright-report/
+.playwright-mcp/
 
 # Logs
 *.log
@@ -39,8 +40,3 @@ Thumbs.db
 
 # Cache
 .cache
-
-# Dependency lock files (optional)
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
