@@ -1,0 +1,7 @@
+{
+  "completedAt": "2026-11-06T20:33:47.162Z",
+  "requestId": "sw_fe5d2a227ac14ccc823cc0001383db41",
+  "replyId": "sw_403fd2ce7ed848ef8d718afff78bbf6d",
+  "sender": "@switch-agent-9e299f6d:localhost",
+  "body": "[CVC_EVENT C01:10 status source=sw_fe5d2a227ac14ccc823cc0001383db41]\nC01: AWAITING_MANDATES. Both humans must approve the same current bundle. Review: http://localhost:18802/"
+}

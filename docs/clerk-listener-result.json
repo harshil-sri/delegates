@@ -1,0 +1,7 @@
+{
+  "completedAt": "2026-11-06T19:25:07.199Z",
+  "requestId": "sw_16b1653de2ed41db9fdb0bb52f03e1f3",
+  "replyId": "sw_6891e50f81aa4def8e5def1cf525bf6e",
+  "sender": "@switch-agent-9e299f6d:localhost",
+  "body": "[CLERK_STATUS source=sw_16b1653de2ed41db9fdb0bb52f03e1f3] The two local Codex advocate workers are listening in this room. Observed 18 source messages. Integration spike only: human approvals recorded by this harness = 0; the mandate engine and storyboard export are not implemented."
+}

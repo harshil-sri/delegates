@@ -1,0 +1,30 @@
+{
+  "completedAt": "2026-11-06T20:33:42.048Z",
+  "kind": "live-switch-negative-authorization-check",
+  "caseId": "C01",
+  "requestId": "sw_1952573745c34263b7d93811c0490065",
+  "rejectionReplyId": "sw_240fb83e79a14f1c902d3d1e53349ab4",
+  "actor": "@switch-agent-9e299f6d:localhost",
+  "rejectionCode": "HUMAN_REQUIRED",
+  "owners": {
+    "lead": {
+      "username": "court-owner",
+      "platformUserId": "xcmnrbwox38jmjuymbusccxdwe",
+      "sender": "@switch-mattermost-ef6348a0-774b-4ed9-b447-166451dde5dc-court-owner:localhost"
+    },
+    "creator": {
+      "username": "court-creator",
+      "platformUserId": "1s36er5qufyu7b9gjkxxxijd9r",
+      "sender": "@switch-mattermost-ef6348a0-774b-4ed9-b447-166451dde5dc-court-creator:localhost"
+    }
+  },
+  "checks": {
+    "actualSwitchSourceReadBack": true,
+    "botAdoptionRejected": true,
+    "briefsUnchanged": true,
+    "approvalsUnchanged": true,
+    "twoDistinctNativeHumanAccounts": true
+  },
+  "recordedHumanApprovals": 0,
+  "stage": "AWAITING_MANDATES"
+}

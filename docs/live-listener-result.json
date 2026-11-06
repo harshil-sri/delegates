@@ -1,0 +1,23 @@
+{
+  "runId": "listener-check-44e1e4cf-26c9-486e-a997-c9d4676c04f1",
+  "completedAt": "2026-11-06T19:23:51.757Z",
+  "mode": "background-polling-workers",
+  "roomId": "2b4d2b59-82f0-4876-a60b-a948517d825f",
+  "turns": [
+    {
+      "role": "lead",
+      "requestId": "sw_055c0fca051b46d497370ef1a98ceab4",
+      "replyId": "sw_8e70b7bba28447c081fa28166aae1852",
+      "sender": "@switch-agent-f02ce355:localhost",
+      "body": "[CVC_REPLY live-099d585a-0fcb-4bb4-b989-813fd58e66de source=sw_055c0fca051b46d497370ef1a98ceab4]\nThe lead requires a personal, energetic 30-second SIGNAL promo with exactly four panels; the initial brief specifies portrait-daksh. However, portrait use is not permitted unless the creator human authorizes it, and the lead cannot waive that boundary.\n\nProtected: Do not assert or use portrait-daksh without the creator human’s authorization. Replacing portrait-daksh also requires the lead human’s decision.\nNext: Offer an object-only four-panel treatment using a notebook, hands sketching, light trails, and the SIGNAL mark, while preserving the personal energy. Ask the lead human to approve or reject replacing the portrait requirement.\nHuman decision needed: yes"
+    },
+    {
+      "role": "creator",
+      "requestId": "sw_aeafd5a6b71647198949e1fb18009928",
+      "replyId": "sw_9bd85edf0b0747b0a2ed9d0f3a0290a0",
+      "sender": "@switch-agent-1de35bf6:localhost",
+      "body": "[CVC_REPLY live-c40be709-df5b-44f9-9242-19b7c8649443 source=sw_aeafd5a6b71647198949e1fb18009928]\nThe lead proposes an object-only, four-panel SIGNAL treatment using a notebook, hands sketching, light trails, and the SIGNAL mark, but the original portrait-daksh requirement conflicts with the creator’s boundary.\n\nProtected: Do not use portrait-daksh. Preserve the exact final line \"Made together. On our terms.\" and credit \"Visuals: Daksh\".\nNext: Ask the lead human whether to amend the portrait requirement and ask the creator human whether to accept the proposed object-only treatment. Neither decision has been made.\nHuman decision needed: yes"
+    }
+  ],
+  "humanApprovals": 0
+}

@@ -1,0 +1,303 @@
+{
+  "runId": "negotiation-verify-fcd0532c99e1",
+  "completedAt": "2026-11-06T20:29:41.253Z",
+  "mode": "background-room-listener-with-real-switch-and-codex-and-isolated-owner-fixtures",
+  "room": {
+    "id": "201de4e2-d9d8-437d-ba41-c3e3da0bd81c",
+    "url": "http://localhost:18865/creative-veto/channels/cvc-negotiation-verification"
+  },
+  "caseId": "CVFCD0532C99E1",
+  "openingSourceId": "sw_509ff62eca6549c98a37328628cf24d3",
+  "turns": [
+    {
+      "caseId": "CVFCD0532C99E1",
+      "at": "2026-11-06T20:28:19.725Z",
+      "turnId": "T48b9af227c4b43ce8e27d29c856d82c2",
+      "role": "lead",
+      "requestId": "sw_7d66c6d0412341378ef1c5b44e88ea44",
+      "replyId": "sw_f2ebd3b4478242028a2f8381635a895e",
+      "sourceSender": "@switch-agent-f02ce355:localhost",
+      "contextMessageIds": [
+        "sw_453d9a3c6a6243ab8dec223bc8b1ee08",
+        "sw_87b804b579c547068e8ff1c36decaac5",
+        "sw_37e0dc3c9935462aaa4e7083c4670c64",
+        "sw_4ac72e8505a743ffa8b82cc5c24f9086",
+        "sw_94cb693e7d2246f5a35fe27c4fcc83ba",
+        "sw_34f0d3321c68460a8774cd4622a6b2ab",
+        "sw_a755e7deb76c4c86a507a7d00c7cdc55",
+        "sw_64a3ccb52d714f3887ed6fb43dd6f6d4",
+        "sw_e1c5e67e34a04df7b3b9f14e8c126fe4",
+        "sw_c05d9d1baf884f0f95ffadce5bac7bd4",
+        "sw_5d802f3249a8462eb9e61a2f6394950f",
+        "sw_b762df92dcf34a8582143ef97c1a5f2b",
+        "sw_a1973bd4efa4458fa09d91a556ef51fa",
+        "sw_509ff62eca6549c98a37328628cf24d3",
+        "sw_4dcb463c144748b48bc373cb5ad8c38c",
+        "sw_ab8df741f27d40289340aeabca4521f5",
+        "sw_5e24e932361740c28f61a7e84711a784",
+        "sw_90d2fcf071ba4f1da042379fc87ab34d",
+        "sw_7d66c6d0412341378ef1c5b44e88ea44",
+        "sw_8d8d9756b85e4ba890bef07a0ec02414"
+      ],
+      "elapsedMs": 21156,
+      "usage": {
+        "input_tokens": 24654,
+        "cached_input_tokens": 18304,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 451,
+        "reasoning_output_tokens": 104
+      },
+      "kind": "proposal",
+      "outcome": {
+        "accepted": true,
+        "kind": "negotiation_proposal_received",
+        "revision": 1
+      }
+    },
+    {
+      "caseId": "CVFCD0532C99E1",
+      "at": "2026-11-06T20:28:44.085Z",
+      "turnId": "T5bc73e76763248e7a13ee9da8d01b596",
+      "role": "creator",
+      "requestId": "sw_a716d59eaa2d4dd98915e7825d798c5b",
+      "replyId": "sw_fef58ea61f424fd9be1cfe4b52d73014",
+      "sourceSender": "@switch-agent-1de35bf6:localhost",
+      "contextMessageIds": [
+        "sw_34f0d3321c68460a8774cd4622a6b2ab",
+        "sw_a755e7deb76c4c86a507a7d00c7cdc55",
+        "sw_64a3ccb52d714f3887ed6fb43dd6f6d4",
+        "sw_e1c5e67e34a04df7b3b9f14e8c126fe4",
+        "sw_c05d9d1baf884f0f95ffadce5bac7bd4",
+        "sw_5d802f3249a8462eb9e61a2f6394950f",
+        "sw_b762df92dcf34a8582143ef97c1a5f2b",
+        "sw_a1973bd4efa4458fa09d91a556ef51fa",
+        "sw_509ff62eca6549c98a37328628cf24d3",
+        "sw_4dcb463c144748b48bc373cb5ad8c38c",
+        "sw_ab8df741f27d40289340aeabca4521f5",
+        "sw_5e24e932361740c28f61a7e84711a784",
+        "sw_90d2fcf071ba4f1da042379fc87ab34d",
+        "sw_7d66c6d0412341378ef1c5b44e88ea44",
+        "sw_8d8d9756b85e4ba890bef07a0ec02414",
+        "sw_f2ebd3b4478242028a2f8381635a895e",
+        "sw_238aa80cb82f4ea6b6ed42124cd11208",
+        "sw_9d8c44536299404e97f6468b0f0ed93e",
+        "sw_a716d59eaa2d4dd98915e7825d798c5b",
+        "sw_9454e8c605264fc0bbd5501191973ab6"
+      ],
+      "elapsedMs": 21752,
+      "usage": {
+        "input_tokens": 25780,
+        "cached_input_tokens": 18432,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 309,
+        "reasoning_output_tokens": 84
+      },
+      "kind": "review",
+      "outcome": {
+        "accepted": true,
+        "decision": "amend",
+        "kind": "negotiation_review_received",
+        "revision": 1
+      }
+    },
+    {
+      "caseId": "CVFCD0532C99E1",
+      "at": "2026-11-06T20:29:11.601Z",
+      "turnId": "T62198c9e871540cd928d54ce850a0f0a",
+      "role": "lead",
+      "requestId": "sw_f31904d9a1cc4f99ba4cf2f855de897e",
+      "replyId": "sw_562ff508f545498ab0826e578294ca6f",
+      "sourceSender": "@switch-agent-f02ce355:localhost",
+      "contextMessageIds": [
+        "sw_b762df92dcf34a8582143ef97c1a5f2b",
+        "sw_a1973bd4efa4458fa09d91a556ef51fa",
+        "sw_509ff62eca6549c98a37328628cf24d3",
+        "sw_4dcb463c144748b48bc373cb5ad8c38c",
+        "sw_ab8df741f27d40289340aeabca4521f5",
+        "sw_5e24e932361740c28f61a7e84711a784",
+        "sw_90d2fcf071ba4f1da042379fc87ab34d",
+        "sw_7d66c6d0412341378ef1c5b44e88ea44",
+        "sw_8d8d9756b85e4ba890bef07a0ec02414",
+        "sw_f2ebd3b4478242028a2f8381635a895e",
+        "sw_238aa80cb82f4ea6b6ed42124cd11208",
+        "sw_9d8c44536299404e97f6468b0f0ed93e",
+        "sw_a716d59eaa2d4dd98915e7825d798c5b",
+        "sw_9454e8c605264fc0bbd5501191973ab6",
+        "sw_fef58ea61f424fd9be1cfe4b52d73014",
+        "sw_095e29423d2c437c99b7d57993723b45",
+        "sw_a04c5d246f2040e886b7fe677653f9cc",
+        "sw_67e25d4785d14dd590d8c8c4158f7e07",
+        "sw_f31904d9a1cc4f99ba4cf2f855de897e",
+        "sw_20f2b12dd8ad47fcadc757cbeadd364b"
+      ],
+      "elapsedMs": 21265,
+      "usage": {
+        "input_tokens": 26466,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 363,
+        "reasoning_output_tokens": 43
+      },
+      "kind": "proposal",
+      "outcome": {
+        "accepted": true,
+        "kind": "negotiation_proposal_received",
+        "revision": 2
+      }
+    },
+    {
+      "caseId": "CVFCD0532C99E1",
+      "at": "2026-11-06T20:29:35.114Z",
+      "turnId": "T417d273bd9e84945a5b924fbe7b4dccb",
+      "role": "creator",
+      "requestId": "sw_28022b9ae7fa449ea92539eba0267ff5",
+      "replyId": "sw_fa587b036fd545ccb33014e5a0c41849",
+      "sourceSender": "@switch-agent-1de35bf6:localhost",
+      "contextMessageIds": [
+        "sw_5e24e932361740c28f61a7e84711a784",
+        "sw_90d2fcf071ba4f1da042379fc87ab34d",
+        "sw_7d66c6d0412341378ef1c5b44e88ea44",
+        "sw_8d8d9756b85e4ba890bef07a0ec02414",
+        "sw_f2ebd3b4478242028a2f8381635a895e",
+        "sw_238aa80cb82f4ea6b6ed42124cd11208",
+        "sw_9d8c44536299404e97f6468b0f0ed93e",
+        "sw_a716d59eaa2d4dd98915e7825d798c5b",
+        "sw_9454e8c605264fc0bbd5501191973ab6",
+        "sw_fef58ea61f424fd9be1cfe4b52d73014",
+        "sw_095e29423d2c437c99b7d57993723b45",
+        "sw_a04c5d246f2040e886b7fe677653f9cc",
+        "sw_67e25d4785d14dd590d8c8c4158f7e07",
+        "sw_f31904d9a1cc4f99ba4cf2f855de897e",
+        "sw_20f2b12dd8ad47fcadc757cbeadd364b",
+        "sw_562ff508f545498ab0826e578294ca6f",
+        "sw_cb84a36cd68e478eafe92ab1459f66bf",
+        "sw_b7332828d0bf47b3b167e2939268d1de",
+        "sw_28022b9ae7fa449ea92539eba0267ff5",
+        "sw_cb2f83e1cdaf4c1098a4c5bc2845385a"
+      ],
+      "elapsedMs": 17762,
+      "usage": {
+        "input_tokens": 26283,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 131,
+        "reasoning_output_tokens": 0
+      },
+      "kind": "review",
+      "outcome": {
+        "accepted": true,
+        "decision": "recommend",
+        "kind": "negotiation_review_received",
+        "revision": 2
+      }
+    }
+  ],
+  "workStarted": [
+    {
+      "turnId": "T48b9af227c4b43ce8e27d29c856d82c2",
+      "kind": "proposal"
+    },
+    {
+      "turnId": "T5bc73e76763248e7a13ee9da8d01b596",
+      "kind": "review"
+    },
+    {
+      "turnId": "T62198c9e871540cd928d54ce850a0f0a",
+      "kind": "proposal"
+    },
+    {
+      "turnId": "T417d273bd9e84945a5b924fbe7b4dccb",
+      "kind": "review"
+    }
+  ],
+  "syntheticOwnerInputs": {
+    "adoptions": 2,
+    "amendmentAcceptances": 1,
+    "finalApprovals": 0
+  },
+  "realHumanApprovals": 0,
+  "productionCaseUnchanged": true,
+  "final": {
+    "revision": 2,
+    "briefs": {
+      "creator": "D1",
+      "lead": "H2"
+    },
+    "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
+    "checks": [
+      {
+        "code": "FOUR_PANELS",
+        "detail": "Exactly four panels.",
+        "passed": true
+      },
+      {
+        "code": "THIRTY_SECONDS",
+        "detail": "Planned duration totals 30 seconds.",
+        "passed": true
+      },
+      {
+        "code": "ASSET:notebook",
+        "detail": "Asset notebook must be registered and permitted.",
+        "passed": true
+      },
+      {
+        "code": "ASSET:hands-sketch",
+        "detail": "Asset hands-sketch must be registered and permitted.",
+        "passed": true
+      },
+      {
+        "code": "ASSET:light-trails",
+        "detail": "Asset light-trails must be registered and permitted.",
+        "passed": true
+      },
+      {
+        "code": "ASSET:signal-mark",
+        "detail": "Asset signal-mark must be registered and permitted.",
+        "passed": true
+      },
+      {
+        "code": "H2:COPY:SIGNAL",
+        "detail": "H2 requires the exact on-screen line: SIGNAL",
+        "passed": true
+      },
+      {
+        "code": "D1:FORBIDS:portrait-daksh",
+        "detail": "D1 forbids portrait-daksh.",
+        "passed": true
+      },
+      {
+        "code": "D1:FINAL:Made together. On our terms.",
+        "detail": "D1 requires the exact final-panel line: Made together. On our terms.",
+        "passed": true
+      },
+      {
+        "code": "D1:FINAL:Visuals: Daksh",
+        "detail": "D1 requires the exact final-panel line: Visuals: Daksh",
+        "passed": true
+      }
+    ],
+    "creatorReview": {
+      "amendment": null,
+      "at": 1793996998519,
+      "boardHash": "694621c76f1e1b67db571964f77ac62956aa571e4ea41c21b2fbb070243ed2af",
+      "boardRevision": 2,
+      "decision": "recommend",
+      "revisionNotes": [],
+      "sender": "@switch-agent-1de35bf6:localhost",
+      "sourceId": "sw_fa587b036fd545ccb33014e5a0c41849",
+      "summary": "BOARD2 passes every deterministic check and respects adopted briefs H2 and D1: it is a personal, energetic 30-second SIGNAL promo using permitted object-based assets, excludes portrait-daksh, and includes both required final-panel lines. Recommendation is advisory; both humans must later approve the exact board.",
+      "turnId": "T417d273bd9e84945a5b924fbe7b4dccb"
+    }
+  },
+  "checks": {
+    "automaticBackgroundScheduling": true,
+    "onlyScheduledModelsStarted": true,
+    "leadProposalReadFromSwitch": true,
+    "creatorReadExactLeadSource": true,
+    "ownerPauseObserved": true,
+    "creatorBoundaryPreserved": true,
+    "secondProposalReviewed": true,
+    "preparedBytesServedUnchanged": true,
+    "exportBlockedWithoutHumans": true
+  }
+}

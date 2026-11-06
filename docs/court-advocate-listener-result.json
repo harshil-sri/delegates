@@ -1,0 +1,26 @@
+{
+  "runId": "listener-check-960d7665-e8fd-496a-afdf-b42b51411bd5",
+  "completedAt": "2026-11-06T19:59:39.973Z",
+  "mode": "background-polling-workers",
+  "roomId": "2b4d2b59-82f0-4876-a60b-a948517d825f",
+  "turns": [
+    {
+      "role": "lead",
+      "requestId": "sw_aae3cec789ac4a999cfb8ebf914c01f9",
+      "replyId": "sw_79ff3d5c2fbb460ba14bec4b4eae0d3d",
+      "sender": "@switch-agent-f02ce355:localhost",
+      "body": "[CVC_REPLY live-07e9625d-e29a-4855-87f1-45f699e2491c source=sw_aae3cec789ac4a999cfb8ebf914c01f9]\nThe lead’s current draft requires portrait-daksh for a personal, energetic 30-second SIGNAL promo with exactly four panels. That conflicts with the creator’s portrait-use boundary. Only the creator human can authorize portrait use; the lead cannot waive that boundary, and no authorization or adoption is recorded.\n\nProtected: Do not assert that portrait-daksh is permitted. Only the lead human may approve replacing the portrait requirement.\nNext: Offer an object-only four-panel treatment using a notebook, hands sketching, light trails, and the SIGNAL mark, preserving personal energy. Ask the lead human whether to approve replacing portrait-daksh; this proposal is not yet approved.\nHuman decision needed: yes"
+    },
+    {
+      "role": "creator",
+      "requestId": "sw_12122c327c624c30bab1e451b182f6b0",
+      "replyId": "sw_c0de681ecfcd4bb5a0055c3e6a0d6891",
+      "sender": "@switch-agent-1de35bf6:localhost",
+      "body": "[CVC_REPLY live-816c8ae1-8b29-48f5-b317-1c75a56619b9 source=sw_12122c327c624c30bab1e451b182f6b0]\nThe lead proposes an object-only four-panel SIGNAL treatment using a notebook, hands-sketch, light-trails, and signal-mark. This addresses the conflict between the lead’s draft requirement for portrait-daksh and the creator’s proposed initial terms excluding it.\n\nProtected: Do not use portrait-daksh. Preserve the credit \"Visuals: Daksh\" and the exact final line \"Made together. On our terms.\" No mandate or human approval is recorded.\nNext: Ask the lead human whether to replace the portrait requirement, and the creator human whether to adopt their brief and accept the object-only treatment. Only each human may approve or amend their own terms.\nHuman decision needed: yes"
+    }
+  ],
+  "humanApprovals": 0,
+  "caseId": "C01",
+  "stage": "AWAITING_MANDATES",
+  "persistedMandatesSupplied": true
+}
