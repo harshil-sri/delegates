@@ -1,7 +1,46 @@
-.runtime/
+# Secrets
+*.key
+*.pem
 .env
-.env.*
-!.env.example
+*.env
+
+# Node modules
 node_modules/
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Zone.Identifier (Windows file metadata)
+Zone.Identifier
+
+# Test artifacts
+__tests__/
+*.test.*
+
+# Logs
 *.log
-.switch/
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache
+
+# Dependency lock files (optional)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
