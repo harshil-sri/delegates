@@ -1,0 +1,23 @@
+{
+  "name": "creative-veto-court",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "init": "node scripts/init-env.mjs",
+    "setup": "node scripts/setup-room.mjs",
+    "setup:engine": "node scripts/setup-engine.mjs",
+    "check:engine": "node scripts/check-engine.mjs",
+    "check:negotiation": "node scripts/check-negotiation.mjs",
+    "spike": "node scripts/run-spike.mjs",
+    "check:listener": "node scripts/check-listener.mjs",
+    "check:clerk": "node scripts/check-clerk.mjs",
+    "listen": "node scripts/listen.mjs",
+    "status": "node scripts/status.mjs",
+    "test": "node --test test/*.test.mjs",
+    "verify": "node scripts/verify-receipt.mjs"
+  }
+}
