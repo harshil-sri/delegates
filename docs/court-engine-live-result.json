@@ -1,9 +1,9 @@
 {
-  "completedAt": "2026-11-06T20:33:42.048Z",
+  "completedAt": "2026-11-07T12:29:01.069Z",
   "kind": "live-switch-negative-authorization-check",
   "caseId": "C01",
-  "requestId": "sw_1952573745c34263b7d93811c0490065",
-  "rejectionReplyId": "sw_240fb83e79a14f1c902d3d1e53349ab4",
+  "requestId": "sw_ab2697d0dd26482a938ab3180f96660c",
+  "rejectionReplyId": "sw_6d89ef8cd4db43469133f3cbfa089b47",
   "actor": "@switch-agent-9e299f6d:localhost",
   "rejectionCode": "HUMAN_REQUIRED",
   "owners": {

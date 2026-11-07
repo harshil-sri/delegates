@@ -1,0 +1,824 @@
+{
+ "kind": "cvc-replay-v1",
+ "label": "Recorded rehearsal: real Codex advocates through Switch; owner decisions are labelled synthetic test inputs; no human approvals.",
+ "exportedAt": "2026-11-07T12:16:20.662Z",
+ "caseId": "CVFCD0532C99E1",
+ "view": {
+  "version": "cvc-court-view-v1",
+  "caseId": "CVFCD0532C99E1",
+  "stage": "AWAITING_APPROVALS",
+  "phase": {
+   "code": "SIGNATURES",
+   "label": "Awaiting signatures",
+   "detail": "synthetic-fixture-lead and synthetic-fixture-creator must approve the exact bundle.",
+   "speaker": null,
+   "waitingOn": [
+    "owner:lead",
+    "owner:creator"
+   ]
+  },
+  "cast": {
+   "clerk": {
+    "name": "cvc-clerk",
+    "kind": "deterministic",
+    "authority": "Enforces rules and records decisions. Cannot decide for a human."
+   },
+   "advocates": {
+    "lead": {
+     "name": "cvc-lead-advocate",
+     "represents": "synthetic-fixture-lead",
+     "authority": "Proposes and reviews. Cannot adopt, accept or approve."
+    },
+    "creator": {
+     "name": "cvc-creator-advocate",
+     "represents": "synthetic-fixture-creator",
+     "authority": "Proposes and reviews. Cannot adopt, accept or approve."
+    }
+   },
+   "owners": {
+    "lead": {
+     "username": "synthetic-fixture-lead",
+     "briefRef": "H2",
+     "adopted": true,
+     "signed": false,
+     "brief": {
+      "finalCopy": [],
+      "forbiddenAssets": [],
+      "goal": "A personal, energetic 30-second SIGNAL promo.",
+      "negotiable": [
+       "Opening shot, palette and scene order. Object-based treatment is permitted."
+      ],
+      "requiredAssets": [],
+      "requiredCopy": [
+       "SIGNAL"
+      ]
+     }
+    },
+    "creator": {
+     "username": "synthetic-fixture-creator",
+     "briefRef": "D1",
+     "adopted": true,
+     "signed": false,
+     "brief": {
+      "finalCopy": [
+       "Made together. On our terms.",
+       "Visuals: Daksh"
+      ],
+      "forbiddenAssets": [
+       "portrait-daksh"
+      ],
+      "goal": "Contribute a recognizable creative voice while keeping the portrait-use boundary.",
+      "negotiable": [
+       "Object illustrations, text treatments, scene order and palette."
+      ],
+      "requiredAssets": [],
+      "requiredCopy": []
+     }
+    }
+   }
+  },
+  "question": null,
+  "negotiation": {
+   "status": "awaiting_humans",
+   "run": 1,
+   "proposals": 2,
+   "maxProposals": 2,
+   "block": null,
+   "restart": null
+  },
+  "board": {
+   "revision": 2,
+   "title": "SIGNAL — Ideas in Motion",
+   "stale": false,
+   "panels": [
+    {
+     "assetId": "notebook",
+     "onScreen": "SIGNAL",
+     "scene": "A notebook opens as vivid marks and quick annotations gather across the page with energetic rhythm.",
+     "seconds": 7,
+     "voiceover": "A personal signal begins with an idea made visible."
+    },
+    {
+     "assetId": "hands-sketch",
+     "onScreen": "MAKE YOUR MARK",
+     "scene": "Sketching hands turn the first marks into bold shapes, layered strokes, and a recognizable creative language.",
+     "seconds": 7,
+     "voiceover": "Every gesture adds character, momentum, and intent."
+    },
+    {
+     "assetId": "light-trails",
+     "onScreen": "IDEAS IN MOTION",
+     "scene": "Bright trails lift from the sketches, weave together, and accelerate through a vibrant field.",
+     "seconds": 8,
+     "voiceover": "Separate lines connect, amplify one another, and move forward together."
+    },
+    {
+     "assetId": "signal-mark",
+     "onScreen": "Made together. On our terms.\nVisuals: Daksh",
+     "scene": "The moving trails converge into the SIGNAL mark while the closing statement and credit settle clearly beneath it.",
+     "seconds": 8,
+     "voiceover": "Together, our ideas become SIGNAL."
+    }
+   ],
+   "checks": [
+    {
+     "code": "FOUR_PANELS",
+     "detail": "Exactly four panels.",
+     "passed": true
+    },
+    {
+     "code": "THIRTY_SECONDS",
+     "detail": "Planned duration totals 30 seconds.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:notebook",
+     "detail": "Asset notebook must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:hands-sketch",
+     "detail": "Asset hands-sketch must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:light-trails",
+     "detail": "Asset light-trails must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:signal-mark",
+     "detail": "Asset signal-mark must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "H2:COPY:SIGNAL",
+     "detail": "H2 requires the exact on-screen line: SIGNAL",
+     "passed": true
+    },
+    {
+     "code": "D1:FORBIDS:portrait-daksh",
+     "detail": "D1 forbids portrait-daksh.",
+     "passed": true
+    },
+    {
+     "code": "D1:FINAL:Made together. On our terms.",
+     "detail": "D1 requires the exact final-panel line: Made together. On our terms.",
+     "passed": true
+    },
+    {
+     "code": "D1:FINAL:Visuals: Daksh",
+     "detail": "D1 requires the exact final-panel line: Visuals: Daksh",
+     "passed": true
+    }
+   ],
+   "passed": true,
+   "review": {
+    "decision": "recommend",
+    "summary": "BOARD2 passes every deterministic check and respects adopted briefs H2 and D1: it is a personal, energetic 30-second SIGNAL promo using permitted object-based assets, excludes portrait-daksh, and includes both required final-panel lines. Recommendation is advisory; both humans must later approve the exact board."
+   },
+   "bundleDigest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
+   "preview": "/api/cases/CVFCD0532C99E1/boards/2/preview",
+   "manifest": "/api/cases/CVFCD0532C99E1/boards/2/manifest"
+  },
+  "approvals": {
+   "lead": false,
+   "creator": false,
+   "count": 0,
+   "command": "@cvc-clerk APPROVE CVFCD0532C99E1 BOARD2 faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e"
+  },
+  "adopt": {},
+  "exports": null,
+  "beats": [
+   {
+    "id": 1,
+    "at": 1793996901063,
+    "kind": "case_created",
+    "sourceId": null,
+    "text": "Case CVFCD0532C99E1 is ready. Each owner must review and adopt their own brief. No human decisions have been recorded.\nReview briefs and commands: http://localhost:65236/\nsynthetic-fixture-lead (lead):\n{\n  \"goal\": \"A personal, energetic 30-second SIGNAL promo.\",\n  \"requiredAssets\": [\n    \"portrait-daksh\"\n  ],\n  \"forbiddenAssets\": [],\n  \"requiredCopy\": [\n    \"SIGNAL\"\n  ],\n  \"finalCopy\": [],\n  \"negotiable\": [\n    \"Opening shot, palette and scene order. Only the lead may replace the portrait requirement.\"\n  ]\n}\n@cvc-clerk ADOPT CVFCD0532C99E1 H1 869a9caed6d3b28e3187a65479583883617be77573eab130bf0b9fe0cd123aa4\n\nsynthetic-fixture-creator (creator):\n{\n  \"goal\": \"Contribute a recognizable creative voice while keeping the portrait-use boundary.\",\n  \"requiredAssets\": [],\n  \"forbiddenAssets\": [\n    \"portrait-daksh\"\n  ],\n  \"requiredCopy\": [],\n  \"finalCopy\": [\n    \"Made together. On our terms.\",\n    \"Visuals: Daksh\"\n  ],\n  \"negotiable\": [\n    \"Object illustrations, text treatments, scene order and palette.\"\n  ]\n}\n@cvc-clerk ADOPT CVFCD0532C99E1 D1 e3a44f9fb93b17abf962591bfdead262976c9a7c58a3da3cfc424f08c30a1071",
+    "roomMessageId": "sw_4dcb463c144748b48bc373cb5ad8c38c",
+    "delivery": "sent",
+    "type": "filing",
+    "speaker": "clerk"
+   },
+   {
+    "id": 2,
+    "at": 1793996901065,
+    "kind": "negotiation_enabled",
+    "sourceId": null,
+    "text": "Automatic negotiation is enabled. Once both owners adopt their briefs, the lead proposes, the creator reviews, and the clerk prepares a final preview only after review and checks. Human decisions remain with their owners.",
+    "roomMessageId": "sw_ab8df741f27d40289340aeabca4521f5",
+    "delivery": "sent",
+    "type": "procedure",
+    "speaker": "clerk",
+    "run": 1
+   },
+   {
+    "id": 3,
+    "at": 1793996901069,
+    "kind": "brief_adopted",
+    "sourceId": "fixture-only-source-1",
+    "text": "synthetic-fixture-lead adopted H1. Stage: AWAITING_MANDATES.",
+    "roomMessageId": "sw_5e24e932361740c28f61a7e84711a784",
+    "delivery": "sent",
+    "type": "mandate",
+    "speaker": "owner:lead",
+    "role": "lead",
+    "ref": "H1"
+   },
+   {
+    "id": 4,
+    "at": 1793996901071,
+    "kind": "brief_adopted",
+    "sourceId": "fixture-only-source-2",
+    "text": "synthetic-fixture-creator adopted D1. Stage: AWAITING_BOARD.",
+    "roomMessageId": "sw_90d2fcf071ba4f1da042379fc87ab34d",
+    "delivery": "sent",
+    "type": "mandate",
+    "speaker": "owner:creator",
+    "role": "creator",
+    "ref": "D1"
+   },
+   {
+    "id": 5,
+    "at": 1793996901072,
+    "kind": "negotiation_turn_requested",
+    "sourceId": null,
+    "text": "@cvc-lead-advocate [CVC_NEGOTIATION CVFCD0532C99E1 T48b9af227c4b43ce8e27d29c856d82c2] Propose a complete four-panel storyboard against the current adopted briefs. This is a structured clerk-scheduled turn; do not grant human consent.\nReturn your structured result only for this turn. The clerk will pause if an owner amendment is needed.",
+    "roomMessageId": "sw_7d66c6d0412341378ef1c5b44e88ea44",
+    "delivery": "sent",
+    "type": "summons",
+    "speaker": "clerk",
+    "target": "lead",
+    "turnId": "T48b9af227c4b43ce8e27d29c856d82c2",
+    "phase": "proposal",
+    "boardRevision": null
+   },
+   {
+    "id": 6,
+    "at": 1793996901482,
+    "kind": "negotiation_turn_started",
+    "sourceId": null,
+    "text": null,
+    "roomMessageId": null,
+    "delivery": null,
+    "type": "deliberating",
+    "speaker": "lead",
+    "turnId": "T48b9af227c4b43ce8e27d29c856d82c2"
+   },
+   {
+    "id": 7,
+    "at": 1793996925062,
+    "kind": "check_failed",
+    "sourceId": "sw_f2ebd3b4478242028a2f8381635a895e",
+    "text": "BOARD1 cannot be approved:\n- Asset portrait-daksh must be registered and permitted.\n- D1 forbids portrait-daksh.",
+    "roomMessageId": "sw_238aa80cb82f4ea6b6ed42124cd11208",
+    "delivery": "sent",
+    "type": "objection",
+    "speaker": "clerk",
+    "basis": "rules",
+    "boardRevision": 1,
+    "failed": [
+     {
+      "code": "ASSET:portrait-daksh",
+      "detail": "Asset portrait-daksh must be registered and permitted.",
+      "passed": false
+     },
+     {
+      "code": "D1:FORBIDS:portrait-daksh",
+      "detail": "D1 forbids portrait-daksh.",
+      "passed": false
+     }
+    ]
+   },
+   {
+    "id": 8,
+    "at": 1793996925062,
+    "kind": "negotiation_proposal_received",
+    "sourceId": "sw_f2ebd3b4478242028a2f8381635a895e",
+    "text": "cvc-lead-advocate proposed BOARD1. The creator will review its exact content and the deterministic checks. No human approval is requested yet.",
+    "roomMessageId": "sw_9d8c44536299404e97f6468b0f0ed93e",
+    "delivery": "sent",
+    "type": "proposal",
+    "speaker": "lead",
+    "quote": "Conflicted, unapproved candidate against H1 and D1. It honestly includes lead-required portrait-daksh, but that asset is forbidden by the creator and cannot render. The board also preserves SIGNAL and both exact creator final-copy lines. Creator review must request an owner decision: the lead must amend the portrait requirement, or the creator must amend the portrait-use boundary. No consent or approval is inferred.",
+    "boardRevision": 1,
+    "turnId": "T48b9af227c4b43ce8e27d29c856d82c2"
+   },
+   {
+    "id": 9,
+    "at": 1793996925063,
+    "kind": "negotiation_turn_requested",
+    "sourceId": null,
+    "text": "@cvc-creator-advocate [CVC_NEGOTIATION CVFCD0532C99E1 T5bc73e76763248e7a13ee9da8d01b596] Review BOARD1, hash cd534e1add97659e738964d4347d48cf5d943b74ef6b71ddd904cd989694eb49. This is a structured clerk-scheduled turn; do not grant human consent.\nReturn your structured result only for this turn. The clerk will pause if an owner amendment is needed.",
+    "roomMessageId": "sw_a716d59eaa2d4dd98915e7825d798c5b",
+    "delivery": "sent",
+    "type": "summons",
+    "speaker": "clerk",
+    "target": "creator",
+    "turnId": "T5bc73e76763248e7a13ee9da8d01b596",
+    "phase": "review",
+    "boardRevision": 1
+   },
+   {
+    "id": 10,
+    "at": 1793996925252,
+    "kind": "negotiation_turn_started",
+    "sourceId": null,
+    "text": null,
+    "roomMessageId": null,
+    "delivery": null,
+    "type": "deliberating",
+    "speaker": "creator",
+    "turnId": "T5bc73e76763248e7a13ee9da8d01b596"
+   },
+   {
+    "id": 11,
+    "at": 1793996947633,
+    "kind": "amendment_requested",
+    "sourceId": "sw_fef58ea61f424fd9be1cfe4b52d73014",
+    "text": "Only synthetic-fixture-lead may decide A1, replacing H1 with this exact brief:\n{\n  \"goal\": \"A personal, energetic 30-second SIGNAL promo.\",\n  \"requiredAssets\": [],\n  \"forbiddenAssets\": [],\n  \"requiredCopy\": [\n    \"SIGNAL\"\n  ],\n  \"finalCopy\": [],\n  \"negotiable\": [\n    \"Opening shot, palette and scene order. Object-based treatment is permitted.\"\n  ]\n}\n@cvc-clerk ACCEPT CVFCD0532C99E1 A1 bfb7d69988cc10aaedd9c0a0e40357ea4178949f1c417d064f501a9d04b0d202\nOr decline: @cvc-clerk DECLINE CVFCD0532C99E1 A1 bfb7d69988cc10aaedd9c0a0e40357ea4178949f1c417d064f501a9d04b0d202",
+    "roomMessageId": "sw_095e29423d2c437c99b7d57993723b45",
+    "delivery": "sent",
+    "type": "appeal",
+    "speaker": "clerk",
+    "requestedBy": "creator",
+    "awaiting": "owner:lead",
+    "requestId": "A1",
+    "baseRef": "H1"
+   },
+   {
+    "id": 12,
+    "at": 1793996947634,
+    "kind": "negotiation_review_received",
+    "sourceId": "sw_fef58ea61f424fd9be1cfe4b52d73014",
+    "text": "Creator review of BOARD1: BOARD1 cannot pass H1 and D1 simultaneously: H1 requires portrait-daksh, while D1 forbids it and the catalog marks it unavailable. A lead-owner amendment is required before an object-based board can be reviewed.\nRecommendation: amend. This is an advocate review, not either human's approval.\nOwner question: Will the lead owner replace H1 with this brief, removing only the portrait requirement and permitting an object-based treatment while preserving the personal, energetic 30-second SIGNAL goal and required copy? Only the lead owner can accept this amendment.",
+    "roomMessageId": "sw_a04c5d246f2040e886b7fe677653f9cc",
+    "delivery": "sent",
+    "type": "objection",
+    "basis": "review",
+    "speaker": "creator",
+    "quote": "BOARD1 cannot pass H1 and D1 simultaneously: H1 requires portrait-daksh, while D1 forbids it and the catalog marks it unavailable. A lead-owner amendment is required before an object-based board can be reviewed.",
+    "decision": "amend",
+    "boardRevision": 1,
+    "notes": [],
+    "ownerQuestion": "Will the lead owner replace H1 with this brief, removing only the portrait requirement and permitting an object-based treatment while preserving the personal, energetic 30-second SIGNAL goal and required copy? Only the lead owner can accept this amendment."
+   },
+   {
+    "id": 13,
+    "at": 1793996951035,
+    "kind": "amendment_accepted",
+    "sourceId": "fixture-only-source-3",
+    "text": "synthetic-fixture-lead accepted A1. H1 → H2. Earlier board approvals cannot be reused; submit a fresh board.",
+    "roomMessageId": "sw_67e25d4785d14dd590d8c8c4158f7e07",
+    "delivery": "sent",
+    "type": "decision",
+    "speaker": "owner:lead",
+    "requestId": "A1",
+    "accepted": true,
+    "ref": "H2"
+   },
+   {
+    "id": 14,
+    "at": 1793996951035,
+    "kind": "negotiation_turn_requested",
+    "sourceId": null,
+    "text": "@cvc-lead-advocate [CVC_NEGOTIATION CVFCD0532C99E1 T62198c9e871540cd928d54ce850a0f0a] Propose a complete four-panel storyboard against the current adopted briefs. This is a structured clerk-scheduled turn; do not grant human consent.\nFeedback: The owners changed their terms. Use only the current adopted brief revisions; earlier proposals and reviews are stale.\nReturn your structured result only for this turn. The clerk will pause if an owner amendment is needed.",
+    "roomMessageId": "sw_f31904d9a1cc4f99ba4cf2f855de897e",
+    "delivery": "sent",
+    "type": "summons",
+    "speaker": "clerk",
+    "target": "lead",
+    "turnId": "T62198c9e871540cd928d54ce850a0f0a",
+    "phase": "proposal",
+    "boardRevision": null
+   },
+   {
+    "id": 15,
+    "at": 1793996953227,
+    "kind": "negotiation_turn_started",
+    "sourceId": null,
+    "text": null,
+    "roomMessageId": null,
+    "delivery": null,
+    "type": "deliberating",
+    "speaker": "lead",
+    "turnId": "T62198c9e871540cd928d54ce850a0f0a"
+   },
+   {
+    "id": 16,
+    "at": 1793996979927,
+    "kind": "board_checks_passed",
+    "sourceId": "sw_562ff508f545498ab0826e578294ca6f",
+    "text": "BOARD2 passes the encoded checks. It still needs the creator's exact-board review before a preview can be prepared.",
+    "roomMessageId": "sw_cb84a36cd68e478eafe92ab1459f66bf",
+    "delivery": "sent",
+    "type": "ruling",
+    "speaker": "clerk",
+    "passed": true,
+    "boardRevision": 2,
+    "checks": [
+     {
+      "code": "FOUR_PANELS",
+      "detail": "Exactly four panels.",
+      "passed": true
+     },
+     {
+      "code": "THIRTY_SECONDS",
+      "detail": "Planned duration totals 30 seconds.",
+      "passed": true
+     },
+     {
+      "code": "ASSET:notebook",
+      "detail": "Asset notebook must be registered and permitted.",
+      "passed": true
+     },
+     {
+      "code": "ASSET:hands-sketch",
+      "detail": "Asset hands-sketch must be registered and permitted.",
+      "passed": true
+     },
+     {
+      "code": "ASSET:light-trails",
+      "detail": "Asset light-trails must be registered and permitted.",
+      "passed": true
+     },
+     {
+      "code": "ASSET:signal-mark",
+      "detail": "Asset signal-mark must be registered and permitted.",
+      "passed": true
+     },
+     {
+      "code": "H2:COPY:SIGNAL",
+      "detail": "H2 requires the exact on-screen line: SIGNAL",
+      "passed": true
+     },
+     {
+      "code": "D1:FORBIDS:portrait-daksh",
+      "detail": "D1 forbids portrait-daksh.",
+      "passed": true
+     },
+     {
+      "code": "D1:FINAL:Made together. On our terms.",
+      "detail": "D1 requires the exact final-panel line: Made together. On our terms.",
+      "passed": true
+     },
+     {
+      "code": "D1:FINAL:Visuals: Daksh",
+      "detail": "D1 requires the exact final-panel line: Visuals: Daksh",
+      "passed": true
+     }
+    ]
+   },
+   {
+    "id": 17,
+    "at": 1793996979927,
+    "kind": "negotiation_proposal_received",
+    "sourceId": "sw_562ff508f545498ab0826e578294ca6f",
+    "text": "cvc-lead-advocate proposed BOARD2. The creator will review its exact content and the deterministic checks. No human approval is requested yet.",
+    "roomMessageId": "sw_b7332828d0bf47b3b167e2939268d1de",
+    "delivery": "sent",
+    "type": "proposal",
+    "speaker": "lead",
+    "quote": "Fresh unapproved candidate against adopted briefs H2 and D1. It uses only permitted object-based catalog assets, excludes portrait-daksh, delivers a personal and energetic 30-second treatment, and preserves SIGNAL plus both exact creator final-copy lines. No human consent or approval is inferred.",
+    "boardRevision": 2,
+    "turnId": "T62198c9e871540cd928d54ce850a0f0a"
+   },
+   {
+    "id": 18,
+    "at": 1793996979927,
+    "kind": "negotiation_turn_requested",
+    "sourceId": null,
+    "text": "@cvc-creator-advocate [CVC_NEGOTIATION CVFCD0532C99E1 T417d273bd9e84945a5b924fbe7b4dccb] Review BOARD2, hash 694621c76f1e1b67db571964f77ac62956aa571e4ea41c21b2fbb070243ed2af. This is a structured clerk-scheduled turn; do not grant human consent.\nReturn your structured result only for this turn. The clerk will pause if an owner amendment is needed.",
+    "roomMessageId": "sw_28022b9ae7fa449ea92539eba0267ff5",
+    "delivery": "sent",
+    "type": "summons",
+    "speaker": "clerk",
+    "target": "creator",
+    "turnId": "T417d273bd9e84945a5b924fbe7b4dccb",
+    "phase": "review",
+    "boardRevision": 2
+   },
+   {
+    "id": 19,
+    "at": 1793996980174,
+    "kind": "negotiation_turn_started",
+    "sourceId": null,
+    "text": null,
+    "roomMessageId": null,
+    "delivery": null,
+    "type": "deliberating",
+    "speaker": "creator",
+    "turnId": "T417d273bd9e84945a5b924fbe7b4dccb"
+   },
+   {
+    "id": 20,
+    "at": 1793996998519,
+    "kind": "negotiation_review_received",
+    "sourceId": "sw_fa587b036fd545ccb33014e5a0c41849",
+    "text": "Creator review of BOARD2: BOARD2 passes every deterministic check and respects adopted briefs H2 and D1: it is a personal, energetic 30-second SIGNAL promo using permitted object-based assets, excludes portrait-daksh, and includes both required final-panel lines. Recommendation is advisory; both humans must later approve the exact board.\nRecommendation: recommend. This is an advocate review, not either human's approval.",
+    "roomMessageId": "sw_1ef884c66f184ca8b9341f4b49e1fb92",
+    "delivery": "sent",
+    "type": "endorsement",
+    "basis": "review",
+    "speaker": "creator",
+    "quote": "BOARD2 passes every deterministic check and respects adopted briefs H2 and D1: it is a personal, energetic 30-second SIGNAL promo using permitted object-based assets, excludes portrait-daksh, and includes both required final-panel lines. Recommendation is advisory; both humans must later approve the exact board.",
+    "decision": "recommend",
+    "boardRevision": 2,
+    "notes": [],
+    "ownerQuestion": null
+   },
+   {
+    "id": 21,
+    "at": 1793996998522,
+    "kind": "preview_ready",
+    "sourceId": "sw_fa587b036fd545ccb33014e5a0c41849",
+    "text": "BOARD2 is prepared against H2/D1. The creator advocate recommends this exact revision; that is not human approval. Each owner must inspect the frozen preview, then approve from their own account.\nhttp://localhost:65236/api/cases/CVFCD0532C99E1/boards/2/preview\n@cvc-clerk APPROVE CVFCD0532C99E1 BOARD2 faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e\nBoth humans must use that same command. No approval has been inferred.",
+    "roomMessageId": "sw_408b47be75104737b4dc67ea770b2e1c",
+    "delivery": "sent",
+    "type": "draft_verdict",
+    "speaker": "clerk",
+    "boardRevision": 2,
+    "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e"
+   }
+  ]
+ },
+ "briefs": {
+  "lead": [
+   {
+    "ref": "H1",
+    "hash": "869a9caed6d3b28e3187a65479583883617be77573eab130bf0b9fe0cd123aa4",
+    "content": {
+     "finalCopy": [],
+     "forbiddenAssets": [],
+     "goal": "A personal, energetic 30-second SIGNAL promo.",
+     "negotiable": [
+      "Opening shot, palette and scene order. Only the lead may replace the portrait requirement."
+     ],
+     "requiredAssets": [
+      "portrait-daksh"
+     ],
+     "requiredCopy": [
+      "SIGNAL"
+     ]
+    },
+    "adopted": true
+   },
+   {
+    "ref": "H2",
+    "hash": "5ba1d7bf77cd1f3ff475c0d3984e1e419f92b920f12b8504a7faf842dbf3d97c",
+    "content": {
+     "finalCopy": [],
+     "forbiddenAssets": [],
+     "goal": "A personal, energetic 30-second SIGNAL promo.",
+     "negotiable": [
+      "Opening shot, palette and scene order. Object-based treatment is permitted."
+     ],
+     "requiredAssets": [],
+     "requiredCopy": [
+      "SIGNAL"
+     ]
+    },
+    "adopted": true
+   }
+  ],
+  "creator": [
+   {
+    "ref": "D1",
+    "hash": "e3a44f9fb93b17abf962591bfdead262976c9a7c58a3da3cfc424f08c30a1071",
+    "content": {
+     "finalCopy": [
+      "Made together. On our terms.",
+      "Visuals: Daksh"
+     ],
+     "forbiddenAssets": [
+      "portrait-daksh"
+     ],
+     "goal": "Contribute a recognizable creative voice while keeping the portrait-use boundary.",
+     "negotiable": [
+      "Object illustrations, text treatments, scene order and palette."
+     ],
+     "requiredAssets": [],
+     "requiredCopy": []
+    },
+    "adopted": true
+   }
+  ]
+ },
+ "amendments": [
+  {
+   "id": "A1",
+   "role": "lead",
+   "baseRef": "H1",
+   "content": {
+    "finalCopy": [],
+    "forbiddenAssets": [],
+    "goal": "A personal, energetic 30-second SIGNAL promo.",
+    "negotiable": [
+     "Opening shot, palette and scene order. Object-based treatment is permitted."
+    ],
+    "requiredAssets": [],
+    "requiredCopy": [
+     "SIGNAL"
+    ]
+   },
+   "status": "accepted"
+  }
+ ],
+ "boards": [
+  {
+   "revision": 1,
+   "title": "SIGNAL — Personal Frequency",
+   "briefs": {
+    "creator": "D1",
+    "lead": "H1"
+   },
+   "panels": [
+    {
+     "assetId": "portrait-daksh",
+     "onScreen": "SIGNAL",
+     "scene": "Daksh's portrait anchors the opening while vivid pulses radiate outward with energetic motion; the referenced asset is unavailable for rendering under the current conflict.",
+     "seconds": 7,
+     "voiceover": "A personal signal starts with one unmistakable voice."
+    },
+    {
+     "assetId": "hands-sketch",
+     "onScreen": "DRAW THE ENERGY",
+     "scene": "Sketching hands translate the opening pulse into bold, rapidly evolving lines and shapes.",
+     "seconds": 7,
+     "voiceover": "A quick gesture turns identity into momentum."
+    },
+    {
+     "assetId": "light-trails",
+     "onScreen": "IDEAS IN MOTION",
+     "scene": "Bright trails surge from the sketches, cross paths, and accelerate through a vibrant field.",
+     "seconds": 8,
+     "voiceover": "Every line gathers energy as the work moves forward."
+    },
+    {
+     "assetId": "signal-mark",
+     "onScreen": "Made together. On our terms.\nVisuals: Daksh",
+     "scene": "The moving trails converge into the SIGNAL mark as the closing credit lines settle clearly beneath it.",
+     "seconds": 8,
+     "voiceover": "Together, the work becomes SIGNAL."
+    }
+   ],
+   "checks": [
+    {
+     "code": "FOUR_PANELS",
+     "detail": "Exactly four panels.",
+     "passed": true
+    },
+    {
+     "code": "THIRTY_SECONDS",
+     "detail": "Planned duration totals 30 seconds.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:portrait-daksh",
+     "detail": "Asset portrait-daksh must be registered and permitted.",
+     "passed": false
+    },
+    {
+     "code": "ASSET:hands-sketch",
+     "detail": "Asset hands-sketch must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:light-trails",
+     "detail": "Asset light-trails must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:signal-mark",
+     "detail": "Asset signal-mark must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "H1:REQUIRES:portrait-daksh",
+     "detail": "H1 requires portrait-daksh.",
+     "passed": true
+    },
+    {
+     "code": "H1:COPY:SIGNAL",
+     "detail": "H1 requires the exact on-screen line: SIGNAL",
+     "passed": true
+    },
+    {
+     "code": "D1:FORBIDS:portrait-daksh",
+     "detail": "D1 forbids portrait-daksh.",
+     "passed": false
+    },
+    {
+     "code": "D1:FINAL:Made together. On our terms.",
+     "detail": "D1 requires the exact final-panel line: Made together. On our terms.",
+     "passed": true
+    },
+    {
+     "code": "D1:FINAL:Visuals: Daksh",
+     "detail": "D1 requires the exact final-panel line: Visuals: Daksh",
+     "passed": true
+    }
+   ],
+   "stale": true,
+   "bundleDigest": null,
+   "review": null
+  },
+  {
+   "revision": 2,
+   "title": "SIGNAL — Ideas in Motion",
+   "briefs": {
+    "creator": "D1",
+    "lead": "H2"
+   },
+   "panels": [
+    {
+     "assetId": "notebook",
+     "onScreen": "SIGNAL",
+     "scene": "A notebook opens as vivid marks and quick annotations gather across the page with energetic rhythm.",
+     "seconds": 7,
+     "voiceover": "A personal signal begins with an idea made visible."
+    },
+    {
+     "assetId": "hands-sketch",
+     "onScreen": "MAKE YOUR MARK",
+     "scene": "Sketching hands turn the first marks into bold shapes, layered strokes, and a recognizable creative language.",
+     "seconds": 7,
+     "voiceover": "Every gesture adds character, momentum, and intent."
+    },
+    {
+     "assetId": "light-trails",
+     "onScreen": "IDEAS IN MOTION",
+     "scene": "Bright trails lift from the sketches, weave together, and accelerate through a vibrant field.",
+     "seconds": 8,
+     "voiceover": "Separate lines connect, amplify one another, and move forward together."
+    },
+    {
+     "assetId": "signal-mark",
+     "onScreen": "Made together. On our terms.\nVisuals: Daksh",
+     "scene": "The moving trails converge into the SIGNAL mark while the closing statement and credit settle clearly beneath it.",
+     "seconds": 8,
+     "voiceover": "Together, our ideas become SIGNAL."
+    }
+   ],
+   "checks": [
+    {
+     "code": "FOUR_PANELS",
+     "detail": "Exactly four panels.",
+     "passed": true
+    },
+    {
+     "code": "THIRTY_SECONDS",
+     "detail": "Planned duration totals 30 seconds.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:notebook",
+     "detail": "Asset notebook must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:hands-sketch",
+     "detail": "Asset hands-sketch must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:light-trails",
+     "detail": "Asset light-trails must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "ASSET:signal-mark",
+     "detail": "Asset signal-mark must be registered and permitted.",
+     "passed": true
+    },
+    {
+     "code": "H2:COPY:SIGNAL",
+     "detail": "H2 requires the exact on-screen line: SIGNAL",
+     "passed": true
+    },
+    {
+     "code": "D1:FORBIDS:portrait-daksh",
+     "detail": "D1 forbids portrait-daksh.",
+     "passed": true
+    },
+    {
+     "code": "D1:FINAL:Made together. On our terms.",
+     "detail": "D1 requires the exact final-panel line: Made together. On our terms.",
+     "passed": true
+    },
+    {
+     "code": "D1:FINAL:Visuals: Daksh",
+     "detail": "D1 requires the exact final-panel line: Visuals: Daksh",
+     "passed": true
+    }
+   ],
+   "stale": false,
+   "bundleDigest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
+   "review": {
+    "decision": "recommend",
+    "summary": "BOARD2 passes every deterministic check and respects adopted briefs H2 and D1: it is a personal, energetic 30-second SIGNAL promo using permitted object-based assets, excludes portrait-daksh, and includes both required final-panel lines. Recommendation is advisory; both humans must later approve the exact board."
+   }
+  }
+ ]
+}

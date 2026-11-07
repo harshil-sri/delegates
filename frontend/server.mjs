@@ -1,10 +1,32 @@
-import { createServer } from 'node:http';
+import { createServer, request as httpRequest } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { extname, resolve, sep } from 'node:path';
 
 const root = resolve(fileURLToPath(new URL('./public/', import.meta.url)));
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8' };
+// Read-only court routes forwarded to the clerk's loopback API (scripts/listen.mjs).
+const courtApi = { host: '127.0.0.1', port: Number(process.env.CVC_COURT_PORT || 18802) };
+const courtRoute = /^\/api\/(health|cases\/C[A-Z0-9_-]{1,31}(\/(court|stream|events)|\/boards\/[1-9]\d*\/(preview|script-preview|manifest|export|script|receipt))?)$/;
+
+function proxyCourt(req, res, pathname, search) {
+  const target = pathname === '/api/health' ? '/health' : pathname;
+  const upstream = httpRequest({ ...courtApi, method: req.method, path: target + search, headers: { host: `${courtApi.host}:${courtApi.port}`, accept: req.headers.accept || '*/*', ...(req.headers['last-event-id'] ? { 'last-event-id': req.headers['last-event-id'] } : {}) } }, reply => {
+    const headers = { 'Cache-Control': 'no-store' };
+    for (const name of ['content-type', 'content-disposition', 'etag', 'content-security-policy']) if (reply.headers[name]) headers[name] = reply.headers[name];
+    res.writeHead(reply.statusCode, headers);
+    reply.pipe(res);
+  });
+  upstream.setTimeout(8000, () => { if (!res.headersSent) upstream.destroy(new Error('timeout')); });
+  upstream.on('error', () => {
+    if (res.headersSent) return res.destroy();
+    res.writeHead(502, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ offline: true, error: 'The court service is not running. Start it with scripts/start-workers.ps1.' }));
+  });
+  req.on('close', () => upstream.destroy());
+  upstream.end();
+}
+
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.txt': 'text/plain; charset=utf-8', '.json': 'application/json; charset=utf-8', '.js': 'text/javascript; charset=utf-8' };
 
 export function createFrontendServer() {
   return createServer(async (req, res) => {
@@ -16,7 +38,9 @@ export function createFrontendServer() {
       return res.end('Read-only demo');
     }
     try {
-      const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+      const url = new URL(req.url, 'http://localhost');
+      const pathname = decodeURIComponent(url.pathname);
+      if (courtRoute.test(pathname)) return proxyCourt(req, res, pathname, url.search);
       const path = resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
       if (!path.startsWith(root + sep) || pathname.split('/').some(part => part.startsWith('.'))) {
         res.writeHead(404);
