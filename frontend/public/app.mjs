@@ -1,4 +1,6 @@
 import { characters, perspectives, judgeRoleMapping, speakers, createState, advance, resolveAppeal, exportPlan, script } from './hearing.mjs';
+import { benchMarkup } from './judges.mjs';
+import { avatarMarkup, setAvatarState } from './avatars.mjs';
 
 const $ = selector => document.querySelector(selector);
 let state = createState();
@@ -19,30 +21,19 @@ function escape(value) {
 
 function sceneMarkup() {
   return `<img class="scene-background" src="/art/chamber.svg" alt="" width="1440" height="1000">
-    ${characters.map((character, index) => `<div class="judge" data-character="${character.id}" role="img" aria-label="Panel member ${index + 1}, ${character.id === 'woman' ? 'adapted costume and original portrait' : 'supplied Capcom reference artwork'}. Perspective not assigned."><img class="judge-figure" src="${character.asset}" alt="" width="360" height="650"></div>`).join('')}
-    <div class="bench-front" aria-hidden="true"></div>
-    <div class="judge-markers" aria-label="The panel’s perspectives, not yet assigned to individual characters"><span class="panel-legend">Panel perspectives · artwork unassigned</span>${perspectives.map(perspective => `<div class="judge-marker" role="group" data-perspective="${perspective}" aria-label="${perspective}: listening"><strong>${perspective}</strong><small>Listening</small></div>`).join('')}</div>
+    ${benchMarkup()}
+    
+    <div class="judge-markers" aria-label="The bench: Justice Arata on cost, Justice Vale on feasibility, Lord Justice Thorne on fairness"><span class="panel-legend">The bench</span>${["Cost","Feasibility","Fairness"].map(perspective => `<div class="judge-marker" role="group" data-perspective="${perspective}" aria-label="${perspective}: listening"><strong>${perspective}</strong><small>Listening</small></div>`).join('')}</div>
     <img class="room-foreground" src="/art/chamber-foreground.svg" alt="" width="1440" height="1000">
     <div class="advocate-spotlight left" aria-hidden="true"></div><div class="advocate-spotlight right" aria-hidden="true"></div>
-    <div class="advocate-mark left"><img src="/brands/openai.svg" alt="OpenAI, sample GPT advocate" width="64" height="64"></div>
-    <div class="advocate-mark right"><img src="/brands/claude.svg" alt="Claude, sample advocate" width="64" height="64"></div>`;
+    <div class="advocate-mark left" role="img" aria-label="GPT, sample advocate for Harshil">${avatarMarkup('gpt', 'left')}</div>
+    <div class="advocate-mark right" role="img" aria-label="Claude, sample advocate for Daksh">${avatarMarkup('claude', 'right')}</div>`;
 }
 
 $('#court-scene').innerHTML = sceneMarkup();
 $('#intro-scene').innerHTML = sceneMarkup();
 
-Promise.all(characters.map(async character => {
-  const response = await fetch(character.asset);
-  if (!response.ok) return;
-  const source = await response.text();
-  for (const scene of ['court-scene', 'intro-scene']) {
-    const prefix = `${scene}-${character.id}-`;
-    const markup = source.replace(/id="([^"]+)"/g, (_, id) => `id="${prefix}${id}"`).replace(/url\(#([^)]+)\)/g, (_, id) => `url(#${prefix}${id})`).replace(/href="#([^"]+)"/g, (_, id) => `href="#${prefix}${id}"`);
-    const host = $(`#${scene} [data-character="${character.id}"]`);
-    host.innerHTML = markup;
-    host.querySelector('svg').setAttribute('aria-hidden', 'true');
-  }
-})).catch(() => { $('#announcer').textContent = 'Character motion is unavailable. The hearing transcript remains available.'; });
+
 
 function startIntro() {
   introTimers.forEach(clearTimeout);
@@ -88,7 +79,7 @@ function setEntered(value) {
 function clearChoreography() {
   choreography.forEach(clearTimeout);
   choreography = [];
-  document.querySelectorAll('#court-scene .judge').forEach(judge => { judge.className = 'judge'; });
+  document.querySelectorAll('#court-scene .judge').forEach(judge => { judge.setAttribute('class', 'judge'); });
 }
 
 function showRuling(current) {
@@ -210,6 +201,7 @@ function render() {
   $('.court-stage').dataset.event = event.type;
   $('#harshil-state').textContent = event.speaker === 'harshil' ? (event.type === 'objection' ? 'Objecting' : 'Has the floor') : 'Listening';
   $('#daksh-state').textContent = event.speaker === 'daksh' ? (event.type === 'objection' ? 'Objecting' : 'Has the floor') : 'Listening';
+  for (const [side, owner] of [['left', 'harshil'], ['right', 'daksh']]) document.querySelectorAll(`.advocate-mark.${side} .advocate-avatar`).forEach(avatar => setAvatarState(avatar, event.speaker === owner ? (event.type === 'objection' ? 'objecting' : 'speaking') : event.type === 'verdict' ? 'pleased' : 'idle'));
   $('#session-label').textContent = state.complete ? 'THE CASE IS CLOSED' : awaiting ? 'AWAITING THE OWNERS’ DECISION' : 'THE COURT IS IN SESSION';
   const moment = $('#stage-moment');
   moment.hidden = !['objection', 'ruling', 'deadlock', 'appeal', 'verdict'].includes(event.type);

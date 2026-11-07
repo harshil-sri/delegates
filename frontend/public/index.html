@@ -7,7 +7,10 @@
   <meta name="description" content="Two advocates. Three perspectives. One way forward. An original, interactive courtroom demo where disagreement becomes a shared plan.">
   <title>Delegates · The Court of Collaboration</title>
   <link rel="icon" href="/art/seal.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts.css">
   <link rel="stylesheet" href="/courtroom.css">
+  <link rel="stylesheet" href="/judges.css">
+  <link rel="stylesheet" href="/avatars.css">
   <link rel="preload" href="/art/chamber.svg" as="image">
   <script type="module" src="/app.mjs"></script>
 </head>
@@ -23,6 +26,7 @@
       <h1>The case<br><em>is called.</em></h1>
       <p class="intro-description">Harshil &amp; Daksh. One weekend. One shared plan.</p>
       <button id="enter-court" class="primary-button">Enter Court <span aria-hidden="true">↗</span></button>
+      <a class="live-link intro-live" href="/court.html">Or watch the live Switch case <span aria-hidden="true">↗</span></a>
       <p class="intro-note">An offline, scripted hearing. No account required.</p>
     </main>
     <footer class="intro-footer"><span id="intro-beat">01 / The threshold</span><span>Two advocates. Three perspectives. One plan.</span><span class="demo-tag">OFFLINE DEMO</span></footer>
@@ -32,11 +36,11 @@
     <header class="app-header">
       <a class="brand" href="/" aria-label="Delegates home"><img src="/art/seal.svg" alt="" width="31" height="31"><span>delegates<span class="brand-dot">.</span></span></a>
       <span class="header-place">The court of collaboration</span>
-      <nav class="header-actions" aria-label="About this demo"><span class="demo-tag">Offline · scripted demo</span><button id="about-button" class="quiet-button" aria-expanded="false" aria-controls="about-panel">About this hearing <span aria-hidden="true">↗</span></button></nav>
+      <nav class="header-actions" aria-label="About this demo"><a class="live-link" href="/court.html">Live court <span aria-hidden="true">↗</span></a><span class="demo-tag">Offline · scripted demo</span><button id="about-button" class="quiet-button" aria-expanded="false" aria-controls="about-panel">About this hearing <span aria-hidden="true">↗</span></button></nav>
     </header>
     <section id="about-panel" class="about-panel" hidden aria-label="About the courtroom">
       <div><p class="eyebrow">AN EXPERIMENT, NOT A LIVE HEARING</p><h2>Disagreement is a starting point.</h2><p>Two advocates negotiate a plan for Harshil and Daksh. The bench examines fairness, feasibility, and cost. If four rounds cannot settle an issue, the people decide.</p></div>
-      <div><h3>What you are seeing</h3><p>This is a scripted frontend demo. The messages, model identities, and three perspectives are sample data, not connected agents. The room is not connected to Switch. Your appeal choice stays in this browser session and does not represent authenticated approval.</p><p>Local reference-art preview: Japanese and British judge artwork from The Great Ace Attorney Chronicles © CAPCOM, via the supplied Creative Uncut sheets. The woman judge combines an original portrait with an adapted reference costume. These assets are not licensed for public distribution. The panel’s character-to-perspective mapping is unassigned. Three perspectives do not imply three running agents. Provider marks identify sample advocates, without sponsorship or endorsement.</p><button id="replay-intro" class="text-button">Replay the entrance <span aria-hidden="true">↗</span></button></div>
+      <div><h3>What you are seeing</h3><p>This is a scripted frontend demo. The messages, model identities, and three perspectives are sample data, not connected agents. The room is not connected to Switch. Your appeal choice stays in this browser session and does not represent authenticated approval.</p><p>The bench is original Delegates artwork: Justice Sōjirō Arata weighs cost on his soroban, Justice Imani Vale presides on feasibility with her pocket watch and gavel, and Lord Justice Barnaby Thorne weighs fairness on his scales. Three perspectives do not imply three running agents. Provider marks identify sample advocates, without sponsorship or endorsement. <a class="text-button" href="/bench.html">Meet the bench <span aria-hidden="true">↗</span></a></p><button id="replay-intro" class="text-button">Replay the entrance <span aria-hidden="true">↗</span></button></div>
     </section>
 
     <nav class="mobile-tabs" aria-label="Courtroom views"><button data-tab="court" aria-pressed="true">The court</button><button data-tab="chat" aria-pressed="false">Switch room <span id="mobile-count">0</span></button><button data-tab="docket" aria-pressed="false">The docket</button></nav>

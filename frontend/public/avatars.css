@@ -1,0 +1,41 @@
+.advocate-avatar{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:1;--lift:0px}
+.advocate-avatar svg{position:relative;width:100%;height:100%;overflow:visible;image-rendering:pixelated;filter:drop-shadow(0 .35em .1em #0006) drop-shadow(0 0 0 #fff0);transform:translateY(var(--lift));z-index:1}
+.av-shadow{position:absolute;bottom:2%;left:22%;right:22%;height:7%;border-radius:50%;background:radial-gradient(#000a,transparent 70%);animation:av-shadow 2.4s steps(4) infinite}
+.av-eyes{opacity:0}.av-eyes-rest{opacity:1}
+.av-legs,.av-arm,.av-body,.av-eyes,.av-antenna,.av-mouth{transform-box:fill-box}
+.advocate-avatar svg{animation:av-bob 2.4s steps(4) infinite}
+.advocate-avatar[data-side="right"] svg{animation-delay:-1.2s}
+.advocate-avatar:not(.is-speaking):not(.is-objecting) .av-eyes-rest{animation:av-blink 4.8s steps(1) infinite}
+.av-bubble{position:absolute;top:-6%;right:-4%;z-index:2;font:700 clamp(12px,1.4vw,20px)/1 var(--mono,monospace);padding:.35em .55em;border:2px solid currentColor;background:#f6eedd;color:#1a1310;opacity:0;transform:translateY(6px) scale(.6);transition:opacity .2s,transform .25s cubic-bezier(.3,1.6,.5,1);image-rendering:pixelated}
+.advocate-avatar[data-side="left"] .av-bubble{right:auto;left:-4%}
+.av-bubble-object{background:#c2452d;color:#fff;border-color:#fff}
+
+/* Speaking: eyes open, mouth chatters, arms gesture. */
+.advocate-avatar.is-speaking .av-eyes-rest{opacity:0}.advocate-avatar.is-speaking .av-eyes-open{opacity:1}
+.advocate-avatar.is-speaking .av-mouth{animation:av-chatter .28s steps(1) infinite}
+.advocate-avatar.is-speaking .av-arm-l{animation:av-wave .56s steps(2) infinite}
+.advocate-avatar.is-speaking svg{animation:av-talk .56s steps(2) infinite}
+/* Thinking: eyes up, three dots. */
+.advocate-avatar.is-thinking .av-eyes-rest{transform:translateY(-.5px)}
+.advocate-avatar.is-thinking .av-bubble-think{opacity:1;transform:none;animation:av-dots 1.2s steps(3) infinite}
+.advocate-avatar.is-thinking .av-antenna{animation:av-antenna .9s steps(2) infinite}
+/* Objecting: shake, arms up, red exclamation. */
+.advocate-avatar.is-objecting svg{animation:av-shake .32s steps(2) 4}
+.advocate-avatar.is-objecting .av-arm{transform:translateY(-2px)}
+.advocate-avatar.is-objecting .av-eyes-rest{opacity:0}.advocate-avatar.is-objecting .av-eyes-open{opacity:1}
+.advocate-avatar.is-objecting .av-bubble-object{opacity:1;transform:none}
+/* Pleased: happy eyes and a hop. */
+.advocate-avatar.is-pleased .av-eyes-rest{opacity:0}.advocate-avatar.is-pleased .av-eyes-happy{opacity:1}
+.advocate-avatar.is-pleased svg{animation:av-hop .5s steps(3) 2}
+
+@keyframes av-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3%)}}
+@keyframes av-shadow{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.88)}}
+@keyframes av-blink{0%,92%{opacity:1}94%{opacity:0}96%,100%{opacity:1}}
+@keyframes av-chatter{0%{transform:scaleY(1)}50%{transform:scaleY(2.2)}}
+@keyframes av-wave{0%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+@keyframes av-talk{0%{transform:translateY(0)}50%{transform:translateY(-2%)}}
+@keyframes av-dots{0%{clip-path:inset(0 66% 0 0)}33%{clip-path:inset(0 33% 0 0)}66%{clip-path:inset(0 0 0 0)}}
+@keyframes av-antenna{0%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+@keyframes av-shake{0%{transform:translateX(-3%)}50%{transform:translateX(3%)}}
+@keyframes av-hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-10%)}}
+@media(prefers-reduced-motion:reduce){.advocate-avatar *{animation:none!important}}
