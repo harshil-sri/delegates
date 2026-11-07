@@ -5,6 +5,7 @@
 import { readFileSync, writeFileSync, renameSync, existsSync } from 'node:fs';
 import { open, readFile, writeFile, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { createServer } from 'node:http';
 import { loadConfig, runtime, sleep } from '../src/runtime.mjs';
 import { loadCourtConfig } from '../src/court-runtime.mjs';
 import { SwitchClient } from '../src/switch-client.mjs';
@@ -43,6 +44,22 @@ if (process.argv.includes('--reset')) store.save(freshTrip());
 const clients = Object.fromEntries(['lead', 'creator', 'clerk'].map(role => [role, new SwitchClient(config, config.actors[role])]));
 const room = new TripRoom({ config, principals: court.principals, names, clients, store, provider: runTripCodex });
 
+// Read-only room feed for the website (proxied by frontend/server.mjs at /api/room).
+let feed = [];
+const p = court.principals;
+const senderRoles = new Map([
+  [p.agents.lead.sender, 'lead'], [p.agents.creator.sender, 'creator'], [p.clerk.sender, 'clerk'],
+  [p.humans.lead.sender, 'human-lead'], [p.humans.creator.sender, 'human-creator'],
+]);
+const feedServer = createServer((req, res) => {
+  if (req.method !== 'GET' || !req.url.startsWith('/api/room')) { res.writeHead(404).end(); return; }
+  res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
+  res.end(JSON.stringify({ live: true, names, messages: feed }));
+});
+await new Promise((done, failed) => { feedServer.once('error', failed); feedServer.listen(court.webPort ?? 18802, '127.0.0.1', done); })
+  .then(() => console.log(`Website room feed on http://127.0.0.1:${court.webPort ?? 18802}/api/room`))
+  .catch(error => console.error(`Website room feed is off: ${error.message}`));
+
 const clerk = clients.clerk;
 let seen = new Set(existsSync(seenPath) ? JSON.parse(readFileSync(seenPath, 'utf8')) : (await clerk.context()).map(m => m.id));
 // Also mark trip-mode messages as handled for the court listener, so starting
@@ -69,6 +86,7 @@ try {
   while (!stopping) {
     try {
       const messages = await clerk.context();
+      feed = messages.slice(-300).map(m => ({ id: m.id, role: senderRoles.get(m.sender) ?? 'other', body: m.body, timestamp: m.timestamp ?? null }));
       for (const message of messages) {
         if (seen.has(message.id)) continue;
         seen.add(message.id);
@@ -83,5 +101,6 @@ try {
 } finally {
   saveSeen();
   await unlink(lockPath).catch(() => {});
+  feedServer.close();
   console.log('Trip mode stopped.');
 }

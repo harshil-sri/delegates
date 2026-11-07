@@ -15,7 +15,7 @@ const types = {
   '.js': 'text/javascript; charset=utf-8',
 };
 
-const courtRoute = /^\/api\/(health|cases|cases\/C[A-Z0-9_-]{1,31}(\/(court|stream|events)|\/boards\/[1-9]\d*\/(preview|script-preview|manifest|export|script|receipt))?)$/;
+const courtRoute = /^\/api\/(health|room|cases|cases\/C[A-Z0-9_-]{1,31}(\/(court|stream|events)|\/boards\/[1-9]\d*\/(preview|script-preview|manifest|export|script|receipt))?)$/;
 
 export function createFrontendServer({
   courtPort,

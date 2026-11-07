@@ -5,6 +5,7 @@ import { demoVoices } from './demo-voices.mjs';
 
 const $ = selector => document.querySelector(selector);
 const isDemo = new URLSearchParams(window.location.search).get('demo') === '1';
+const isLive = new URLSearchParams(window.location.search).get('live') === '1';
 let state = createState();
 let playing = false;
 let playbackTimer;
@@ -83,7 +84,7 @@ function startIntro() {
 }
 
 function setEntered(value) {
-  if (!isDemo && value) {
+  if (!isDemo && !isLive && value) {
     window.location.href = getCourtUrl();
     return;
   }
@@ -384,6 +385,11 @@ reducedMotion.addEventListener('change', () => {
 window.addEventListener('resize', checkDialogueOverflow);
 document.fonts.ready.then(checkDialogueOverflow);
 document.addEventListener('visibilitychange', () => { if (document.hidden) setPlaying(false); });
-advance(state);
-render();
-startIntro();
+if (isLive) {
+  setEntered(true);
+  import('./live-room.mjs').then(({ startLive }) => startLive());
+} else {
+  advance(state);
+  render();
+  startIntro();
+}
