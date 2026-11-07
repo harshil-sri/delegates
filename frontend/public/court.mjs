@@ -108,6 +108,9 @@ function beatLine(beat) {
     case 'appeal': return plain(beat.question) || 'Only the owner of this brief can decide.';
     case 'overruled': return beat.agentOverreach ? 'An advocate tried to make a human decision. The advocate is not the client.' : beat.reason;
     case 'deliberating': return `${speakerName(beat.speaker)} is thinking.`;
+    case 'summons': return beat.target === 'creator' ? 'The clerk calls the creator’s AI to review the draft.' : 'The clerk calls the lead’s AI to propose a storyboard.';
+    case 'procedure': return 'The AIs may argue. Only the owners may decide.';
+    case 'filing': return 'A new case is open in the Switch room.';
     case 'recess': case 'turn_failed': return beat.reason;
     default: return clean(beat.text) || kindLabel[beat.type] || beat.kind;
   }
@@ -917,6 +920,7 @@ function motion() {
 }
 
 // ── Main startup ────────────────────────────────────────────────────────────
+if (new URLSearchParams(location.search).has('film')) document.documentElement.classList.add('film');
 const CASE_REGEX = /^C[A-Z0-9_-]{1,31}$/;
 
 async function init() {
