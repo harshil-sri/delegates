@@ -922,7 +922,7 @@ const CASE_REGEX = /^C[A-Z0-9_-]{1,31}$/;
 async function init() {
   const params = new URLSearchParams(location.search);
   const rawCase = params.get('case');
-  const isExplicitReplay = params.get('replay') === '1' || params.get('replay') === 'true';
+  const isExplicitReplay = !/^(localhost|127.0.0.1)$/.test(location.hostname) || params.get('replay') === '1' || params.get('replay') === 'true';
 
   if (rawCase !== null && !CASE_REGEX.test(rawCase)) {
     resetSession();
