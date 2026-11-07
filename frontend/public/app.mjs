@@ -3,6 +3,7 @@ import { benchMarkup } from './judges.mjs';
 import { avatarMarkup, setAvatarState } from './avatars.mjs';
 
 const $ = selector => document.querySelector(selector);
+const isDemo = new URLSearchParams(window.location.search).get('demo') === '1';
 let state = createState();
 let playing = false;
 let playbackTimer;
@@ -15,13 +16,40 @@ let introTimers = [];
 let lastRulingId;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
+if (isDemo) {
+  const note = $('#intro-note');
+  if (note) note.textContent = 'An offline, scripted hearing. No account required.';
+  const tag = $('#intro-tag');
+  if (tag) tag.textContent = 'OFFLINE DEMO';
+  const link = $('#demo-link');
+  if (link) {
+    link.href = '/court.html';
+    link.innerHTML = 'Or watch the live Switch case <span aria-hidden="true">↗</span>';
+  }
+}
+
 function escape(value) {
   return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 }
 
-function sceneMarkup() {
+function getCourtUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const target = new URL('/court.html', window.location.href);
+  const caseId = params.get('case');
+  if (caseId) target.searchParams.set('case', caseId);
+  return target.pathname + target.search;
+}
+
+function sceneMarkup(prefix = '') {
+  let bench = benchMarkup();
+  if (prefix) {
+    bench = bench
+      .replace(/id="([^"]+)"/g, (_, id) => `id="${prefix}-${id}"`)
+      .replace(/url\(#([^)]+)\)/g, (_, id) => `url(#${prefix}-${id})`)
+      .replace(/href="#([^"]+)"/g, (_, id) => `href="#${prefix}-${id}"`);
+  }
   return `<img class="scene-background" src="/art/chamber.svg" alt="" width="1440" height="1000">
-    ${benchMarkup()}
+    ${bench}
     
     <div class="judge-markers" aria-label="The bench: Justice Arata on cost, Justice Vale on feasibility, Lord Justice Thorne on fairness"><span class="panel-legend">The bench</span>${["Cost","Feasibility","Fairness"].map(perspective => `<div class="judge-marker" role="group" data-perspective="${perspective}" aria-label="${perspective}: listening"><strong>${perspective}</strong><small>Listening</small></div>`).join('')}</div>
     <img class="room-foreground" src="/art/chamber-foreground.svg" alt="" width="1440" height="1000">
@@ -30,8 +58,8 @@ function sceneMarkup() {
     <div class="advocate-mark right" role="img" aria-label="Claude, sample advocate for Daksh">${avatarMarkup('claude', 'right')}</div>`;
 }
 
-$('#court-scene').innerHTML = sceneMarkup();
-$('#intro-scene').innerHTML = sceneMarkup();
+$('#court-scene').innerHTML = sceneMarkup('court');
+$('#intro-scene').innerHTML = sceneMarkup('intro');
 
 
 
@@ -53,6 +81,10 @@ function startIntro() {
 }
 
 function setEntered(value) {
+  if (!isDemo && value) {
+    window.location.href = getCourtUrl();
+    return;
+  }
   entered = value;
   $('#intro').hidden = value;
   $('#intro').inert = value;
@@ -95,9 +127,11 @@ function showRuling(current) {
     figure.classList.add(current.assessments ? 'is-assessing' : current.speaker === 'panel' ? 'is-speaking' : 'is-listening');
   });
   if (!current.assessments) return;
+  const perspectiveJudgeMapping = { Fairness: 'thorne', Feasibility: 'vale', Cost: 'arata' };
   perspectives.forEach((perspective, index) => {
+    const judgeId = perspectiveJudgeMapping[perspective];
     const characterId = judgeRoleMapping[perspective];
-    const figure = characterId ? $(`#court-scene [data-character="${characterId}"]`) : null;
+    const figure = (judgeId ? $(`#court-scene [data-judge="${judgeId}"]`) : null) || (characterId ? $(`#court-scene [data-character="${characterId}"]`) : null);
     const marker = $(`#court-scene [data-perspective="${perspective}"]`);
     const assessment = current.assessments[perspective];
     if (!assessment) return;
@@ -265,7 +299,12 @@ function download() {
 
 $('#enter-court').addEventListener('click', () => setEntered(true));
 $('#skip-intro').addEventListener('click', () => setEntered(true));
-$('.skip-link').addEventListener('click', () => { if (!entered) setEntered(true); });
+$('.skip-link').addEventListener('click', event => {
+  if (!entered) {
+    if (!isDemo) event.preventDefault();
+    setEntered(true);
+  }
+});
 $('#replay-intro').addEventListener('click', () => setEntered(false));
 $('#about-button').addEventListener('click', () => {
   const panel = $('#about-panel');

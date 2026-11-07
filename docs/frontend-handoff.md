@@ -1,6 +1,23 @@
 # Courtroom frontend handoff
 
-## Latest scope: judges only
+## Current integration work
+
+The default entrance connects to the real read-only court at
+`/court.html`. The earlier scripted hearing remains at `/?demo=1`; recorded
+rehearsal playback is a separate mode at `/court.html?replay=1`. The Node frontend
+server proxies the clerk API and event stream on the same origin. Actual human
+decisions still come from the bound accounts in Switch, never frontend buttons.
+
+The integration builds on Daksh's `judges-redesign` branch, including its existing
+illustrated bench, advocate avatars and live case view. No further art redesign
+is part of this task. See [integration verification](integration-verification.md)
+for current commands, verification evidence and live-service limitations.
+
+The sections below record earlier frontend/art passes. Their offline-only scope,
+branch status, active asset claims and old screenshots are historical, not the
+current integration contract or a claim of visual approval.
+
+## Historical scope: judges only
 
 The user liked the cinematic intro but not yet the dashboard. This pass changes
 only shared judge assets, SVG reference namespacing, and provenance/accessibility

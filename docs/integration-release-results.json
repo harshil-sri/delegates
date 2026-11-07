@@ -1,0 +1,87 @@
+{
+  "timestamp": "2026-11-07T15:38:45Z",
+  "nodeVersion": "v24.21.0",
+  "scope": "real local engine + proxy + Chromium synthetic identities; NOT real Switch/provider",
+  "commands": {
+    "unitTestRun1": {
+      "command": "npm test",
+      "exitStatus": 0,
+      "expected": 113,
+      "actual": 113,
+      "passed": 113,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 927.38064
+    },
+    "unitTestRun2": {
+      "command": "npm test",
+      "exitStatus": 0,
+      "expected": 113,
+      "actual": 113,
+      "passed": 113,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 935.898213
+    },
+    "syntaxCheck": {
+      "command": "npm run check",
+      "exitStatus": 0,
+      "status": "passed",
+      "files": [
+        "frontend/public/app.mjs",
+        "frontend/public/hearing.mjs",
+        "frontend/server.mjs",
+        "frontend/public/court.mjs",
+        "frontend/public/judges.mjs",
+        "frontend/public/avatars.mjs"
+      ]
+    },
+    "build": {
+      "command": "npm run build",
+      "exitStatus": 0,
+      "status": "passed",
+      "output": "Static courtroom demo built in dist/. No backend or secrets included."
+    },
+    "liveBrowserIntegration": {
+      "command": "CHROMIUM_EXECUTABLE=/home/harshil/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome QA_MODULES=/tmp/opencode/delegates-qa/package.json npm run test:integration:browser",
+      "exitStatus": 0,
+      "expected": 16,
+      "actual": 16,
+      "passed": 16,
+      "failed": 0,
+      "axeDesktopViolations": 0,
+      "axeMobileViolations": 0,
+      "unexpectedNetworkErrors": 0,
+      "unexpectedConsoleErrors": 0,
+      "checks": [
+        { "id": 1, "name": "1. Initial connection shows starting clerk and unadopted human ADOPT commands", "passed": true },
+        { "id": 2, "name": "2. Ingestion live SSE update and live brief adoption in room", "passed": true },
+        { "id": 3, "name": "3. Board proposal check failure triggers objection and veto marks", "passed": true },
+        { "id": 4, "name": "4. Advocate amendment request pauses court in recess until authenticated owner decision", "passed": true },
+        { "id": 5, "name": "5. Passing storyboard passes checks, gates exports, requires both owner approvals", "passed": true },
+        { "id": 6, "name": "6. Dedup perform by beat id and avoid duplicate history effects on repeated snapshot", "passed": true },
+        { "id": 7, "name": "7. 404 missing case and invalid case query show unavailable without silent replay C01", "passed": true },
+        { "id": 8, "name": "8. Fault injection: HTTP 500 server error shows unavailable + retry, strictly NO replay", "passed": true },
+        { "id": 9, "name": "9. Fault injection: Malformed JSON and schema version mismatch show unavailable + retry", "passed": true },
+        { "id": 10, "name": "10. Unreachable clerk falls back to recorded replay with clear labeling and timer controls", "passed": true },
+        { "id": 11, "name": "11. Retry while replaying resets session lifecycle and does not accumulate event handlers", "passed": true },
+        { "id": 12, "name": "12. Explicit ?replay=1 enters replay directly", "passed": true },
+        { "id": 13, "name": "13. Runtime reduced motion cleanup stops court animations and keeps reveals visible", "passed": true },
+        { "id": 14, "name": "14. Responsive narrow mobile viewport (375x667) without horizontal overflow", "passed": true },
+        { "id": 15, "name": "15. Axe accessibility audit on stable desktop and mobile live views", "passed": true },
+        { "id": 16, "name": "16. Root / navigation includes live court link or entry", "passed": true }
+      ]
+    }
+  },
+  "summary": {
+    "nodeVersion": "v24.21.0",
+    "unitTestCounts": { "expected": 113, "run1": 113, "run2": 113, "failed": 0 },
+    "syntaxCheck": "passed",
+    "buildStatus": "passed",
+    "liveBrowserCounts": { "expected": 16, "actual": 16, "passed": 16, "failed": 0 },
+    "axeViolations": { "desktop": 0, "mobile": 0 },
+    "unexpectedErrors": { "network": 0, "console": 0 },
+    "frontendUnitSubsetNote": "Frontend unit tests (42) are a subset already included within the 113 total; not double counted",
+    "legacyVerification": "independent execution passed: 22/22 browser and 3/3 intro checks; see docs/integration-legacy-verification.json"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-11-07T15:37:43.349Z",
+  "nodeVersion": "v24.21.0",
+  "baseUrl": "http://127.0.0.1:45211",
+  "chromiumExecutable": "/home/harshil/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome",
+  "commands": [
+    {
+      "command": "node test/frontend-browser.mjs",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 71926
+    },
+    {
+      "command": "node test/frontend-v11-browser.mjs",
+      "status": "passed",
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "durationMs": 10661
+    }
+  ],
+  "status": "passed",
+  "counts": {
+    "frontendBrowser": {
+      "total": 22,
+      "passed": 22,
+      "failed": 0,
+      "axeViolationsCount": 0
+    },
+    "frontendV11Browser": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "combined": {
+      "total": 25,
+      "passed": 25,
+      "failed": 0
+    }
+  },
+  "failures": []
+}

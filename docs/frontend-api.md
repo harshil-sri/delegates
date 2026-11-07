@@ -8,6 +8,13 @@ and the server rejects anything except `GET`/`HEAD` with `405`.
 Base URL: `http://localhost:18802` (loopback only; the `Host` header must be
 `localhost:18802` or `127.0.0.1:18802`).
 
+Default CORS origins: `http://localhost:5173`, `http://127.0.0.1:5173`,
+`http://localhost:3000`, `http://127.0.0.1:3000` (configurable via
+`CVC_FRONTEND_ORIGINS`).
+
+The frontend server (`frontend/server.mjs`) proxies `/api/*` to the backend.
+See [integration verification](integration-verification.md) for proxy behavior.
+
 ## CORS
 
 These origins can read the API from a dev server by default:
@@ -42,8 +49,10 @@ court.addEventListener('beat', e => animate(JSON.parse(e.data)));      // one co
 court.addEventListener('ingestion', e => banner(JSON.parse(e.data)));  // paused / live
 ```
 
-On connect you receive one `court` event. After that you get `beat` events
-(each with `id` = event ID) followed by a fresh `court`. The browser resumes
+On connect you receive a current `court` event with its persisted event cursor
+as the SSE `id`. A resumed connection replays missed `beat` events first, then
+one current `court`, even if no new court events occurred. After that you get
+`beat` events (each with `id` = event ID) followed by a fresh `court`. The browser resumes
 automatically with `Last-Event-ID`, receiving only the beats you missed. A
 heartbeat comment is sent every 15 s. Up to 16 concurrent streams are allowed.
 

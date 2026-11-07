@@ -293,7 +293,7 @@ export class CourtEngine {
     const board = state.boards.at(-1);
     return {...state,catalog:{version:state.catalog.version,sha256:digest(state.catalog),assets:state.catalog.assets.map(({bytes,...asset})=>asset)},stage:stage(state),currentApprovals:currentGrants(state),commands:{
       adopt:Object.fromEntries(roles.map(role=>[role,this.briefCommand(state,state.briefs[role].at(-1))])),
-      approve:state.currentBundle && board ? this.approvalCommand(state,board) : null,
+      approve:stage(state)==='AWAITING_APPROVALS' && state.currentBundle && board ? this.approvalCommand(state,board) : null,
       negotiate:state.negotiation?.status==='blocked'?this.command(`NEGOTIATE ${state.id}`):null,
       amendments:state.amendments.filter(item=>item.status==='pending').map(item=>({id:item.id,role:item.role,accept:this.command(`ACCEPT ${state.id} ${item.id} ${item.hash}`),decline:this.command(`DECLINE ${state.id} ${item.id} ${item.hash}`)}))
     }};

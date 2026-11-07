@@ -1,12 +1,15 @@
 import { createRequire } from 'node:module';
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
 const requireQA = createRequire(process.env.QA_MODULES || '/tmp/opencode/delegates-qa/package.json');
 const { chromium } = requireQA('playwright');
 const browser = await chromium.launch({ headless: true, ...(process.env.CHROMIUM_EXECUTABLE ? { executablePath: process.env.CHROMIUM_EXECUTABLE } : {}) });
 const base = process.env.BASE_URL || 'http://127.0.0.1:4173';
-const output = 'design-review/v1.1/implementation';
+const demoUrl = new URL('/?demo=1', base).href;
+const output = fileURLToPath(new URL('../design-review/v1.1/implementation', import.meta.url));
+const resultsPath = fileURLToPath(new URL('../docs/frontend-v11-browser-results.json', import.meta.url));
 const checks = [];
 const failures = [];
 await mkdir(output, { recursive: true });
@@ -28,7 +31,14 @@ try {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
     const page = await context.newPage();
     try {
-      await page.goto(base);
+      const defaultPage = await context.newPage();
+      await defaultPage.goto(base);
+      await defaultPage.locator('#skip-intro').click();
+      await defaultPage.waitForURL(url => url.pathname.includes('court.html'));
+      assert.equal(new URL(defaultPage.url()).pathname, '/court.html');
+      await defaultPage.close();
+
+      await page.goto(demoUrl);
       await page.waitForFunction(() => document.querySelector('#intro').classList.contains('is-running'));
       const animations = await page.locator('#intro').evaluate(el => el.getAnimations({ subtree: true }).map(animation => animation.animationName));
       assert.ok(animations.includes('camera-journey'));
@@ -54,7 +64,7 @@ try {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await context.newPage();
     try {
-      await page.goto(base);
+      await page.goto(demoUrl);
       await page.emulateMedia({ reducedMotion: 'reduce' });
       await page.waitForFunction(() => document.querySelector('#intro').dataset.beat === '3');
       assert.equal(await page.locator('#enter-court').isVisible(), true);
@@ -74,9 +84,9 @@ try {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
     const page = await context.newPage();
     try {
-      await page.goto(base);
+      await page.goto(demoUrl);
       await page.locator('#skip-intro').click();
-      await page.waitForFunction(() => document.querySelectorAll('#court-scene .judge svg').length === 3);
+      await page.waitForFunction(() => document.querySelectorAll('#court-scene .judge').length === 3);
       const metrics = await page.evaluate(() => {
         const stage = document.querySelector('.court-stage').getBoundingClientRect();
         return [...document.querySelectorAll('.advocate-caption')].map(el => el.getBoundingClientRect().bottom <= stage.bottom + 1);
@@ -94,6 +104,6 @@ try {
   });
 } finally {
   await browser.close();
-  await writeFile('docs/frontend-v11-browser-results.json', JSON.stringify({ checks, passed: checks.length - failures.length, failed: failures.length }, null, 2) + '\n');
+  await writeFile(resultsPath, JSON.stringify({ checks, passed: checks.length - failures.length, failed: failures.length }, null, 2) + '\n');
 }
 if (failures.length) process.exitCode = 1;

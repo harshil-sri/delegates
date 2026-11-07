@@ -1,0 +1,124 @@
+{
+  "startedAt": "2026-11-07T15:39:44.055Z",
+  "environment": {
+    "node": "v24.21.0",
+    "chromiumPath": "/home/harshil/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome",
+    "qaModules": "/tmp/opencode/delegates-qa/package.json"
+  },
+  "checks": [
+    {
+      "id": 1,
+      "name": "1. Initial connection shows starting clerk and unadopted human ADOPT commands",
+      "passed": true,
+      "durationMs": 5987
+    },
+    {
+      "id": 2,
+      "name": "2. Ingestion live SSE update and live brief adoption in room",
+      "passed": true,
+      "durationMs": 6022
+    },
+    {
+      "id": 3,
+      "name": "3. Board proposal check failure triggers objection and veto marks",
+      "passed": true,
+      "durationMs": 2461
+    },
+    {
+      "id": 4,
+      "name": "4. Advocate amendment request pauses court in recess until authenticated owner decision",
+      "passed": true,
+      "durationMs": 4517
+    },
+    {
+      "id": 5,
+      "name": "5. Passing storyboard passes checks, gates exports, requires both owner approvals",
+      "passed": true,
+      "durationMs": 6508
+    },
+    {
+      "id": 6,
+      "name": "6. Dedup perform by beat id and avoid duplicate history effects on repeated snapshot",
+      "passed": true,
+      "durationMs": 980
+    },
+    {
+      "id": 7,
+      "name": "7. 404 missing case and invalid case query show unavailable without silent replay C01",
+      "passed": true,
+      "durationMs": 8206
+    },
+    {
+      "id": 8,
+      "name": "8. Fault injection: HTTP 500 server error shows unavailable + retry, strictly NO replay",
+      "passed": true,
+      "durationMs": 234
+    },
+    {
+      "id": 9,
+      "name": "9. Fault injection: Malformed JSON and schema version mismatch show unavailable + retry",
+      "passed": true,
+      "durationMs": 266
+    },
+    {
+      "id": 10,
+      "name": "10. Unreachable clerk falls back to recorded replay with clear labeling and timer controls",
+      "passed": true,
+      "durationMs": 10774
+    },
+    {
+      "id": 11,
+      "name": "11. Retry while replaying resets session lifecycle and does not accumulate event handlers",
+      "passed": true,
+      "durationMs": 5088
+    },
+    {
+      "id": 12,
+      "name": "12. Explicit ?replay=1 enters replay directly",
+      "passed": true,
+      "durationMs": 252
+    },
+    {
+      "id": 13,
+      "name": "13. Runtime reduced motion cleanup stops court animations and keeps reveals visible",
+      "passed": true,
+      "durationMs": 554
+    },
+    {
+      "id": 14,
+      "name": "14. Responsive narrow mobile viewport (375x667) without horizontal overflow",
+      "passed": true,
+      "durationMs": 5336
+    },
+    {
+      "id": 15,
+      "name": "15. Axe accessibility audit on stable desktop and mobile live views",
+      "passed": true,
+      "durationMs": 12104
+    },
+    {
+      "id": 16,
+      "name": "16. Root / navigation includes live court link or entry",
+      "passed": true,
+      "durationMs": 316
+    }
+  ],
+  "networkErrors": [],
+  "consoleLogs": [],
+  "axeAudit": {
+    "desktop": {
+      "violations": [],
+      "passes": 44
+    },
+    "mobile": {
+      "violations": [],
+      "passes": 44
+    }
+  },
+  "completedAt": "2026-11-07T15:40:53.881Z",
+  "summary": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0
+  }
+}

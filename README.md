@@ -1,34 +1,35 @@
 # Creative Veto Court
 
-## Courtroom frontend demo
+## Integrated courtroom
 
-The illustrated Delegates frontend runs separately from the backend:
+The illustrated Delegates frontend runs via a custom Node HTTP server:
 
 ```sh
-npm run dev
+node frontend/server.mjs
 ```
 
-Open **http://127.0.0.1:4173/**. No install, account, Docker, API key, or live
-service is needed for this demo. Enter the court, then play or step through the
-sample hearing. A human appeal pauses playback until you choose a sample decision.
-The final plan and full hearing record can be downloaded as Markdown.
+Open **http://127.0.0.1:4173/**. From the cinematic intro, **Enter Court** or
+**Skip intro** opens `/court.html`, the read-only view of the backend case.
+The server proxies `/api` to `127.0.0.1:18802`; set `CVC_COURT_PORT` if the clerk
+uses another port. Starting the real clerk requires the Switch setup below.
 
-This is a **scripted frontend demo**, not a live Switch connection. It does not
-send messages, authenticate approvals, deploy services, or spend model credits.
-The existing backend below remains separate and unchanged.
+Without the backend, the court can play a clearly labelled recorded rehearsal.
+That mode is also available explicitly at `/court.html?replay=1`. A missing case
+is an error, not a reason to show another case's recording. The previous scripted
+weekend-build demo remains separately available at **`/?demo=1`**.
 
-See [the frontend handoff](docs/frontend-handoff.md) for controls, asset sources,
-testing, and future integration boundaries. `npm run build` produces `dist/`.
+This is a **read-only frontend**: it displays the court but never sends decisions.
+All approvals happen in the Switch/Mattermost room, from the bound human accounts.
+The frontend cannot grant consent or send an approval through HTTP.
 
-![Delegates courtroom with three judges, GPT and Claude advocates, a living docket, and a clearly labeled sample Switch room](design-review/final/court.png)
+See [integration verification](docs/integration-verification.md) for startup,
+test coverage and verification limits, and the [API contract](docs/frontend-api.md)
+for the backend view model and event stream. `npm run build` produces static files
+in `dist/`; a static host alone does not provide the API proxy.
 
-More views: [cinematic entrance](design-review/final/intro-revealed.png),
-[human appeal](design-review/final/appeal.png),
-[final verdict](design-review/final/verdict.png), and
-[mobile court](design-review/final/mobile-court.png).
-
-Verification: [Node tests](docs/frontend-test-results.md) and
-[browser, responsive, and accessibility checks](docs/frontend-browser-results.json).
+The source includes functional regression tests and browser runners. Historical
+screenshots in `design-review/final/` show an earlier design, not visual approval
+of the integrated application.
 
 ## Existing backend
 

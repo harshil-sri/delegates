@@ -1,672 +1,747 @@
 {
   "agents/creator-review.schema.json": {
-    "mtime": 1794005637.7977126,
+    "mtime": 1794063625.6393905,
     "ast_hash": "09fe2b014352a3033e823a149c16e2a7",
     "semantic_hash": ""
   },
   "agents/lead-board.schema.json": {
-    "mtime": 1794005637.7977126,
+    "mtime": 1794063625.6393905,
     "ast_hash": "4fa196df68ec1802f970547388b46b44",
     "semantic_hash": ""
   },
   "agents/spike-response.schema.json": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "bfaa5d131424bbe739c4142dbbbcb579",
     "semantic_hash": ""
   },
   "docs/clerk-listener-result.json": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9776423,
     "ast_hash": "3de89d998e83817b6caa16c043ce09b7",
     "semantic_hash": ""
   },
   "docs/court-advocate-listener-result.json": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9776423,
     "ast_hash": "50a72ce4e3e9ea692ad80bdc854d4f27",
     "semantic_hash": ""
   },
   "docs/court-clerk-listener-result.json": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9776423,
     "ast_hash": "eb8730c5e90ca05ac03bb5bcd40ea754",
     "semantic_hash": ""
   },
   "docs/court-engine-live-result.json": {
-    "mtime": 1794005637.8057175,
-    "ast_hash": "b29da9ed5c7a8be33eaa773a0de9b548",
+    "mtime": 1794063625.9776423,
+    "ast_hash": "2f1fd88685fde2eb5e3b861b938d73c5",
     "semantic_hash": ""
   },
   "docs/live-listener-result.json": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9818704,
     "ast_hash": "80ab68e88fd01c81caa5e1ed819b656f",
     "semantic_hash": ""
   },
   "docs/negotiation-live-result.json": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9818704,
     "ast_hash": "d3727d13d3b789cec629554cb3b2c010",
     "semantic_hash": ""
   },
   "docs/spike-result.json": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9818704,
     "ast_hash": "c67c08d42df0d094230debcf7dd6e440",
     "semantic_hash": ""
   },
   "frontend/build.mjs": {
-    "mtime": 1794006972.2769253,
+    "mtime": 1794063625.9818704,
     "ast_hash": "1310455593afc443827a4b01284b8233",
     "semantic_hash": ""
   },
   "frontend/public/app.mjs": {
-    "mtime": 1794048622.9560077,
-    "ast_hash": "1385d14f1acfdb56359f472a52be2cfe",
+    "mtime": 1794064420.5159612,
+    "ast_hash": "462ecf4707b0020e5cc1b3b5adc9f0b3",
     "semantic_hash": ""
   },
   "frontend/public/hearing.mjs": {
-    "mtime": 1794048622.9560077,
-    "ast_hash": "c4a526b4fbcd42413d0e420481781afd",
+    "mtime": 1794063626.0072393,
+    "ast_hash": "16a9d75a24b520478913e67555049a19",
     "semantic_hash": ""
   },
   "frontend/server.mjs": {
-    "mtime": 1794007051.507013,
-    "ast_hash": "6162d5d87a0351ae7e8a59ed111a5b15",
+    "mtime": 1794064168.3351116,
+    "ast_hash": "ac61c7fb1747d818665d9928914355bc",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1794006972.2769253,
-    "ast_hash": "7e4a47decef5286b593dc6c1148f0623",
+    "mtime": 1794064200.7686315,
+    "ast_hash": "a5b23b2597025ae9e853abc1eb63fe2b",
     "semantic_hash": ""
   },
   "scripts/check-clerk.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.019924,
     "ast_hash": "d233d5b505367ab4687a936a9c1b2d0b",
     "semantic_hash": ""
   },
   "scripts/check-engine.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.019924,
     "ast_hash": "7db0b5687c8901a56cfe7c87db57a353",
     "semantic_hash": ""
   },
   "scripts/check-listener.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.019924,
     "ast_hash": "22ddc7a1be956f09d9d2d0041d11860f",
     "semantic_hash": ""
   },
   "scripts/check-negotiation.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.019924,
     "ast_hash": "a0ec81de402f48758a0a41f1836ecedf",
     "semantic_hash": ""
   },
   "scripts/export-spike-proof.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.019924,
     "ast_hash": "ce9e690a927eb9a3423470ed1e2c6c93",
     "semantic_hash": ""
   },
   "scripts/init-env.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "5e86c61aa4e15f5c99e1db61951292aa",
     "semantic_hash": ""
   },
   "scripts/listen.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "6300f81acec4160e12ebd1b2edee9aab",
     "semantic_hash": ""
   },
   "scripts/run-spike.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "3aaf159afa907e5b45c0c0d536172759",
     "semantic_hash": ""
   },
   "scripts/setup-engine.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "25692602e780b47033814b6296b28192",
     "semantic_hash": ""
   },
   "scripts/setup-room.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "a22dde8a3af9ff738028f4906a0aadb8",
     "semantic_hash": ""
   },
   "scripts/start-stack.ps1": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "5ac24ca1c65df655e889f0e7049985bd",
     "semantic_hash": ""
   },
   "scripts/start-workers.ps1": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "0f4b471a51762773f527dbaa80a19fe5",
     "semantic_hash": ""
   },
   "scripts/status.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "07b0fc525524789634ff1d8765662c44",
     "semantic_hash": ""
   },
   "scripts/stop-workers.ps1": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "613764818886e18f239c0e0fad88e2cd",
     "semantic_hash": ""
   },
   "scripts/verify-receipt.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "9bd70b026801b3a41ab3682f3b79c9d2",
     "semantic_hash": ""
   },
   "src/advocate.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "784d0200c752791c6c97ed9bb8843d47",
     "semantic_hash": ""
   },
   "src/codex-provider.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "fdd992530c5e662f10c94f2c86cc88a2",
     "semantic_hash": ""
   },
   "src/court-engine.mjs": {
-    "mtime": 1794005637.8097198,
-    "ast_hash": "ec4c72b92767144c33377dc370eb5733",
+    "mtime": 1794064718.9311528,
+    "ast_hash": "e2a4798c1e44fdec79a05a3c4466acc8",
     "semantic_hash": ""
   },
   "src/court-http.mjs": {
-    "mtime": 1794005637.8097198,
-    "ast_hash": "6727c3048bec0141b9f92abd96e90061",
+    "mtime": 1794064810.6469219,
+    "ast_hash": "42b3734b0b4eda395f89053251352900",
     "semantic_hash": ""
   },
   "src/court-page.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "e732bc65ff83753d4d62578cade30ce9",
     "semantic_hash": ""
   },
   "src/court-runtime.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "dc97c9f4e1899ce03cff88edc58e111f",
     "semantic_hash": ""
   },
   "src/court-schema.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "dca98f6794251d57ee294b53950d10f8",
     "semantic_hash": ""
   },
   "src/court-view.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "d669bf3cc34e6fe9db1f1c2f7b892521",
     "semantic_hash": ""
   },
   "src/negotiation-worker.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "5e9eb57d997d08076b482180013786d0",
     "semantic_hash": ""
   },
   "src/negotiation.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "ee0934fdcc13abd87c9e10e7d06571cf",
     "semantic_hash": ""
   },
   "src/receipt-verify.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "8eb7be280ed625cd4dbd12a193134406",
     "semantic_hash": ""
   },
   "src/room-worker.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "695e0cd244fe8f71df60bb306cae44a4",
     "semantic_hash": ""
   },
   "src/runtime.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "df950fc3d47795b2cb1873eaae620da6",
     "semantic_hash": ""
   },
   "src/storyboard.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "7b8651f72dd0de7c70718841bad4831a",
     "semantic_hash": ""
   },
   "src/switch-client.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "52fc357e417f8237bb6e322fe5a9513d",
     "semantic_hash": ""
   },
   "src/switch-identities.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "fae95252ca1bf3e20539386303b116dc",
     "semantic_hash": ""
   },
   "test/court-engine.test.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "7cfef7c3ddd145881caf05d0e6fa137a",
     "semantic_hash": ""
   },
   "test/court-fixture.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "7a64eda118baa9dcdffc9c5db27161a5",
     "semantic_hash": ""
   },
   "test/court-http.test.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "532d1fd1f56fb8f96249f97fad4e6060",
     "semantic_hash": ""
   },
   "test/court-runtime.test.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.024152,
     "ast_hash": "e30784fa3d1db8176d37d03a70144f06",
     "semantic_hash": ""
   },
   "test/frontend-hearing.test.mjs": {
-    "mtime": 1794044275.0128176,
-    "ast_hash": "e1ad5028eaffae8b64e32db8ffe8aa85",
+    "mtime": 1794063626.0283802,
+    "ast_hash": "9469bf686253b9929c928d3473c1faec",
     "semantic_hash": ""
   },
   "test/frontend-server.test.mjs": {
-    "mtime": 1794009345.7584522,
+    "mtime": 1794063626.0283802,
     "ast_hash": "45c397ecb469f9daa3676b88b963c657",
     "semantic_hash": ""
   },
   "test/hardening.test.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.0283802,
     "ast_hash": "deaae637701491965e63a88215d76ffa",
     "semantic_hash": ""
   },
   "test/negotiation.test.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.0283802,
     "ast_hash": "892fea9fe4c66d363281b97213620799",
     "semantic_hash": ""
   },
   "test/switch-client.test.mjs": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.0283802,
     "ast_hash": "42d2d6f74663862d38e2103397c0da36",
     "semantic_hash": ""
   },
   ".plans/DESIGN.md": {
-    "mtime": 1794042695.4828992,
+    "mtime": 1794063625.6393905,
     "ast_hash": "a9f44d41d445f430d7bbb4174c305997",
     "semantic_hash": ""
   },
   ".plans/PRODUCT.md": {
-    "mtime": 1794044555.0245392,
+    "mtime": 1794063625.6393905,
     "ast_hash": "609d8ef32b94db71cab4857862c20164",
     "semantic_hash": ""
   },
   ".plans/courtroom-frontend-spec.md": {
-    "mtime": 1794008945.1505435,
+    "mtime": 1794063625.6393905,
     "ast_hash": "9b5f59e54445f5ef83deaf1dcc395cde",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794009173.8402681,
-    "ast_hash": "e425137bc120a446e7862e9a062a739a",
+    "mtime": 1794064389.786375,
+    "ast_hash": "a43b84b359e0d0283465422f220f782b",
     "semantic_hash": ""
   },
   "agents/creator-negotiation.md": {
-    "mtime": 1794005637.7977126,
+    "mtime": 1794063625.6393905,
     "ast_hash": "c3ee5e3b82355ce0f8746ee93f4c05ef",
     "semantic_hash": ""
   },
   "agents/creator.md": {
-    "mtime": 1794005637.7977126,
+    "mtime": 1794063625.6393905,
     "ast_hash": "effc743c0ea484ff7020391d0b18c0d3",
     "semantic_hash": ""
   },
   "agents/lead-negotiation.md": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "13d18323cbc694dc09959a743220edd3",
     "semantic_hash": ""
   },
   "agents/lead.md": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "1fbcc31f536a19a2906bc1eceb417741",
     "semantic_hash": ""
   },
   "creative-veto-court-demo-and-backend-design.md": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "e2fbd65c9226ff70538444e6962c916f",
     "semantic_hash": ""
   },
   "delegates-courtroom-design-blueprint.md": {
-    "mtime": 1794005651.413929,
+    "mtime": 1794063625.6436186,
     "ast_hash": "c97ed3b56a4dcfeca978957c206d8f36",
     "semantic_hash": ""
   },
   "delegates-courtroom-spec.md": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6436186,
     "ast_hash": "bd817cb13923458bc1ccf6b603dcd21c",
     "semantic_hash": ""
   },
   "delegates-research-and-backend-brief.md": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.7662349,
     "ast_hash": "01fd5174a4afb85373295431aea36a0c",
     "semantic_hash": ""
   },
   "delegates-unusual-cases-and-judge-review.md": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.7662349,
     "ast_hash": "2e33a2799c1483a054cb1cd2c71fac58",
     "semantic_hash": ""
   },
   "docs/automatic-negotiation.md": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9776423,
     "ast_hash": "d076675fb46e825c062cf2f36510d34a",
     "semantic_hash": ""
   },
   "docs/frontend-api.md": {
-    "mtime": 1794005637.8057175,
-    "ast_hash": "25f6c97edb1c1f63ff00be8439c18c94",
+    "mtime": 1794066164.0578403,
+    "ast_hash": "c0ccf18f555f6ce01a94a19fa3df75ec",
     "semantic_hash": ""
   },
   "docs/frontend-asset-sources.md": {
-    "mtime": 1794048785.2117577,
+    "mtime": 1794063625.9776423,
     "ast_hash": "aecc8c8c57e8b32c85b06168bb91762c",
     "semantic_hash": ""
   },
   "docs/frontend-test-results.md": {
-    "mtime": 1794009242.366817,
+    "mtime": 1794063625.9818704,
     "ast_hash": "43934dd0cbfc08f58b52693c8ce27cd6",
     "semantic_hash": ""
   },
   "docs/mandate-engine.md": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9818704,
     "ast_hash": "cc1515d43c7c982187a67ce00c5ce46e",
     "semantic_hash": ""
   },
   "docs/spike-result.md": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063625.9818704,
     "ast_hash": "604e2d12d6923276abaed62d68fd0425",
     "semantic_hash": ""
   },
   "frontend/public/fonts/OFL-cormorant-garamond.txt": {
-    "mtime": 1794007404.9065511,
+    "mtime": 1794063625.994555,
     "ast_hash": "6085761d4b4b031541e48038b5701c6f",
     "semantic_hash": ""
   },
   "frontend/public/fonts/OFL-ibm-plex-sans.txt": {
-    "mtime": 1794007405.2224822,
+    "mtime": 1794063625.994555,
     "ast_hash": "4d4949dda4b23922e334f0cbf6179065",
     "semantic_hash": ""
   },
   "frontend/public/index.html": {
-    "mtime": 1794048622.9560077,
-    "ast_hash": "7b4eb6f90a6b5637a947a36fe9a78449",
+    "mtime": 1794064360.8087606,
+    "ast_hash": "1115ca0f52f2130f45c0431db505a036",
     "semantic_hash": ""
   },
   "infra/NOTICE.md": {
-    "mtime": 1794005637.8057175,
+    "mtime": 1794063626.019924,
     "ast_hash": "af1a8b011f044c6cb1650baf0edb7041",
     "semantic_hash": ""
   },
   "infra/compose.yml": {
-    "mtime": 1794005637.8097198,
+    "mtime": 1794063626.019924,
     "ast_hash": "5e3b39f7fcde74eecc6661ae6d675d3c",
     "semantic_hash": ""
   },
   "assets/hands-sketch.svg": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "a6218392db05caae2f1f178e8e1d2183",
     "semantic_hash": ""
   },
   "assets/light-trails.svg": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "80ca68dbb996cd0d0f3f643412e0992e",
     "semantic_hash": ""
   },
   "assets/notebook.svg": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "2399aa60e081e451ed8dfce20372c6c7",
     "semantic_hash": ""
   },
   "assets/openai-blossom-spacing-diagram.svg": {
-    "mtime": 1794007617.9206865,
+    "mtime": 1794063625.6393905,
     "ast_hash": "c0ecdc600ff645ee98c8d8e460e2346a",
     "semantic_hash": ""
   },
   "assets/signal-mark.svg": {
-    "mtime": 1794005637.801715,
+    "mtime": 1794063625.6393905,
     "ast_hash": "20ee4585b78b30a54ae5fac549ce87d4",
     "semantic_hash": ""
   },
-  "design-review/court-1440.png": {
-    "mtime": 1794007637.532934,
-    "ast_hash": "a918ca2f4aa6b1eb66a6f7d7783ec31d",
-    "semantic_hash": ""
-  },
-  "design-review/court-desktop-first.png": {
-    "mtime": 1794007501.272055,
-    "ast_hash": "6d8c83aa9f4ec0e2602ee308e8d5769c",
-    "semantic_hash": ""
-  },
-  "design-review/court-desktop-refined.png": {
-    "mtime": 1794007602.672474,
-    "ast_hash": "06fc402af8d9ad920f6b9413b08208b7",
-    "semantic_hash": ""
-  },
-  "design-review/intro-1440.png": {
-    "mtime": 1794007657.6347828,
-    "ast_hash": "3abce6c2c3c439763e393aa801fdc528",
-    "semantic_hash": ""
-  },
-  "design-review/intro-desktop.png": {
-    "mtime": 1794007462.6385617,
-    "ast_hash": "a9c1a764392743f25e188e2fb1f3d5f1",
-    "semantic_hash": ""
-  },
   "frontend/public/art/courtroom.svg": {
-    "mtime": 1794007593.45273,
+    "mtime": 1794063625.9860985,
     "ast_hash": "d8f4c5a4d4c9d36c9a8a37ae9e3d2c84",
     "semantic_hash": ""
   },
   "frontend/public/art/judge-aki.svg": {
-    "mtime": 1794006858.2212372,
+    "mtime": 1794063625.9860985,
     "ast_hash": "ce5a5e933ca15a4a963f47a662421f5c",
     "semantic_hash": ""
   },
   "frontend/public/art/judge-edmund.svg": {
-    "mtime": 1794006858.2212372,
+    "mtime": 1794063625.9860985,
     "ast_hash": "7751795cb20b28682e355da9488e4fd4",
     "semantic_hash": ""
   },
   "frontend/public/art/judge-mira.svg": {
-    "mtime": 1794006858.2212372,
+    "mtime": 1794063625.9860985,
     "ast_hash": "5d8c7e6056c1d90e824e8fb5e76d873c",
     "semantic_hash": ""
   },
   "frontend/public/art/seal.svg": {
-    "mtime": 1794007051.5109818,
+    "mtime": 1794063625.990327,
     "ast_hash": "125ba004413bcf8360666c3b65f3e119",
     "semantic_hash": ""
   },
   "frontend/public/brands/claude.svg": {
-    "mtime": 1794007392.805343,
+    "mtime": 1794063625.994555,
     "ast_hash": "94f6219b9b809bd887ec49a59756c323",
     "semantic_hash": ""
   },
   "frontend/public/brands/openai.svg": {
-    "mtime": 1794007617.9650786,
+    "mtime": 1794063625.994555,
     "ast_hash": "b7870b74c9033e004994539c57e0235b",
     "semantic_hash": ""
   },
   "docs/frontend-browser-results.json": {
-    "mtime": 1794048782.483281,
-    "ast_hash": "402fe76de281234e878883ccd523a327",
+    "mtime": 1794065852.6366725,
+    "ast_hash": "5a34353031033c53f924b02351410a77",
     "semantic_hash": ""
   },
   "test/frontend-browser.mjs": {
-    "mtime": 1794044483.4532185,
-    "ast_hash": "81b75a1161c5d236eec3f43095ea204c",
+    "mtime": 1794065001.683144,
+    "ast_hash": "f6a12ed85a10e600773ebab05bbefb0b",
     "semantic_hash": ""
   },
   "docs/frontend-handoff.md": {
-    "mtime": 1794048785.2117577,
-    "ast_hash": "e467dc710b7f573ffcbec0aba250304a",
+    "mtime": 1794066164.0578403,
+    "ast_hash": "667d8f4458df37033f52ec282ce7e415",
     "semantic_hash": ""
   },
   "docs/frontend-visual-review.md": {
-    "mtime": 1794008945.1505435,
+    "mtime": 1794063625.9818704,
     "ast_hash": "9af2f5a7d6b91cfa5e1e36aa242b4d98",
     "semantic_hash": ""
   },
   "design-review/v1.1/study.mjs": {
-    "mtime": 1794042476.8526423,
+    "mtime": 1794063625.9776423,
     "ast_hash": "327355f4e78a22f0a7384c01e88d6cf2",
     "semantic_hash": ""
   },
   "delegates-courtroom-design-blueprint-v1.1.md": {
-    "mtime": 1794041781.7267208,
+    "mtime": 1794063625.6436186,
     "ast_hash": "78c1dce43931238df22326b9f50b785b",
     "semantic_hash": ""
   },
   "design-review/v1.1/README.md": {
-    "mtime": 1794044555.0245392,
+    "mtime": 1794063625.795832,
     "ast_hash": "d60c62f1c2a3da4584361fdb3d89dbaa",
     "semantic_hash": ""
   },
   "design-review/v1.1/character-notes.md": {
-    "mtime": 1794042186.562355,
+    "mtime": 1794063625.80006,
     "ast_hash": "34a1f495435238138e98339df1db9e0f",
     "semantic_hash": ""
   },
   "design-review/v1.1/fonts/OFL-cormorant-garamond.txt": {
-    "mtime": 1794007404.9065511,
+    "mtime": 1794063625.8042881,
     "ast_hash": "6085761d4b4b031541e48038b5701c6f",
     "semantic_hash": ""
   },
   "design-review/v1.1/fonts/OFL-ibm-plex-sans.txt": {
-    "mtime": 1794007405.2224822,
+    "mtime": 1794063625.8042881,
     "ast_hash": "4d4949dda4b23922e334f0cbf6179065",
     "semantic_hash": ""
   },
   "design-review/v1.1/index.html": {
-    "mtime": 1794042695.4828992,
+    "mtime": 1794063625.884623,
     "ast_hash": "cf4cb083012247c238a21321b71e7c4a",
     "semantic_hash": ""
   },
   "design-review/v1.1/requirements.md": {
-    "mtime": 1794044634.4675648,
+    "mtime": 1794063625.9522734,
     "ast_hash": "a2b9eecabc47db97cce63a3a187eae73",
     "semantic_hash": ""
   },
   "design-review/v1.1/workspace.html": {
-    "mtime": 1794042695.4828992,
+    "mtime": 1794063625.9776423,
     "ast_hash": "e12110c50f6b9550ae1d3ca24f250985",
     "semantic_hash": ""
   },
   "design-review/v1.1/brands/claude.svg": {
-    "mtime": 1794007392.805343,
+    "mtime": 1794063625.795832,
     "ast_hash": "94f6219b9b809bd887ec49a59756c323",
     "semantic_hash": ""
   },
   "design-review/v1.1/brands/openai.svg": {
-    "mtime": 1794007617.9650786,
+    "mtime": 1794063625.795832,
     "ast_hash": "b7870b74c9033e004994539c57e0235b",
     "semantic_hash": ""
   },
   "design-review/v1.1/courtroom-composition.svg": {
-    "mtime": 1794042284.6269805,
+    "mtime": 1794063625.80006,
     "ast_hash": "b4f81c0fb40d0d6c8888601e032d1ef7",
     "semantic_hash": ""
   },
   "design-review/v1.1/references/aviary.jpg": {
-    "mtime": 1794042002.0046911,
+    "mtime": 1794063625.909992,
     "ast_hash": "8129d15ad11c532c1f6d06f8beaaacf3",
     "semantic_hash": ""
   },
   "design-review/v1.1/references/british-concept.jpg": {
-    "mtime": 1794042003.398591,
+    "mtime": 1794063625.91422,
     "ast_hash": "336ea1b6f17c4eedd618d7aa252d2012",
     "semantic_hash": ""
   },
   "design-review/v1.1/references/british.jpg": {
-    "mtime": 1794042003.4152217,
+    "mtime": 1794063625.9184482,
     "ast_hash": "34db2ba49d7e0d5ff0f2f5cb29a0bfd8",
     "semantic_hash": ""
   },
   "design-review/v1.1/references/japan-concept.jpg": {
-    "mtime": 1794042003.398591,
+    "mtime": 1794063625.9226763,
     "ast_hash": "db6664e467ce01dbf32178af521eb35d",
     "semantic_hash": ""
   },
   "design-review/v1.1/references/japan.jpg": {
-    "mtime": 1794042003.373645,
+    "mtime": 1794063625.9226763,
     "ast_hash": "289d7c536473538fa7ca71eb8cea4dba",
     "semantic_hash": ""
   },
   "design-review/v1.1/references/official-screen-6.jpg": {
-    "mtime": 1794042072.317992,
+    "mtime": 1794063625.9522734,
     "ast_hash": "04847cd4a3db02da252498e22f67e9b6",
     "semantic_hash": ""
   },
   "design-review/v1.1/references/victorian.jpg": {
-    "mtime": 1794042002.3548079,
+    "mtime": 1794063625.9522734,
     "ast_hash": "ea0513de32d3e8354364da028491cddc",
     "semantic_hash": ""
   },
   "design-review/v1.1/woman-concept.svg": {
-    "mtime": 1794042186.562355,
+    "mtime": 1794063625.9776423,
     "ast_hash": "6d8f50369ca1d569830656c817f3c57d",
     "semantic_hash": ""
   },
   "docs/frontend-v11-browser-results.json": {
-    "mtime": 1794048795.8360302,
+    "mtime": 1794065863.3268783,
     "ast_hash": "a32c8c53a2c9b19a6f3ef892d41d9676",
     "semantic_hash": ""
   },
   "test/frontend-v11-browser.mjs": {
-    "mtime": 1794044467.420339,
-    "ast_hash": "8a6e158f4cae4562b049b703dfa5b02a",
+    "mtime": 1794064455.48101,
+    "ast_hash": "f6e4adb1e579a081641461f455445b17",
     "semantic_hash": ""
   },
   "frontend/public/art/chamber-foreground.svg": {
-    "mtime": 1794044321.3063083,
+    "mtime": 1794063625.9860985,
     "ast_hash": "5aad35c980302c0eef7d585e71f183f5",
     "semantic_hash": ""
   },
   "frontend/public/art/chamber.svg": {
-    "mtime": 1794044321.3063083,
+    "mtime": 1794063625.9860985,
     "ast_hash": "ec3fcab6a9aa055caa60822cc4c7abd3",
     "semantic_hash": ""
   },
   "frontend/public/art/panel/japan-inspired.svg": {
-    "mtime": 1794043735.499815,
+    "mtime": 1794063625.9860985,
     "ast_hash": "d5c0a6338024497aec0086573a46e9a1",
     "semantic_hash": ""
   },
   "frontend/public/art/panel/victorian-inspired.svg": {
-    "mtime": 1794043735.499815,
+    "mtime": 1794063625.990327,
     "ast_hash": "e5ef2103d3710982abea6f152215b266",
     "semantic_hash": ""
   },
   "frontend/public/art/panel/woman.svg": {
-    "mtime": 1794043735.499815,
+    "mtime": 1794063625.990327,
     "ast_hash": "9ab1b7f374d28ef1c3e6ad6be9a8116c",
     "semantic_hash": ""
   },
   "design-review/v1.1/prepare-judge-art.py": {
-    "mtime": 1794048670.0699515,
+    "mtime": 1794063625.8930793,
     "ast_hash": "2d8891a42d0f3cdecb5228a86d5af197",
     "semantic_hash": ""
   },
   "design-review/v1.1/implementation/JUDGE-ART-PASS.md": {
-    "mtime": 1794048785.2117577,
-    "ast_hash": "6996aba4d1853957b442250bc8945be4",
+    "mtime": 1794063625.8042881,
+    "ast_hash": "f2f3b6c753dbf248752cb620a5394932",
     "semantic_hash": ""
   },
   "design-review/v1.1/implementation/QA.md": {
-    "mtime": 1794044899.0546474,
+    "mtime": 1794063625.8042881,
     "ast_hash": "2d849ae2439dff749056b1f4ae3678a6",
     "semantic_hash": ""
   },
   "design-review/v1.1/woman-reference.template.svg": {
-    "mtime": 1794048670.0741076,
+    "mtime": 1794063625.9776423,
     "ast_hash": "32c54eac7da8ffc0bbe68abf8b71f348",
     "semantic_hash": ""
   },
-  "frontend/public/art/panel/british-reference.svg": {
-    "mtime": 1794048677.0426419,
-    "ast_hash": "b2de99d9e4598405b61d115c94f3cf40",
+  "docs/frontend-live-browser-results.json": {
+    "mtime": 1794066053.875949,
+    "ast_hash": "fcd6e03de3a4ddf0462e97fa28d7458b",
     "semantic_hash": ""
   },
-  "frontend/public/art/panel/japan-reference.svg": {
-    "mtime": 1794048676.6487157,
-    "ast_hash": "6f5d03554b20dab0cf96d483bebaca38",
+  "docs/integration-legacy-verification.json": {
+    "mtime": 1794065863.3481092,
+    "ast_hash": "d272e05e75a0712a3633b514d6b54cff",
     "semantic_hash": ""
   },
-  "frontend/public/art/panel/woman-reference.svg": {
-    "mtime": 1794048678.7608297,
-    "ast_hash": "ae073daf26bbe284934e6ea10c3ab5b9",
+  "docs/integration-release-results.json": {
+    "mtime": 1794066164.0578403,
+    "ast_hash": "ea4c5e4043f138727f8cc2d4d3b2c6f3",
+    "semantic_hash": ""
+  },
+  "frontend/public/avatars.mjs": {
+    "mtime": 1794063625.990327,
+    "ast_hash": "c90a184c2374188b28004fae0ba5e950",
+    "semantic_hash": ""
+  },
+  "frontend/public/bench.mjs": {
+    "mtime": 1794063625.994555,
+    "ast_hash": "7277023d58fddb45e30e7769175c486f",
+    "semantic_hash": ""
+  },
+  "frontend/public/court.mjs": {
+    "mtime": 1794065709.3799345,
+    "ast_hash": "ae6c44bee7a81c00148fc87357e1b46a",
+    "semantic_hash": ""
+  },
+  "frontend/public/data/replay-signal.json": {
+    "mtime": 1794063625.994555,
+    "ast_hash": "9ac07721d5a601b94a2b7df04f488815",
+    "semantic_hash": ""
+  },
+  "frontend/public/judges.mjs": {
+    "mtime": 1794063626.0114675,
+    "ast_hash": "31734942961b43162164c724e0916f67",
+    "semantic_hash": ""
+  },
+  "frontend/public/vendor/ScrollTrigger.min.js": {
+    "mtime": 1794063626.0114675,
+    "ast_hash": "00a3e5c78a5bfc5e47677f5c8cdb9030",
+    "semantic_hash": ""
+  },
+  "frontend/public/vendor/gsap.min.js": {
+    "mtime": 1794063626.0114675,
+    "ast_hash": "5e6e6cba1d2eabb40740bdc12f736a3c",
+    "semantic_hash": ""
+  },
+  "scripts/export-replay.mjs": {
+    "mtime": 1794063626.019924,
+    "ast_hash": "c6944f6faee3de9b5830e3f52ed6a836",
+    "semantic_hash": ""
+  },
+  "test/court-command-stage.test.mjs": {
+    "mtime": 1794064785.481553,
+    "ast_hash": "544bd813ccfb347f604979a22e1dd1cd",
+    "semantic_hash": ""
+  },
+  "test/court-sse.test.mjs": {
+    "mtime": 1794064861.636957,
+    "ast_hash": "8de50010c731a89b41d85f3c14a461fc",
+    "semantic_hash": ""
+  },
+  "test/frontend-live-browser.mjs": {
+    "mtime": 1794065963.211968,
+    "ast_hash": "37670d66f912d5b836edddb541332243",
+    "semantic_hash": ""
+  },
+  "test/frontend-proxy.test.mjs": {
+    "mtime": 1794064463.189187,
+    "ast_hash": "0fa720d68a9b9c0ba0764e229d8887f9",
+    "semantic_hash": ""
+  },
+  "design-review/redesign-handoff-context.md": {
+    "mtime": 1794063625.795832,
+    "ast_hash": "cc324a6780fdc7be12fbdf38790712b2",
+    "semantic_hash": ""
+  },
+  "docs/integration-verification.md": {
+    "mtime": 1794066164.0578403,
+    "ast_hash": "c48d8ba60047447db373eb7ce77a7678",
+    "semantic_hash": ""
+  },
+  "frontend/public/bench.html": {
+    "mtime": 1794063625.990327,
+    "ast_hash": "20eb7e14dc176e8ef3a590014fa24473",
+    "semantic_hash": ""
+  },
+  "frontend/public/court.html": {
+    "mtime": 1794064687.1059875,
+    "ast_hash": "cfba436aa326d9fb98bcb2871ec77cb3",
+    "semantic_hash": ""
+  },
+  "frontend/public/storyboard/hands-sketch.svg": {
+    "mtime": 1794063626.0114675,
+    "ast_hash": "a6218392db05caae2f1f178e8e1d2183",
+    "semantic_hash": ""
+  },
+  "frontend/public/storyboard/light-trails.svg": {
+    "mtime": 1794063626.0114675,
+    "ast_hash": "80ca68dbb996cd0d0f3f643412e0992e",
+    "semantic_hash": ""
+  },
+  "frontend/public/storyboard/notebook.svg": {
+    "mtime": 1794063626.0114675,
+    "ast_hash": "2399aa60e081e451ed8dfce20372c6c7",
+    "semantic_hash": ""
+  },
+  "frontend/public/storyboard/signal-mark.svg": {
+    "mtime": 1794063626.0114675,
+    "ast_hash": "20ee4585b78b30a54ae5fac549ce87d4",
     "semantic_hash": ""
   }
 }

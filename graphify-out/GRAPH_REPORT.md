@@ -1,16 +1,16 @@
-# Graph Report - delegates  (2026-11-07)
+# Graph Report - delegates-integration  (2026-11-07)
 
 ## Corpus Check
-- 89 files · ~129,560 words
+- 106 files · ~152,726 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 939 nodes · 1342 edges · 87 communities (84 shown, 3 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
+- 1452 nodes · 2204 edges · 110 communities (107 shown, 3 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `629211d5`
+- Built from commit: `e36ca556`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -94,39 +94,62 @@
 - [[_COMMUNITY_Community 84|Community 84]]
 - [[_COMMUNITY_Community 85|Community 85]]
 - [[_COMMUNITY_Community 86|Community 86]]
+- [[_COMMUNITY_Community 87|Community 87]]
+- [[_COMMUNITY_Community 88|Community 88]]
+- [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
+- [[_COMMUNITY_Community 91|Community 91]]
+- [[_COMMUNITY_Community 92|Community 92]]
+- [[_COMMUNITY_Community 93|Community 93]]
+- [[_COMMUNITY_Community 94|Community 94]]
+- [[_COMMUNITY_Community 95|Community 95]]
+- [[_COMMUNITY_Community 96|Community 96]]
+- [[_COMMUNITY_Community 97|Community 97]]
+- [[_COMMUNITY_Community 98|Community 98]]
+- [[_COMMUNITY_Community 99|Community 99]]
+- [[_COMMUNITY_Community 100|Community 100]]
+- [[_COMMUNITY_Community 101|Community 101]]
+- [[_COMMUNITY_Community 102|Community 102]]
+- [[_COMMUNITY_Community 103|Community 103]]
+- [[_COMMUNITY_Community 104|Community 104]]
+- [[_COMMUNITY_Community 105|Community 105]]
+- [[_COMMUNITY_Community 106|Community 106]]
+- [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 108|Community 108]]
+- [[_COMMUNITY_Community 109|Community 109]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `CourtEngine` - 43 edges
-2. `$()` - 32 edges
-3. `Delegates Courtroom — Art Direction & Frontend Design Blueprint` - 23 edges
-4. `demand()` - 21 edges
-5. `Delegates Courtroom — Art Direction & Frontend Design Blueprint` - 21 edges
-6. `scripts` - 17 edges
-7. `Creative Veto Court: complete demo and backend design` - 17 edges
-8. `jsonRequest()` - 16 edges
-9. `SwitchClient` - 16 edges
-10. `Delegates: research, concept options, and backend brief` - 15 edges
+1. `$()` - 56 edges
+2. `CourtEngine` - 44 edges
+3. `$()` - 38 edges
+4. `Delegates Courtroom — Art Direction & Frontend Design Blueprint` - 23 edges
+5. `demand()` - 21 edges
+6. `Delegates Courtroom — Art Direction & Frontend Design Blueprint` - 21 edges
+7. `scripts` - 19 edges
+8. `Cc()` - 18 edges
+9. `Creative Veto Court: complete demo and backend design` - 17 edges
+10. `jsonRequest()` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `liveCaseHash()` --calls--> `digest()`  [EXTRACTED]
   scripts/check-negotiation.mjs → src/court-schema.mjs
+- `gateway()` --calls--> `jsonRequest()`  [EXTRACTED]
+  scripts/setup-room.mjs → src/runtime.mjs
+- `M()` --calls--> `Gd()`  [INFERRED]
+  frontend/public/vendor/ScrollTrigger.min.js → frontend/public/vendor/gsap.min.js
 - `api()` --calls--> `jsonRequest()`  [EXTRACTED]
   scripts/check-engine.mjs → src/runtime.mjs
 - `gateway()` --calls--> `jsonRequest()`  [EXTRACTED]
   scripts/check-negotiation.mjs → src/runtime.mjs
-- `gateway()` --calls--> `jsonRequest()`  [EXTRACTED]
-  scripts/setup-engine.mjs → src/runtime.mjs
-- `gateway()` --calls--> `jsonRequest()`  [EXTRACTED]
-  scripts/setup-room.mjs → src/runtime.mjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (87 total, 3 thin omitted)
+## Communities (110 total, 3 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.07
-Nodes (41): {ok, results}, receipt, [receiptPath, htmlPath, scriptPath], activeBriefs(), CourtEngine, currentGrants(), initialBriefs, stage() (+33 more)
+Nodes (42): {ok, results}, receipt, [receiptPath, htmlPath, scriptPath], activeBriefs(), CourtEngine, currentGrants(), initialBriefs, stage() (+34 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.04
@@ -141,12 +164,12 @@ Cohesion: 0.06
 Nodes (34): additionalProperties, additionalProperties, properties, required, type, additionalProperties, properties, required (+26 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.11
-Nodes (27): objectBrief, sampleBoard(), createCourtServer(), defaultFrontendOrigins, parseOrigins(), boardView(), command(), negotiationView() (+19 more)
+Cohesion: 0.07
+Nodes (39): createFrontendServer(), root, types, copy, engine, [source, out = resolve(root, 'frontend/public/data/replay-signal.json')], objectBrief, sampleBoard() (+31 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.12
-Nodes (32): $(), choreography, clearChoreography(), download(), escape(), introTimers, phases, reducedMotion (+24 more)
+Cohesion: 0.09
+Nodes (41): $(), choreography, clearChoreography(), download(), escape(), getCourtUrl(), introTimers, phases (+33 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.07
@@ -158,7 +181,7 @@ Nodes (24): actor, caseId, checks, actualSwitchSourceReadBack, approvalsUnchange
 
 ### Community 8 - "Community 8"
 Cohesion: 0.08
-Nodes (23): engines, node, name, private, scripts, build, check, check:clerk (+15 more)
+Nodes (25): engines, node, name, private, scripts, build, check, check:clerk (+17 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.10
@@ -169,16 +192,16 @@ Cohesion: 0.10
 Nodes (19): additionalProperties, anyOf, type, type, enum, type, type, properties (+11 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.24
-Nodes (7): client, clerk, pid, result, results, loadCourtConfig(), loadConfig()
+Cohesion: 0.18
+Nodes (8): client, clerk, pid, result, results, loadCourtConfig(), loadConfig(), SwitchClient
 
 ### Community 12 - "Community 12"
-Cohesion: 0.30
-Nodes (11): respond(), executable(), ProviderSchemaError, runCodex(), runNegotiationTurn(), isAdvisoryRequest(), isAgentCommand(), configPath (+3 more)
+Cohesion: 0.23
+Nodes (14): clerk, evidence, mmToken, required, senders, respond(), executable(), ProviderSchemaError (+6 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.12
-Nodes (20): agentSenders, clerk, ingestion, lockPath, saving, seen, statePath, accountPath (+12 more)
+Cohesion: 0.21
+Nodes (12): accountPath, cookie, court, engine, principals, users, courtConfigPath, flushCourtOutbox() (+4 more)
 
 ### Community 14 - "Community 14"
 Cohesion: 0.14
@@ -201,12 +224,12 @@ Cohesion: 0.15
 Nodes (12): 1. Scope, 2. Approved technical approach, 3. Demo mode approach, 4. Demo event sequence, 5. Implementation map, 6. Boundaries and acceptance tests, 7. Event handling requirements, 8. Out of scope (+4 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.13
-Nodes (14): Automatic storyboard negotiation, Courtroom frontend API, Courtroom frontend demo, Creative Veto Court, Current scope, Existing backend, Files and runtime data, Local Docker startup repair on this machine (+6 more)
+Cohesion: 0.12
+Nodes (15): Automatic storyboard negotiation, Courtroom frontend API, Courtroom frontend demo, Creative Veto Court, Current scope, Existing backend, Files and runtime data, Integrated courtroom (+7 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.16
-Nodes (12): api(), clerk, proof, gateway(), gateway(), cookies, gateway(), mattermost (+4 more)
+Cohesion: 0.22
+Nodes (11): api(), clerk, proof, gateway(), gateway(), jsonRequest(), scrub(), entries() (+3 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.15
@@ -221,8 +244,8 @@ Cohesion: 0.11
 Nodes (17): Environment, Frontend hearing.mjs Tests (15 tests), Frontend server.mjs Tests (15 tests), Frontend Test Results, Frontend Unit & Integration Tests, Full Test Suite (Backend Existing + Frontend New), hearing.mjs Tests (15 tests), Notes (+9 more)
 
 ### Community 24 - "Community 24"
-Cohesion: 0.48
-Nodes (5): scrub(), entries(), flattenContext(), flattenPages(), isAddressed()
+Cohesion: 0.05
+Nodes (52): x(), A(), B(), Cc(), Db(), Eb(), G(), hc() (+44 more)
 
 ### Community 25 - "Community 25"
 Cohesion: 0.18
@@ -253,8 +276,8 @@ Cohesion: 0.29
 Nodes (6): completedAt, humanApprovals, mode, roomId, runId, turns
 
 ### Community 32 - "Community 32"
-Cohesion: 0.33
-Nodes (4): createFrontendServer(), root, types, root
+Cohesion: 0.09
+Nodes (47): $(), addBeat(), applyView(), avatars, beatLine(), clean(), connectStream(), esc() (+39 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.29
@@ -329,12 +352,12 @@ Cohesion: 0.67
 Nodes (3): 6.1 Three judges, 6.2 Advocate identities, 6. Character system
 
 ### Community 60 - "Community 60"
-Cohesion: 0.22
-Nodes (7): { AxeBuilder }, { chromium }, main(), pickExecutable(), requireQA, RESULTS_FILE, SCREENSHOT_DIR
+Cohesion: 0.20
+Nodes (8): { AxeBuilder }, { chromium }, main(), pickExecutable(), projectRoot, requireQA, RESULTS_FILE, SCREENSHOT_DIR
 
 ### Community 61 - "Community 61"
-Cohesion: 0.22
-Nodes (8): Assets and design limits, Checks, Code map, Courtroom frontend handoff, Future live integration is deliberately not implemented, Latest scope: judges only, Open the demo, Try the complete hearing
+Cohesion: 0.18
+Nodes (10): Assets and design limits, Checks, Code map, Courtroom frontend handoff, Current integration work, Future live integration is deliberately not implemented, Historical scope: judges only, Latest scope: judges only (+2 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.33
@@ -373,8 +396,8 @@ Cohesion: 0.33
 Nodes (6): 7.1 Judges' animation states, 7.2 Advocate animation states, 7.3 Three-judge ruling choreography, 7.4 Signature moments, 7.5 Suggested animation implementation, 7. Motion and character state system
 
 ### Community 71 - "Community 71"
-Cohesion: 0.20
-Nodes (6): clerk, evidence, mmToken, required, senders, SwitchClient
+Cohesion: 0.04
+Nodes (48): amendments, command, count, creator, lead, bundleDigest, checks, manifest (+40 more)
 
 ### Community 72 - "Community 72"
 Cohesion: 0.40
@@ -417,8 +440,8 @@ Cohesion: 0.33
 Nodes (5): Boundary, Final checks, Open art and integration gates, v1.1 functional rebuild verification, Visual review actually performed
 
 ### Community 83 - "Community 83"
-Cohesion: 0.33
-Nodes (4): checks, { chromium }, failures, requireQA
+Cohesion: 0.25
+Nodes (6): checks, { chromium }, failures, output, requireQA, resultsPath
 
 ### Community 84 - "Community 84"
 Cohesion: 0.50
@@ -428,25 +451,117 @@ Nodes (3): checks, failed, passed
 Cohesion: 0.40
 Nodes (4): Changed, Evidence and limitations, Judge-only reference pass, Preserved
 
+### Community 87 - "Community 87"
+Cohesion: 0.06
+Nodes (11): ga(), Gd(), ha(), Kc(), ma(), Mc(), na(), oa() (+3 more)
+
+### Community 88 - "Community 88"
+Cohesion: 0.07
+Nodes (33): creator, lead, finalCopy, forbiddenAssets, goal, negotiable, requiredAssets, requiredCopy (+25 more)
+
+### Community 89 - "Community 89"
+Cohesion: 0.15
+Nodes (23): figures(), pick, scene, setAll(), solo, stage, arata(), bench() (+15 more)
+
+### Community 90 - "Community 90"
+Cohesion: 0.14
+Nodes (23): _assertThisInitialized(), bc(), ea(), eb(), Eo(), fa(), fb(), hc() (+15 more)
+
+### Community 91 - "Community 91"
+Cohesion: 0.09
+Nodes (21): baseUrl, chromiumExecutable, failed, passed, total, commands, counts, combined (+13 more)
+
+### Community 92 - "Community 92"
+Cohesion: 0.10
+Nodes (20): axeAudit, desktop, mobile, checks, completedAt, consoleLogs, passes, violations (+12 more)
+
+### Community 93 - "Community 93"
+Cohesion: 0.17
+Nodes (16): ae(), ce(), fe(), ia(), je(), ka(), ke(), Ld() (+8 more)
+
+### Community 94 - "Community 94"
+Cohesion: 0.16
+Nodes (15): ab(), Bb(), Cb(), Context(), db(), Fc(), gb(), Gc() (+7 more)
+
+### Community 95 - "Community 95"
+Cohesion: 0.15
+Nodes (12): Added integration regressions, Backend (`src/court-http.mjs`), Commands, Existing Tests, Frontend-Backend Integration Verification, Frontend (`frontend/server.mjs`), Integration Boundaries, Known Boundaries (+4 more)
+
+### Community 96 - "Community 96"
+Cohesion: 0.15
+Nodes (11): agentSenders, clerk, ingestion, lockPath, saving, seen, statePath, courtDatabasePath (+3 more)
+
+### Community 97 - "Community 97"
+Cohesion: 0.17
+Nodes (12): desktop, mobile, summary, axeViolations, buildStatus, frontendUnitSubsetNote, legacyVerification, nodeVersion (+4 more)
+
+### Community 98 - "Community 98"
+Cohesion: 0.17
+Nodes (12): liveBrowserIntegration, actual, axeDesktopViolations, axeMobileViolations, checks, command, exitStatus, expected (+4 more)
+
+### Community 99 - "Community 99"
+Cohesion: 0.20
+Nodes (9): commands, syntaxCheck, nodeVersion, scope, command, exitStatus, files, status (+1 more)
+
+### Community 100 - "Community 100"
+Cohesion: 0.22
+Nodes (9): unitTestRun1, actual, command, durationMs, exitStatus, expected, failed, passed (+1 more)
+
+### Community 101 - "Community 101"
+Cohesion: 0.22
+Nodes (9): unitTestRun2, actual, command, durationMs, exitStatus, expected, failed, passed (+1 more)
+
+### Community 102 - "Community 102"
+Cohesion: 0.28
+Nodes (9): Aa(), Animation(), Ba(), ja(), la(), Sa(), Ta(), ub() (+1 more)
+
+### Community 103 - "Community 103"
+Cohesion: 0.25
+Nodes (8): me(), Pd(), Td(), Ud(), Vd(), wd(), xd(), zd()
+
+### Community 104 - "Community 104"
+Cohesion: 0.29
+Nodes (6): Contents of this archive, Delegates courtroom: judge redesign context, General creative direction, Reference provenance, What currently works, Where the design stands
+
+### Community 105 - "Community 105"
+Cohesion: 0.29
+Nodes (6): cookies, gateway(), mattermost, secrets, specifications, saveConfig()
+
+### Community 106 - "Community 106"
+Cohesion: 0.40
+Nodes (5): command, exitStatus, output, status, build
+
+### Community 107 - "Community 107"
+Cohesion: 0.40
+Nodes (5): actual, expected, failed, passed, liveBrowserCounts
+
+### Community 108 - "Community 108"
+Cohesion: 0.40
+Nodes (5): unitTestCounts, expected, failed, run1, run2
+
+### Community 109 - "Community 109"
+Cohesion: 0.50
+Nodes (4): ib(), mb(), pb(), Xa()
+
 ## Knowledge Gaps
-- **558 isolated node(s):** `type`, `additionalProperties`, `required`, `type`, `type` (+553 more)
+- **749 isolated node(s):** `type`, `additionalProperties`, `required`, `type`, `type` (+744 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `CourtEngine` connect `Community 0` to `Community 13`, `Community 12`, `Community 4`, `Community 21`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `Delegates Courtroom — Art Direction & Frontend Design Blueprint` connect `Community 27` to `Community 65`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 72`, `Community 73`, `Community 74`, `Community 75`, `Community 76`, `Community 78`, `Community 79`, `Community 80`, `Community 63`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `Delegates Courtroom — Art Direction & Frontend Design Blueprint` connect `Community 17` to `Community 34`, `Community 35`, `Community 36`, `Community 42`, `Community 43`, `Community 44`, `Community 45`, `Community 48`, `Community 49`, `Community 50`, `Community 29`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
+- **Why does `$()` connect `Community 32` to `Community 89`, `Community 5`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Why does `CourtEngine` connect `Community 0` to `Community 96`, `Community 32`, `Community 4`, `Community 13`, `Community 21`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
 - **What connects `type`, `additionalProperties`, `required` to the rest of the system?**
-  _558 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _749 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.07023214810461358 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06884681583476764 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.05555555555555555 - nodes in this community are weakly interconnected._
+- **Should `Community 3` be split into smaller, more focused modules?**
+  _Cohesion score 0.05714285714285714 - nodes in this community are weakly interconnected._

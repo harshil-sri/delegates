@@ -9,8 +9,10 @@
   "scripts": {
     "dev": "node frontend/server.mjs",
     "build": "node frontend/build.mjs",
-    "check": "node --check frontend/public/app.mjs && node --check frontend/public/hearing.mjs && node --check frontend/server.mjs",
+    "check": "node --check frontend/public/app.mjs && node --check frontend/public/hearing.mjs && node --check frontend/server.mjs && node --check frontend/public/court.mjs && node --check frontend/public/judges.mjs && node --check frontend/public/avatars.mjs",
     "test:frontend": "node --test test/frontend*.test.mjs",
+    "test:integration": "node --test test/frontend-proxy.test.mjs",
+    "test:integration:browser": "node test/frontend-live-browser.mjs",
     "init": "node scripts/init-env.mjs",
     "setup": "node scripts/setup-room.mjs",
     "setup:engine": "node scripts/setup-engine.mjs",

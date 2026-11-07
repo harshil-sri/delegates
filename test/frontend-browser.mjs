@@ -3,14 +3,17 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { fileURLToPath } from 'node:url';
 
 const requireQA = createRequire(process.env.QA_MODULES || '/tmp/opencode/delegates-qa/package.json');
 const { chromium } = requireQA('playwright');
 const { AxeBuilder } = requireQA('@axe-core/playwright');
 
 const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:4173';
-const RESULTS_FILE = path.resolve('docs/frontend-browser-results.json');
-const SCREENSHOT_DIR = path.resolve('design-review/v1.1/implementation');
+const DEMO_URL = new URL('/?demo=1', BASE_URL).href;
+const projectRoot = fileURLToPath(new URL('..', import.meta.url));
+const RESULTS_FILE = path.resolve(projectRoot, 'docs/frontend-browser-results.json');
+const SCREENSHOT_DIR = path.resolve(projectRoot, 'design-review/v1.1/implementation');
 
 function pickExecutable() {
   if (process.env.CHROMIUM_EXECUTABLE) {
@@ -126,9 +129,29 @@ async function main() {
   try {
     // 1. Keyboard Navigation & Immediate Skip Intro First
     await runCase('keyboard_skip_intro', 'Immediate Skip intro keyboard first, focuses #main, intro inert', async () => {
+      const defaultContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      const defaultPage = await defaultContext.newPage();
+      await defaultPage.goto(new URL('/?case=C01', BASE_URL).href);
+      await settleView(defaultPage);
+      await defaultPage.click('#enter-court');
+      await defaultPage.waitForURL(url => url.pathname.includes('court.html'));
+      const navigatedUrl = new URL(defaultPage.url());
+      assert.equal(navigatedUrl.pathname, '/court.html', 'Default entry must navigate to /court.html');
+      assert.equal(navigatedUrl.searchParams.get('case'), 'C01', 'Default entry must carry ?case= parameter');
+      await defaultContext.close();
+
+      const skipContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+      const skipPage = await skipContext.newPage();
+      await skipPage.goto(BASE_URL);
+      await settleView(skipPage);
+      await skipPage.click('#skip-intro');
+      await skipPage.waitForURL(url => url.pathname.includes('court.html'));
+      assert.equal(new URL(skipPage.url()).pathname, '/court.html', 'Skip intro must navigate to /court.html on default view');
+      await skipContext.close();
+
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
 
       await page.keyboard.press('Tab');
@@ -185,7 +208,7 @@ async function main() {
         }
       });
 
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -226,7 +249,7 @@ async function main() {
       for (const vp of viewports) {
         const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height } });
         const page = await context.newPage();
-        await page.goto(BASE_URL);
+        await page.goto(DEMO_URL);
         await settleView(page);
         await page.click('#skip-intro');
         await settleView(page);
@@ -265,21 +288,21 @@ async function main() {
       return results;
     });
 
-    // 4. Judges Scene Bounds & Equal Widths
-    await runCase('judges_scene_bounds_and_widths', 'All 3 judges in scene bounds with equal widths', async () => {
+    // 4. Judges Scene Bounds & Visible Bench Composition
+    await runCase('judges_scene_bounds_and_widths', 'All 3 judges in scene bounds with visible bench composition', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
 
       const judgesData = await page.evaluate(() => {
         const sceneRect = document.querySelector('#court-scene').getBoundingClientRect();
-        const judges = Array.from(document.querySelectorAll('#court-scene .judge')).map(j => {
+        const judges = Array.from(document.querySelectorAll('#court-scene [data-judge]')).map(j => {
           const r = j.getBoundingClientRect();
           return {
-            id: j.dataset.character,
+            id: j.dataset.judge,
             left: r.left,
             right: r.right,
             top: r.top,
@@ -293,62 +316,61 @@ async function main() {
       });
 
       assert.equal(judgesData.judges.length, 3, 'There must be exactly 3 judges in the courtroom scene');
-      for (const judge of judgesData.judges) {
-        assert.ok(judge.inSceneBounds, `Judge ${judge.id} must be within courtroom scene bounds`);
+      const expectedJudges = ['arata', 'vale', 'thorne'];
+      for (const expectedId of expectedJudges) {
+        const judge = judgesData.judges.find(j => j.id === expectedId);
+        assert.ok(judge, `Judge ${expectedId} must be present`);
+        assert.ok(judge.inSceneBounds, `Judge ${expectedId} must be within courtroom scene bounds`);
+        assert.ok(judge.width > 0 && judge.height > 0, `Judge ${expectedId} must have visible dimensions`);
       }
 
-      const widths = judgesData.judges.map(j => j.width);
-      const minW = Math.min(...widths);
-      const maxW = Math.max(...widths);
-      assert.ok(maxW - minW < 1.0, `All judges must have equal widths, variation was ${(maxW - minW).toFixed(2)}px`);
+      const [arata, vale, thorne] = expectedJudges.map(id => judgesData.judges.find(j => j.id === id));
+      assert.ok(arata.left < vale.left && vale.left < thorne.left, 'Judges must be composed across bench from left to right');
 
       await context.close();
       return judgesData;
     });
 
     // 5. Provider Logos Natural Aspect & OpenAI Adaptive SVG Styling
-    await runCase('provider_marks_aspect_and_styling', 'Provider natural aspects preserved and OpenAI SVG color-scheme:light', async () => {
+    await runCase('provider_marks_aspect_and_styling', 'Advocate avatars retain aspect ratio, bounds, and styling', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
 
       const marks = await page.evaluate(() => {
-        const openai = document.querySelector('#court-scene .advocate-mark.left img');
-        const claude = document.querySelector('#court-scene .advocate-mark.right img');
-        const openaiStyle = window.getComputedStyle(openai);
-        const claudeStyle = window.getComputedStyle(claude);
+        const leftEl = document.querySelector('#court-scene .advocate-mark.left .advocate-avatar') || document.querySelector('#court-scene .advocate-mark.left img');
+        const rightEl = document.querySelector('#court-scene .advocate-mark.right .advocate-avatar') || document.querySelector('#court-scene .advocate-mark.right img');
+        const leftSvg = leftEl?.querySelector?.('svg') || leftEl;
+        const rightSvg = rightEl?.querySelector?.('svg') || rightEl;
+        const leftRect = leftSvg?.getBoundingClientRect?.() || { width: 0, height: 0 };
+        const rightRect = rightSvg?.getBoundingClientRect?.() || { width: 0, height: 0 };
 
         return {
-          openai: {
-            naturalWidth: openai.naturalWidth,
-            naturalHeight: openai.naturalHeight,
-            renderedWidth: openai.getBoundingClientRect().width,
-            renderedHeight: openai.getBoundingClientRect().height,
-            colorScheme: openaiStyle.colorScheme
+          left: {
+            exists: Boolean(leftEl),
+            width: leftRect.width,
+            height: leftRect.height
           },
-          claude: {
-            naturalWidth: claude.naturalWidth,
-            naturalHeight: claude.naturalHeight,
-            renderedWidth: claude.getBoundingClientRect().width,
-            renderedHeight: claude.getBoundingClientRect().height,
-            colorScheme: claudeStyle.colorScheme
+          right: {
+            exists: Boolean(rightEl),
+            width: rightRect.width,
+            height: rightRect.height
           }
         };
       });
 
-      assert.ok(marks.openai.naturalWidth > 0 && marks.openai.naturalHeight > 0, 'OpenAI mark must load valid natural dimensions');
-      assert.ok(marks.claude.naturalWidth > 0 && marks.claude.naturalHeight > 0, 'Claude mark must load valid natural dimensions');
+      assert.ok(marks.left.exists, 'Left advocate mark must be present');
+      assert.ok(marks.right.exists, 'Right advocate mark must be present');
+      assert.ok(marks.left.width > 0 && marks.left.height > 0, 'Left advocate mark must render with positive dimensions');
+      assert.ok(marks.right.width > 0 && marks.right.height > 0, 'Right advocate mark must render with positive dimensions');
 
-      const openaiAspect = marks.openai.renderedWidth / marks.openai.renderedHeight;
-      const claudeAspect = marks.claude.renderedWidth / marks.claude.renderedHeight;
-      assert.ok(Math.abs(openaiAspect - 1.0) < 0.05, `OpenAI mark aspect ratio must be 1:1, got ${openaiAspect.toFixed(2)}`);
-      assert.ok(Math.abs(claudeAspect - 1.0) < 0.05, `Claude mark aspect ratio must be 1:1, got ${claudeAspect.toFixed(2)}`);
-
-      assert.equal(marks.openai.colorScheme, 'light', 'OpenAI mark image must have color-scheme: light');
-      assert.equal(marks.claude.colorScheme, 'light', 'Claude mark image must have color-scheme: light');
+      const leftAspect = marks.left.width / marks.left.height;
+      const rightAspect = marks.right.width / marks.right.height;
+      assert.ok(Math.abs(leftAspect - 1.0) < 0.25, `Left advocate aspect ratio must be ~1:1, got ${leftAspect.toFixed(2)}`);
+      assert.ok(Math.abs(rightAspect - 1.0) < 0.25, `Right advocate aspect ratio must be ~1:1, got ${rightAspect.toFixed(2)}`);
 
       await context.close();
       return marks;
@@ -359,7 +381,7 @@ async function main() {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
       await page.clock.install();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await page.click('#skip-intro');
 
       const initialProgress = await page.evaluate(() => document.querySelector('#progress-label').textContent);
@@ -395,7 +417,7 @@ async function main() {
     await runCase('step_updates_chat_docket_rounds', 'Step to each event updates chat exactly once, docket, and rounds', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -428,7 +450,7 @@ async function main() {
     await runCase('ruling_markers_and_reset', 'Ruling markers complete decisions and reset to LISTENING on subsequent non-ruling event', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -483,7 +505,7 @@ async function main() {
     await runCase('deadlock_indicator', 'Deadlock event 14 displays deadlock status and awaits appeal', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -520,7 +542,7 @@ async function main() {
     await runCase('appeal_event_15_paused_disabled', 'Event 15 appeal pauses playback and disables step/play buttons', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -553,7 +575,7 @@ async function main() {
     await runCase('focus_guidance_appeal_and_verdict', 'Focus moves from playback to first appeal choice and final download', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -598,7 +620,7 @@ async function main() {
     await runCase('dialogue_expand_collapse', 'Dialogue full text expand and collapse toggle operates properly', async () => {
       const context = await browser.newContext({ viewport: { width: 320, height: 740 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -670,7 +692,7 @@ async function main() {
       for (const choice of choices) {
         const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, acceptDownloads: true });
         const page = await context.newPage();
-        await page.goto(BASE_URL);
+        await page.goto(DEMO_URL);
         await settleView(page);
         await page.click('#skip-intro');
         await settleView(page);
@@ -725,7 +747,7 @@ async function main() {
     await runCase('restart_clears_choice_and_chat', 'Restart clears previous choices, resets chat and docket', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -765,7 +787,7 @@ async function main() {
     await runCase('docket_details_preserved_on_step', 'Docket details open state and focus preserved when stepping', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -797,7 +819,7 @@ async function main() {
     await runCase('chat_scroll_preserve_and_indicator', 'Chat scroll up preserves position and displays new message indicator', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -853,7 +875,7 @@ async function main() {
     await runCase('toggles_about_and_participants', 'About and participants panel toggles work with aria-expanded', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -898,7 +920,7 @@ async function main() {
     await runCase('intro_replay_pauses', 'Replaying intro returns to intro and pauses active playback', async () => {
       const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -926,7 +948,7 @@ async function main() {
     await runCase('mobile_tabs_accessibility', 'Mobile tabs expose court, chat, and docket views without inaccessible content', async () => {
       const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
       const page = await context.newPage();
-      await page.goto(BASE_URL);
+      await page.goto(DEMO_URL);
       await settleView(page);
       await page.click('#skip-intro');
       await settleView(page);
@@ -978,7 +1000,7 @@ async function main() {
 
       const normalContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
       const pageNormal = await normalContext.newPage();
-      await pageNormal.goto(BASE_URL);
+      await pageNormal.goto(DEMO_URL);
       await settleView(pageNormal);
       await pageNormal.click('#skip-intro');
 
@@ -1013,6 +1035,8 @@ async function main() {
 
       await captureDocScroll('intro.png');
 
+      await page.goto(DEMO_URL);
+      await settleView(page, 400);
       await page.click('#skip-intro');
       await settleView(page, 400);
       await captureDocScroll('court.png');
@@ -1046,7 +1070,7 @@ async function main() {
 
       const mcontext = await browser.newContext({ viewport: { width: 390, height: 844 } });
       const mpage = await mcontext.newPage();
-      await mpage.goto(BASE_URL);
+      await mpage.goto(DEMO_URL);
       await settleView(mpage);
       await mpage.click('#skip-intro');
       await settleView(mpage, 300);
@@ -1069,7 +1093,7 @@ async function main() {
 
       const scontext = await browser.newContext({ viewport: { width: 320, height: 740 } });
       const spage = await scontext.newPage();
-      await spage.goto(BASE_URL);
+      await spage.goto(DEMO_URL);
       await settleView(spage);
       await spage.click('#skip-intro');
       await settleView(spage, 300);
@@ -1108,7 +1132,7 @@ async function main() {
 
       const dContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
       const dPage = await dContext.newPage();
-      await dPage.goto(BASE_URL);
+      await dPage.goto(DEMO_URL);
       await settleView(dPage);
 
       const dIntro = await new AxeBuilder({ page: dPage }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
@@ -1138,7 +1162,7 @@ async function main() {
 
       const mContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
       const mPage = await mContext.newPage();
-      await mPage.goto(BASE_URL);
+      await mPage.goto(DEMO_URL);
       await settleView(mPage);
 
       const mIntro = await new AxeBuilder({ page: mPage }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();

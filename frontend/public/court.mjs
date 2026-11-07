@@ -4,15 +4,65 @@ import { avatarMarkup, setAvatarState } from './avatars.mjs';
 // The live court reads the clerk's read-only stream through this server's
 // /api proxy. Without a running clerk it replays a real recorded rehearsal,
 // clearly labelled. It never sends anything: decisions happen in Switch.
-const CASE = new URLSearchParams(location.search).get('case') || 'C01';
 const $ = selector => document.querySelector(selector);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c]);
-const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const gsapReady = () => window.gsap && !reduced;
+
+const motionQuery = typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion: reduce)') : null;
+let reduced = Boolean(motionQuery?.matches);
+function handleReducedMotionChange(matches) {
+  reduced = Boolean(matches);
+  if (reduced && window.gsap) {
+    const courtSelectors = [
+      '#phase-label',
+      '#phase-label span',
+      '#caption-text',
+      '#caption-text span',
+      '#beats .beat',
+      '.reveal',
+      '.scene-background',
+      '.layer-bench',
+      '.podium',
+      '#stamp',
+      '.card',
+      '.card .veto'
+    ];
+    courtSelectors.forEach(sel => {
+      try {
+        gsap.killTweensOf(sel);
+        document.querySelectorAll(sel).forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.visibility = 'visible';
+        });
+      } catch (_) {}
+    });
+  }
+}
+motionQuery?.addEventListener?.('change', event => {
+  handleReducedMotionChange(event.matches);
+});
+const isReducedMotion = () => Boolean(motionQuery?.matches || reduced);
+const gsapReady = () => Boolean(window.gsap && !isReducedMotion());
+
 const perspectives = {arata: 'The letter', vale: 'Feasibility', thorne: 'Consent'};
 const ROLE_JUDGES = {thorne: /REQUIRES|FORBIDS|ASSET:/, vale: /FOUR_PANELS|THIRTY_SECONDS/, arata: /COPY|FINAL|ASSET:/};
 
-const state = {mode: 'connecting', view: null, boards: new Map(), briefs: null, seenBeats: new Set()};
+let currentSessionId = 0;
+
+const state = {
+  mode: 'connecting',
+  view: null,
+  boards: new Map(),
+  briefs: null,
+  seenBeats: new Set(),
+  performedBeats: new Set(),
+  cursor: 0,
+  latestEventId: 0,
+  activeStream: null,
+  replayTimer: null,
+  reconnecting: false,
+  sessionId: 0,
+};
 
 // ── Text helpers ────────────────────────────────────────────────────────────
 function clean(text) {
@@ -30,14 +80,14 @@ function speakerName(speaker, view = state.view) {
   if (speaker === 'clerk') return 'The clerk';
   if (speaker === 'lead' || speaker === 'creator') return speaker === 'lead' ? 'Lead advocate' : 'Creator advocate';
   if (speaker?.startsWith('owner:')) return view.cast.owners[speaker.slice(6)]?.username ?? 'Owner';
-  return 'Unknown';
+  return speaker || 'Unknown';
 }
 const kindLabel = {filing: 'Filing', procedure: 'Procedure', mandate: 'Mandate adopted', summons: 'Summons', deliberating: 'Deliberating', proposal: 'Motion', ruling: 'Ruling of the checks', objection: 'Objection', endorsement: 'Recommendation', appeal: 'Recess · human decision', decision: 'Owner decision', draft_verdict: 'Frozen for signature', signature: 'Signature', withdrawal: 'Withdrawal', verdict: 'Verdict', recess: 'Negotiation paused', turn_failed: 'Turn failed', overruled: 'Overruled'};
 function beatLine(beat) {
   switch (beat.type) {
     case 'proposal': return beat.quote;
     case 'endorsement': return beat.quote;
-    case 'objection': return beat.basis === 'review' ? beat.quote : `BOARD${beat.boardRevision} fails: ${beat.failed.map(check => check.detail).join(' ')}`;
+    case 'objection': return beat.basis === 'review' ? beat.quote : `BOARD${beat.boardRevision} fails: ${(beat.failed || []).map(check => check.detail).join(' ')}`;
     case 'appeal': return beat.question || clean(beat.text).split(' replacing ')[0] + '.';
     case 'overruled': return beat.agentOverreach ? 'An advocate tried to make a human decision. The advocate is not the client.' : beat.reason;
     case 'deliberating': return `${speakerName(beat.speaker)} is preparing a structured turn.`;
@@ -94,34 +144,49 @@ function stamp(text, tone = 'bad') {
 }
 
 // ── Case file rendering ─────────────────────────────────────────────────────
-function renderBriefs(owners, briefs) {
+function renderBriefs(owners, briefs = null, adoptCommands = state.view?.adopt) {
+  if (!owners) return;
   $('#briefs').innerHTML = ['lead', 'creator'].map(role => {
-    const owner = owners[role], brief = briefs?.[role] ?? owner.brief, content = brief.content ?? brief;
+    const owner = owners[role];
+    if (!owner) return '';
+    const brief = briefs?.[role] ?? owner.brief, content = brief.content ?? brief;
     const adopted = brief.adopted ?? owner.adopted;
+    const adoptCmd = (!adopted && state.mode === 'live') ? adoptCommands?.[role] : null;
     return `<div class="brief" data-role="${role}"><span class="seal ${adopted ? '' : 'pending'}">${adopted ? 'ADOPTED' : 'DRAFT'}</span>
-      <span class="eyebrow">${role === 'lead' ? 'Lead' : 'Creator'} · ${esc(brief.ref ?? owner.briefRef)}</span><h3>${esc(owner.username)}</h3><span class="who">${esc(content.goal)}</span>
-      <dl><div><dt>Must include</dt><dd>${[...content.requiredAssets, ...content.requiredCopy].map(item => `<span class="tag">${esc(item)}</span>`).join('') || '—'}</dd></div>
-      <div><dt>Will not allow</dt><dd>${content.forbiddenAssets.map(item => `<span class="tag forbid">${esc(item)}</span>`).join('') || '—'}</dd></div>
-      <div><dt>Closing line</dt><dd>${content.finalCopy.map(item => `<span class="tag">${esc(item)}</span>`).join('') || '—'}</dd></div></dl></div>`;
+      <span class="eyebrow">${role === 'lead' ? 'Lead' : 'Creator'} · ${esc(brief.ref ?? owner.briefRef)}</span><h3>${esc(owner.username)}</h3><span class="who">${esc(content?.goal ?? '')}</span>
+      <dl><div><dt>Must include</dt><dd>${[...(content?.requiredAssets ?? []), ...(content?.requiredCopy ?? [])].map(item => `<span class="tag">${esc(item)}</span>`).join('') || '—'}</dd></div>
+      <div><dt>Will not allow</dt><dd>${(content?.forbiddenAssets ?? []).map(item => `<span class="tag forbid">${esc(item)}</span>`).join('') || '—'}</dd></div>
+      <div><dt>Closing line</dt><dd>${(content?.finalCopy ?? []).map(item => `<span class="tag">${esc(item)}</span>`).join('') || '—'}</dd></div></dl>
+      ${adoptCmd ? `<div class="brief-adopt" style="margin-top:14px;"><dt style="font:500 9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#7a654b;margin-bottom:4px;">Adopt in Switch</dt><code style="font-size:11px;padding:6px 8px;">${esc(adoptCmd)}</code></div>` : ''}</div>`;
   }).join('');
 }
+
 function renderBoard(board, {animate = false} = {}) {
   const grid = $('#board');
-  if (!board) { grid.innerHTML = '<div class="board-empty">The advocates have not proposed a storyboard yet.</div>'; $('#checks').innerHTML = ''; return; }
-  $('#board-title').textContent = board.title;
-  const total = board.panels.reduce((sum, panel) => sum + panel.seconds, 0);
-  $('#board-meta').textContent = `BOARD${board.revision} · ${board.panels.length} panels · ${total}s${board.stale ? ' · superseded' : ''}`;
-  grid.innerHTML = board.panels.map((panel, index) => {
+  if (!board) {
+    grid.innerHTML = '<div class="board-empty">The advocates have not proposed a storyboard yet.</div>';
+    $('#checks').innerHTML = '';
+    $('#board-title').textContent = 'No storyboard yet';
+    $('#board-meta').textContent = '';
+    return;
+  }
+  $('#board-title').textContent = board.title || 'Storyboard';
+  const total = (board.panels || []).reduce((sum, panel) => sum + (panel.seconds || 0), 0);
+  $('#board-meta').textContent = `BOARD${board.revision} · ${(board.panels || []).length} panels · ${total}s${board.stale ? ' · superseded' : ''}`;
+  grid.innerHTML = (board.panels || []).map((panel, index) => {
     const known = ['notebook', 'hands-sketch', 'light-trails', 'signal-mark'].includes(panel.assetId);
     return `<div class="card" data-asset="${esc(panel.assetId)}"><span class="sec">${index + 1} · ${panel.seconds}s</span>
       ${known ? `<img src="/storyboard/${panel.assetId}.svg" alt="${esc(panel.assetId)}">` : `<div class="missing">${esc(panel.assetId)}<br>not permitted</div>`}
       <div class="on">${esc(panel.onScreen)}</div><p>${esc(panel.scene)}</p><span class="veto">Vetoed</span></div>`;
   }).join('');
   $('#checks').innerHTML = (board.checks ?? []).map(check => `<li data-pass="${check.passed}">${check.passed ? '✓' : '✕'} ${esc(check.detail)}</li>`).join('');
+  const failed = (board.checks ?? []).filter(check => !check.passed);
+  if (failed.length) vetoCards(failed);
   if (animate && gsapReady()) gsap.from(grid.querySelectorAll('.card'), {y: 60, rotate: (i) => (i - 1.5) * 4, opacity: 0, duration: .8, ease: 'expo.out', stagger: .08});
 }
+
 function vetoCards(failed) {
-  const codes = failed.map(check => check.code).join(' ');
+  const codes = (failed || []).map(check => check.code).join(' ');
   document.querySelectorAll('#board .card').forEach(card => {
     if (codes.includes(card.dataset.asset)) {
       card.classList.add('is-vetoed');
@@ -129,34 +194,69 @@ function vetoCards(failed) {
     }
   });
 }
+
 function renderSeals(view, signed = view.approvals) {
-  $('#seals').innerHTML = ['lead', 'creator'].map(role => `<div class="seal-slot ${signed[role] ? 'is-signed' : ''}" data-role="${role}"><div class="wax">${signed[role] ? '§' : ''}</div><strong>${esc(view.cast.owners[role].username)}</strong><span>${signed[role] ? 'Signed this exact bundle' : 'Not signed'}</span></div>`).join('');
-  $('#exports').innerHTML = view.exports ? `<a href="${view.exports.html}">Approved storyboard</a><a href="${view.exports.script}">Script</a><a href="${view.exports.receipt}">Consent receipt</a>` : '';
-  if (view.approvals?.command && state.mode === 'live' && view.approvals.count < 2) $('#sign-note').innerHTML = `Each owner sends this from their own account in Switch:<code>${esc(view.approvals.command)}</code>`;
+  if (!view?.cast?.owners) return;
+  $('#seals').innerHTML = ['lead', 'creator'].map(role => {
+    const isSigned = Boolean(signed?.[role]);
+    return `<div class="seal-slot ${isSigned ? 'is-signed' : ''}" data-role="${role}"><div class="wax">${isSigned ? '§' : ''}</div><strong>${esc(view.cast.owners[role]?.username ?? role)}</strong><span>${isSigned ? 'Signed this exact bundle' : 'Not signed'}</span></div>`;
+  }).join('');
+  if (state.mode === 'live' && view.exports) {
+    $('#exports').innerHTML = `<a href="${view.exports.html}">Approved storyboard</a><a href="${view.exports.script}">Script</a><a href="${view.exports.receipt}">Consent receipt</a>`;
+  } else {
+    $('#exports').innerHTML = '';
+  }
+  const signNote = $('#sign-note');
+  if (state.mode === 'live' && view.stage === 'AWAITING_APPROVALS' && view.approvals?.command && (view.approvals.count ?? 0) < 2) {
+    signNote.innerHTML = `Each owner sends this from their own account in Switch:<code>${esc(view.approvals.command)}</code>`;
+  } else {
+    signNote.textContent = 'An advocate can argue for its owner. It can never consent for them.';
+  }
 }
+
 function renderQuestion(question, view) {
   const section = $('#question');
   if (!question) { section.hidden = true; return; }
   section.hidden = false;
   $('#question-title').textContent = question.reason || `Should ${question.replaces} be replaced?`;
-  $('#question-detail').textContent = `Only ${view.cast.owners[question.owner.slice(6)].username} can decide ${question.requestId}. No advocate turn runs until they do.`;
-  $('#question-owner').textContent = view.cast.owners[question.owner.slice(6)].username;
+  const ownerUsername = view.cast.owners[question.owner.slice(6)]?.username ?? 'Owner';
+  $('#question-detail').textContent = `Only ${ownerUsername} can decide ${question.requestId}. No advocate turn runs until they do.`;
+  $('#question-owner').textContent = ownerUsername;
   $('#question-accept').textContent = question.accept; $('#question-decline').textContent = question.decline;
 }
-function addBeat(beat) {
-  if (state.seenBeats.has(beat.id) || beat.type === 'deliberating') return;
-  state.seenBeats.add(beat.id);
+
+function renderBeatListItem(beat) {
+  if (!beat || beat.type === 'deliberating') return;
   const li = document.createElement('li');
   li.className = 'beat'; li.dataset.type = beat.type;
-  const time = new Date(beat.at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'});
-  li.innerHTML = `<span class="n">${String(beat.id).padStart(3, '0')}</span><span class="who">${esc(speakerName(beat.speaker))}</span><span class="what"><b>${esc(kindLabel[beat.type] ?? beat.type)}</b><span>${esc((beatLine(beat) ?? '').slice(0, 320))}</span><small>${time}${beat.roomMessageId ? ` · Switch ${esc(beat.roomMessageId)}` : beat.sourceId ? ` · source ${esc(beat.sourceId)}` : ''}</small></span>`;
+  const time = new Date(beat.at || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'});
+  li.innerHTML = `<span class="n">${String(beat.id ?? '').padStart(3, '0')}</span><span class="who">${esc(speakerName(beat.speaker))}</span><span class="what"><b>${esc(kindLabel[beat.type] ?? beat.type)}</b><span>${esc((beatLine(beat) ?? '').slice(0, 320))}</span><small>${time}${beat.roomMessageId ? ` · Switch ${esc(beat.roomMessageId)}` : beat.sourceId ? ` · source ${esc(beat.sourceId)}` : ''}</small></span>`;
   const list = $('#beats');
   list.prepend(li);
-  if (gsapReady()) gsap.from(li, {height: 0, opacity: 0, duration: .5, ease: 'power3.out'});
+}
+
+function addBeat(beat) {
+  if (!beat || state.seenBeats.has(beat.id) || beat.type === 'deliberating') return;
+  state.seenBeats.add(beat.id);
+  if (Number.isFinite(beat.id) && beat.id > state.cursor) {
+    state.cursor = beat.id;
+  }
+  renderBeatListItem(beat);
+  const list = $('#beats');
+  const firstChild = list.firstElementChild;
+  if (firstChild && gsapReady()) gsap.from(firstChild, {height: 0, opacity: 0, duration: .5, ease: 'power3.out'});
 }
 
 // ── Choreography: what the room does for each kind of beat ──────────────────
 function perform(beat) {
+  if (!beat) return;
+  if (beat.id != null) {
+    if (state.performedBeats.has(beat.id)) return;
+    state.performedBeats.add(beat.id);
+    if (Number.isFinite(beat.id) && beat.id > state.cursor) {
+      state.cursor = beat.id;
+    }
+  }
   const speaker = beat.speaker === 'lead' || beat.speaker === 'creator' ? beat.speaker : beat.target ?? 'clerk';
   scene.dataset.speaker = speaker;
   setCaption(beat);
@@ -167,9 +267,9 @@ function perform(beat) {
     case 'proposal': setAdvocates('lead', 'speaking'); setJudges({all: 'is-assessing'}); if (state.boards.has(beat.boardRevision)) renderBoard(state.boards.get(beat.boardRevision), {animate: true}); replayEvent('statement'); break;
     case 'objection':
       if (beat.basis === 'rules') {
-        const failed = beat.failed.map(check => check.code).join(' ');
+        const failed = (beat.failed || []).map(check => check.code).join(' ');
         setJudges(Object.fromEntries(Object.entries(ROLE_JUDGES).map(([id, rule]) => [id, rule.test(failed) ? 'is-rejecting' : 'is-accepting'])));
-        setAdvocates('lead', 'idle'); vetoCards(beat.failed); stamp('Objection'); replayEvent('objection');
+        setAdvocates('lead', 'idle'); if (beat.failed) vetoCards(beat.failed); stamp('Objection'); replayEvent('objection');
       } else { setAdvocates('creator', 'objecting'); setJudges({all: 'is-listening'}); stamp('Objection'); replayEvent('objection'); }
       break;
     case 'ruling': setJudges({all: 'is-accepting'}); stamp('The checks pass', 'good'); replayEvent('ruling'); break;
@@ -192,9 +292,7 @@ function orderBeats(beats) {
   const list = beats.filter(beat => beat.type !== 'status');
   for (let i = 0; i < list.length - 1; i++) {
     const [a, b] = [list[i], list[i + 1]];
-    // The clerk records its rule check a moment before it announces the motion.
     if (((a.type === 'objection' && a.basis === 'rules') || a.type === 'ruling') && b.type === 'proposal' && a.boardRevision === b.boardRevision) [list[i], list[i + 1]] = [b, a];
-    // Show the creator's objection before the owner question it raised.
     if (a.type === 'appeal' && b.type === 'objection' && b.basis === 'review') { b.question = b.ownerQuestion; a.question = b.ownerQuestion; [list[i], list[i + 1]] = [b, a]; }
   }
   return list;
@@ -215,82 +313,430 @@ function replayPhase(beat, view, briefs) {
     default: return null;
   }
 }
-async function startReplay(note) {
-  const replay = await (await fetch('/data/replay-signal.json')).json();
-  state.mode = 'replay'; state.view = replay.view; state.briefs = replay.briefs; setCast(replay.view);
-  for (const board of replay.boards) state.boards.set(board.revision, board);
-  setMode('replay', 'Replay · recorded rehearsal');
-  $('#foot-source').textContent = `${note} ${replay.label}`;
-  $('#case-id').textContent = replay.caseId;
-  const beats = orderBeats(replay.view.beats);
-  const bar = $('#replay-bar'); bar.hidden = false;
-  let index = 0, playing = true, timer;
+
+const replayState = {
+  view: null,
+  briefs: null,
+  beats: [],
+  index: 0,
+  playing: false,
+  timer: null,
+  dwell: beat => ({appeal: 6200, objection: 5200, decision: 4200, draft_verdict: 6000, proposal: 5200, endorsement: 4800, ruling: 4200, deliberating: 1600, summons: 2400})[beat.type] ?? 3200,
+};
+
+function showReplayStep(i) {
+  const beat = replayState.beats[i];
+  if (!beat) return;
+  const beats = replayState.beats;
+  const replayView = replayState.view;
+  const replayBriefs = replayState.briefs;
   const briefsAt = upto => {
     const out = {};
     for (const role of ['lead', 'creator']) {
-      const decided = beats.slice(0, upto + 1).filter(beat => beat.type === 'decision' && beat.accepted && beat.ref?.startsWith(role === 'lead' ? 'H' : 'D')).length;
-      const brief = replay.briefs[role][Math.min(decided, replay.briefs[role].length - 1)];
-      const adopted = beats.slice(0, upto + 1).some(beat => beat.type === 'mandate' && beat.role === role);
+      const decided = beats.slice(0, upto + 1).filter(b => b.type === 'decision' && b.accepted && b.ref?.startsWith(role === 'lead' ? 'H' : 'D')).length;
+      const brief = replayBriefs[role][Math.min(decided, replayBriefs[role].length - 1)];
+      const adopted = beats.slice(0, upto + 1).some(b => b.type === 'mandate' && b.role === role);
       out[role] = {...brief, adopted};
     }
     return out;
   };
-  const show = i => {
-    const beat = beats[i];
-    renderBriefs(replay.view.cast.owners, briefsAt(i));
-    if (i === 0) { renderBoard(null); $('#beats').innerHTML = ''; state.seenBeats.clear(); renderSeals(replay.view, {}); }
-    perform(beat);
-    setPhase(replayPhase(beat, replay.view) ?? undefined);
-    renderQuestion(beat.type === 'appeal' ? {...replay.view.question, reason: beat.question, requestId: beat.requestId, owner: beat.awaiting, replaces: beat.baseRef, accept: `@cvc-clerk ACCEPT ${replay.caseId} ${beat.requestId} …`, decline: `@cvc-clerk DECLINE ${replay.caseId} ${beat.requestId} …`} : null, replay.view);
-    $('#replay-progress').style.width = `${((i + 1) / beats.length) * 100}%`;
-    $('#replay-count').textContent = `${i + 1} / ${beats.length}`;
-  };
-  const dwell = beat => ({appeal: 6200, objection: 5200, decision: 4200, draft_verdict: 6000, proposal: 5200, endorsement: 4800, ruling: 4200, deliberating: 1600, summons: 2400})[beat.type] ?? 3200;
-  const tick = () => { clearTimeout(timer); show(index); if (index < beats.length - 1) { index++; if (playing) timer = setTimeout(tick, dwell(beats[index - 1])); } else { playing = false; $('#replay-toggle').textContent = 'Play'; } };
-  $('#replay-toggle').addEventListener('click', () => { playing = !playing; $('#replay-toggle').textContent = playing ? 'Pause' : 'Play'; if (playing) tick(); else clearTimeout(timer); });
-  $('#replay-step').addEventListener('click', () => { playing = false; clearTimeout(timer); $('#replay-toggle').textContent = 'Play'; show(index); if (index < beats.length - 1) index++; });
-  $('#replay-restart').addEventListener('click', () => { index = 0; playing = true; $('#replay-toggle').textContent = 'Pause'; tick(); });
-  setTimeout(tick, 1400);
+
+  renderBriefs(replayView.cast.owners, briefsAt(i));
+  if (i === 0) {
+    renderBoard(null);
+    $('#beats').innerHTML = '';
+    state.seenBeats.clear();
+    state.performedBeats.clear();
+    renderSeals(replayView, {});
+  }
+  perform(beat);
+  setPhase(replayPhase(beat, replayView) ?? undefined);
+  renderQuestion(beat.type === 'appeal' ? {
+    ...replayView.question,
+    reason: beat.question,
+    requestId: beat.requestId,
+    owner: beat.awaiting,
+    replaces: beat.baseRef,
+    accept: `@cvc-clerk ACCEPT ${replayView.caseId} ${beat.requestId} …`,
+    decline: `@cvc-clerk DECLINE ${replayView.caseId} ${beat.requestId} …`
+  } : null, replayView);
+  $('#replay-progress').style.width = `${((i + 1) / beats.length) * 100}%`;
+  $('#replay-count').textContent = `${i + 1} / ${beats.length}`;
+}
+
+function replayTick() {
+  clearTimeout(replayState.timer);
+  clearTimeout(state.replayTimer);
+  replayState.timer = null;
+  state.replayTimer = null;
+  if (replayState.index < replayState.beats.length - 1) {
+    replayState.index++;
+    showReplayStep(replayState.index);
+    if (replayState.playing) {
+      const wait = replayState.dwell(replayState.beats[replayState.index]);
+      replayState.timer = setTimeout(replayTick, wait);
+      state.replayTimer = replayState.timer;
+    }
+  } else {
+    replayState.playing = false;
+    $('#replay-toggle').textContent = 'Play';
+  }
+}
+
+let replayControlsBound = false;
+function setupReplayControls() {
+  if (replayControlsBound) return;
+  replayControlsBound = true;
+
+  $('#replay-toggle')?.addEventListener('click', () => {
+    replayState.playing = !replayState.playing;
+    $('#replay-toggle').textContent = replayState.playing ? 'Pause' : 'Play';
+    if (replayState.playing) {
+      if (replayState.index >= replayState.beats.length - 1) {
+        replayState.index = 0;
+        showReplayStep(0);
+        replayState.timer = setTimeout(replayTick, 1400);
+        state.replayTimer = replayState.timer;
+      } else {
+        replayTick();
+      }
+    } else {
+      clearTimeout(replayState.timer);
+      clearTimeout(state.replayTimer);
+      replayState.timer = null;
+      state.replayTimer = null;
+    }
+  });
+
+  $('#replay-step')?.addEventListener('click', () => {
+    replayState.playing = false;
+    clearTimeout(replayState.timer);
+    clearTimeout(state.replayTimer);
+    replayState.timer = null;
+    state.replayTimer = null;
+    $('#replay-toggle').textContent = 'Play';
+    if (replayState.index < replayState.beats.length - 1) {
+      replayState.index++;
+    }
+    showReplayStep(replayState.index);
+  });
+
+  $('#replay-restart')?.addEventListener('click', () => {
+    replayState.index = 0;
+    replayState.playing = true;
+    $('#replay-toggle').textContent = 'Pause';
+    showReplayStep(0);
+    replayState.timer = setTimeout(replayTick, 1400);
+    state.replayTimer = replayState.timer;
+  });
+}
+
+function resetSession() {
+  const sessionId = ++currentSessionId;
+  state.sessionId = sessionId;
+
+  if (state.replayTimer) {
+    clearTimeout(state.replayTimer);
+    state.replayTimer = null;
+  }
+  if (replayState.timer) {
+    clearTimeout(replayState.timer);
+    replayState.timer = null;
+  }
+  replayState.playing = false;
+  if (state.activeStream) {
+    state.activeStream.close();
+    state.activeStream = null;
+  }
+  state.seenBeats.clear();
+  state.performedBeats.clear();
+  state.boards.clear();
+  state.cursor = 0;
+  state.latestEventId = 0;
+  state.view = null;
+  state.reconnecting = false;
+
+  const bar = $('#replay-bar');
+  if (bar) bar.hidden = true;
+  $('#replay-progress').style.width = '0%';
+  $('#replay-count').textContent = '0 / 0';
+  $('#beats').innerHTML = '';
+  $('#checks').innerHTML = '';
+  $('#board').innerHTML = '';
+  $('#board-title').textContent = 'No storyboard yet';
+  $('#board-meta').textContent = '';
+  $('#exports').innerHTML = '';
+  $('#sign-note').textContent = 'An advocate can argue for its owner. It can never consent for them.';
+  $('#caption-speaker').textContent = 'The clerk';
+  $('#caption-kind').textContent = '';
+  $('#caption-text').textContent = 'Waiting for the room.';
+
+  return sessionId;
+}
+
+async function startReplay(note) {
+  const sessionId = resetSession();
+  const replayResponse = await fetch('/data/replay-signal.json');
+  if (!replayResponse.ok) throw new Error(`replay fetch ${replayResponse.status}`);
+  const replay = await replayResponse.json();
+  if (sessionId !== state.sessionId) return;
+
+  state.mode = 'replay';
+  state.view = replay.view;
+  state.briefs = replay.briefs;
+  // Replay exports must NEVER link to live approvals
+  if (replay.view) replay.view.exports = null;
+  setCast(replay.view);
+  for (const board of replay.boards) state.boards.set(board.revision, board);
+  setMode('replay', 'Replay · recorded rehearsal');
+  $('#foot-source').textContent = `${note} ${replay.label}`;
+  $('#case-id').textContent = replay.caseId;
+
+  replayState.view = replay.view;
+  replayState.briefs = replay.briefs;
+  replayState.beats = orderBeats(replay.view.beats);
+  replayState.index = 0;
+  replayState.playing = true;
+
+  const bar = $('#replay-bar');
+  if (bar) bar.hidden = false;
+  $('#replay-toggle').textContent = 'Pause';
+
+  showReplayStep(0);
+  replayState.timer = setTimeout(replayTick, 1400);
+  state.replayTimer = replayState.timer;
 }
 
 // ── Live: the clerk's own view model and event stream ───────────────────────
+function updateConnectionStatus(ingestion = state.view?.ingestion) {
+  if (state.mode !== 'live') return;
+  if (ingestion?.state === 'live') {
+    setMode('live', 'Live · Switch room');
+  } else if (ingestion?.state === 'paused') {
+    setMode('offline', 'Room ingestion paused');
+  } else if (ingestion?.state === 'starting' || !ingestion) {
+    setMode('starting', 'Connected clerk · starting room');
+  } else {
+    setMode('connecting', 'Connecting to the clerk');
+  }
+}
+
 function applyView(view) {
-  state.view = view; setCast(view);
-  if (view.board) state.boards.set(view.board.revision, view.board);
+  if (!view) return;
+  state.view = view;
+  setCast(view);
+  if (view.board) {
+    state.boards.set(view.board.revision, view.board);
+    const isNewRevision = !$('#board-meta').textContent.startsWith(`BOARD${view.board.revision} `);
+    renderBoard(view.board, { animate: isNewRevision });
+  } else {
+    renderBoard(null);
+  }
   setPhase(view.phase);
-  renderBriefs(view.cast.owners);
-  if (view.board) { const current = $('#board-meta').textContent.startsWith(`BOARD${view.board.revision} `); if (!current) renderBoard(view.board, {animate: true}); }
-  else renderBoard(null);
+  renderBriefs(view.cast.owners, null, view.adopt);
   renderSeals(view);
   renderQuestion(view.question, view);
   $('#case-id').textContent = view.caseId;
-  if (view.ingestion?.state === 'paused') setMode('offline', 'Room ingestion paused');
-  else if (state.mode === 'live') setMode('live', 'Live · Switch room');
+  updateConnectionStatus(view.ingestion);
 }
-async function startLive() {
-  const response = await fetch(`/api/cases/${CASE}/court`, {headers: {accept: 'application/json'}});
-  if (!response.ok) throw new Error(`court ${response.status}`);
-  const view = await response.json();
-  state.mode = 'live'; setMode('live', 'Live · Switch room');
-  $('#foot-source').textContent = 'Live: read-only view of the clerk. Decisions are made only by the bound humans in the Switch room.';
+
+function connectStream(caseId, sessionId) {
+  if (state.activeStream) {
+    state.activeStream.close();
+    state.activeStream = null;
+  }
+  const streamUrl = `/api/cases/${caseId}/stream?after=${state.cursor}`;
+  const stream = new EventSource(streamUrl);
+  state.activeStream = stream;
+
+  stream.addEventListener('beat', event => {
+    if (sessionId !== state.sessionId) return;
+    try {
+      const beat = JSON.parse(event.data);
+      const eventId = Number(event.lastEventId || beat.id);
+      if (Number.isFinite(eventId) && eventId > state.latestEventId) {
+        state.latestEventId = eventId;
+      }
+      perform(beat);
+    } catch (e) {
+      console.error('Failed to parse beat event:', e);
+    }
+  });
+
+  stream.addEventListener('court', event => {
+    if (sessionId !== state.sessionId) return;
+    try {
+      const freshView = JSON.parse(event.data);
+      const eventId = Number(event.lastEventId || 0);
+      const maxBeatId = Array.isArray(freshView.beats) && freshView.beats.length > 0
+        ? Math.max(...freshView.beats.map(b => b.id || 0))
+        : 0;
+      const currentCursor = Math.max(eventId, maxBeatId);
+      if (currentCursor >= state.latestEventId) {
+        state.latestEventId = currentCursor;
+      }
+      applyView(freshView);
+      if (Array.isArray(freshView.beats)) {
+        for (const beat of freshView.beats) {
+          if (!state.performedBeats.has(beat.id)) {
+            perform(beat);
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Failed to parse court event:', e);
+    }
+  });
+
+  stream.addEventListener('ingestion', event => {
+    if (sessionId !== state.sessionId) return;
+    try {
+      const ingestion = JSON.parse(event.data);
+      if (state.view) state.view.ingestion = ingestion;
+      updateConnectionStatus(ingestion);
+    } catch (e) {
+      console.error('Failed to parse ingestion event:', e);
+    }
+  });
+
+  stream.onerror = () => {
+    if (sessionId !== state.sessionId) return;
+    state.reconnecting = true;
+    setMode('offline', 'Reconnecting to the clerk');
+  };
+
+  stream.onopen = () => {
+    if (sessionId !== state.sessionId) return;
+    state.reconnecting = false;
+    updateConnectionStatus(state.view?.ingestion);
+  };
+}
+
+function validateCourtView(view, expectedCaseId) {
+  if (!view || typeof view !== 'object') return false;
+  if (view.version !== 'cvc-court-view-v1') return false;
+  if (view.caseId !== expectedCaseId) return false;
+  if (!view.stage || typeof view.stage !== 'string') return false;
+  if (!view.phase || typeof view.phase !== 'object') return false;
+  if (!view.cast || !view.cast.owners || typeof view.cast.owners !== 'object') return false;
+  if (!Array.isArray(view.beats)) return false;
+  return true;
+}
+
+async function startLive(caseId) {
+  const sessionId = resetSession();
+  const controller = new AbortController();
+  const fetchTimeout = setTimeout(() => controller.abort(new Error('timeout')), 6000);
+  let response, view;
+  try {
+    response = await fetch(`/api/cases/${caseId}/court`, {
+      headers: { accept: 'application/json' },
+      signal: controller.signal
+    });
+    if (response.status === 404) {
+      const err = new Error('Case not found');
+      err.kind = 'not_found';
+      err.status = 404;
+      throw err;
+    }
+    if (response.status === 502) {
+      const err = new Error('Court unreachable (502 Bad Gateway)');
+      err.kind = 'unreachable';
+      err.status = 502;
+      throw err;
+    }
+    if (!response.ok) {
+      const err = new Error(`Court server error (${response.status})`);
+      err.kind = 'unavailable';
+      err.status = response.status;
+      throw err;
+    }
+    try {
+      view = await response.json();
+    } catch (parseErr) {
+      const err = new Error('Malformed JSON payload from court');
+      err.kind = 'unavailable';
+      throw err;
+    }
+  } catch (netErr) {
+    if (netErr.kind) throw netErr;
+    const isTimeout = netErr.name === 'AbortError' || netErr.message?.includes('timeout');
+    const err = new Error(isTimeout ? 'Connection timed out' : (netErr.message || 'Network unreachable'));
+    err.kind = 'unreachable';
+    err.status = 502;
+    throw err;
+  } finally {
+    clearTimeout(fetchTimeout);
+  }
+
+  // Abandoned session check: ignore response if a newer session was started
+  if (sessionId !== state.sessionId) return;
+
+  if (!validateCourtView(view, caseId)) {
+    const err = new Error('Invalid court view schema or version mismatch');
+    err.kind = 'unavailable';
+    throw err;
+  }
+
+  state.mode = 'live';
+  hideRetryButton();
+  $('#foot-source').textContent = 'Connected to the read-only clerk. Decisions are made only by the bound humans in the Switch room.';
   applyView(view);
-  for (const beat of view.beats.slice(-40)) addBeat(beat);
-  const last = view.beats.at(-1); if (last) perform(last);
-  const stream = new EventSource(`/api/cases/${CASE}/stream`);
-  stream.addEventListener('beat', event => perform(JSON.parse(event.data)));
-  stream.addEventListener('court', event => applyView(JSON.parse(event.data)));
-  stream.addEventListener('ingestion', event => { const ingestion = JSON.parse(event.data); setMode(ingestion.state === 'paused' ? 'offline' : 'live', ingestion.state === 'paused' ? 'Room ingestion paused' : 'Live · Switch room'); });
-  stream.onerror = () => setMode('offline', 'Reconnecting to the clerk');
-  stream.onopen = () => setMode('live', 'Live · Switch room');
+
+  // Mark all historical beats as seen and performed so old history is never rechoreographed
+  for (const beat of (view.beats || [])) {
+    state.seenBeats.add(beat.id);
+    state.performedBeats.add(beat.id);
+    if (Number.isFinite(beat.id) && beat.id > state.cursor) {
+      state.cursor = beat.id;
+    }
+  }
+  state.latestEventId = state.cursor;
+
+  // Render recent historical beats in the record list
+  for (const beat of (view.beats || []).slice(-40)) {
+    renderBeatListItem(beat);
+  }
+
+  // Establish stage caption and speaker based on current/latest beat
+  const last = (view.beats || []).at(-1);
+  if (last) {
+    setCaption(last);
+    const speaker = last.speaker === 'lead' || last.speaker === 'creator' ? last.speaker : last.target ?? 'clerk';
+    scene.dataset.speaker = speaker;
+  }
+
+  connectStream(caseId, sessionId);
 }
+
 function setCast(view) {
   for (const role of ["lead", "creator"]) {
     $(`#${role}-model`).textContent = "Codex advocate";
     $(`#${role}-name`).textContent = role === "lead" ? "For the lead" : "For the creator";
-    $(`#${role}-for`).textContent = `acting for ${view.cast.owners[role].username}`;
+    $(`#${role}-for`).textContent = `acting for ${view.cast.owners[role]?.username ?? '—'}`;
   }
 }
-function setMode(mode, label) { $('#mode').dataset.mode = mode; $('#mode-label').textContent = label; }
+function setMode(mode, label) {
+  const el = $('#mode');
+  if (el) el.dataset.mode = mode;
+  const lbl = $('#mode-label');
+  if (lbl) lbl.textContent = label;
+}
+
+function showRetryButton() {
+  const btn = $('#retry-live');
+  if (btn) btn.hidden = false;
+}
+function hideRetryButton() {
+  const btn = $('#retry-live');
+  if (btn) btn.hidden = true;
+}
+
+$('#retry-live')?.addEventListener('click', () => {
+  hideRetryButton();
+  setMode('connecting', 'Connecting to the clerk');
+  init();
+});
 
 // ── Motion: entrance, parallax and scroll reveals ───────────────────────────
 function motion() {
@@ -313,7 +759,69 @@ function motion() {
   gsap.utils.toArray('.reveal').forEach(panel => gsap.from(panel, {y: 70, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: {trigger: panel, start: 'top 88%'}}));
 }
 
+// ── Main startup ────────────────────────────────────────────────────────────
+const CASE_REGEX = /^C[A-Z0-9_-]{1,31}$/;
+
+async function init() {
+  const params = new URLSearchParams(location.search);
+  const rawCase = params.get('case');
+  const isExplicitReplay = params.get('replay') === '1' || params.get('replay') === 'true';
+
+  if (rawCase !== null && !CASE_REGEX.test(rawCase)) {
+    resetSession();
+    setMode('offline', 'Court unavailable');
+    $('#case-id').textContent = rawCase;
+    $('#foot-source').textContent = 'Invalid case identifier.';
+    $('#phase-code').textContent = 'Error';
+    $('#phase-label').textContent = 'Invalid case format';
+    $('#phase-detail').textContent = 'Case identifier must match /^C[A-Z0-9_-]{1,31}$/.';
+    renderBoard(null);
+    showRetryButton();
+    return;
+  }
+
+  const caseId = rawCase || 'C01';
+  $('#case-id').textContent = caseId;
+
+  if (isExplicitReplay) {
+    await startReplay('Replay mode requested (?replay=1). Replaying recorded rehearsal.').catch(() => {
+      setMode('offline', 'Court unavailable');
+      showRetryButton();
+    });
+    return;
+  }
+
+  try {
+    await startLive(caseId);
+  } catch (error) {
+    if (error.kind === 'unreachable' || error.status === 502) {
+      showRetryButton();
+      await startReplay(`Recorded replay · synthetic rehearsal fallback (live clerk unreachable: ${error.message}).`).catch(() => {
+        setMode('offline', 'Court unavailable');
+      });
+    } else if (error.kind === 'not_found' || error.status === 404) {
+      setMode('offline', 'Court unavailable');
+      $('#foot-source').textContent = `Case ${caseId} was not found on the clerk.`;
+      $('#phase-code').textContent = '404';
+      $('#phase-label').textContent = 'Case not found';
+      $('#phase-detail').textContent = `The clerk has no active record for case ${caseId}.`;
+      renderBoard(null);
+      showRetryButton();
+    } else {
+      // HTTP 500, malformed JSON, schema mismatch, 400, 403: show unavailable + retry, NEVER fall back to replay
+      setMode('offline', 'Court unavailable');
+      $('#foot-source').textContent = `Court unavailable (${error.message}).`;
+      $('#phase-code').textContent = 'Error';
+      $('#phase-label').textContent = 'Court unavailable';
+      $('#phase-detail').textContent = error.message;
+      renderBoard(null);
+      showRetryButton();
+    }
+  }
+}
+
+setupReplayControls();
 motion();
 setJudges({all: 'is-listening'});
 setAdvocates(null);
-startLive().catch(error => startReplay(`The clerk is not reachable here (${error.message}), so this is a replay.`).catch(() => setMode('offline', 'Court unavailable')));
+init();

@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-07T10:52:00.836Z",
+  "timestamp": "2026-11-07T15:36:21.038Z",
   "executablePath": "/home/harshil/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome",
-  "baseUrl": "http://127.0.0.1:4173",
+  "baseUrl": "http://127.0.0.1:45211",
   "summary": {
     "total": 22,
     "passed": 22,
@@ -13,7 +13,7 @@
       "id": "keyboard_skip_intro",
       "title": "Immediate Skip intro keyboard first, focuses #main, intro inert",
       "status": "passed",
-      "durationMs": 1238,
+      "durationMs": 7467,
       "details": {
         "mainFocused": true,
         "introHidden": true,
@@ -27,10 +27,10 @@
       "id": "assets_and_resources",
       "title": "All images and fonts loaded with no resource errors",
       "status": "passed",
-      "durationMs": 1373,
+      "durationMs": 1445,
       "details": {
         "fontsLoaded": true,
-        "totalImages": 10,
+        "totalImages": 6,
         "unloadedImages": []
       },
       "error": null
@@ -39,7 +39,7 @@
       "id": "layout_viewports_and_overflow",
       "title": "Desktop 3:1 ratio (unless 300px min) and zero horizontal overflow across viewports",
       "status": "passed",
-      "durationMs": 6756,
+      "durationMs": 6410,
       "details": {
         "desktop": {
           "clientWidth": 1440,
@@ -81,9 +81,9 @@
     },
     {
       "id": "judges_scene_bounds_and_widths",
-      "title": "All 3 judges in scene bounds with equal widths",
+      "title": "All 3 judges in scene bounds with visible bench composition",
       "status": "passed",
-      "durationMs": -210,
+      "durationMs": 1316,
       "details": {
         "sceneRect": {
           "x": 0,
@@ -97,33 +97,33 @@
         },
         "judges": [
           {
-            "id": "japan-inspired",
-            "left": 265.6796875,
-            "right": 460.0703125,
-            "top": 205.265625,
-            "bottom": 401.859375,
-            "width": 194.390625,
-            "height": 196.59375,
+            "id": "arata",
+            "left": 311.11126708984375,
+            "right": 417.02001953125,
+            "top": 204.39230346679688,
+            "bottom": 393.9976501464844,
+            "width": 105.90875244140625,
+            "height": 189.6053466796875,
             "inSceneBounds": true
           },
           {
-            "id": "woman",
-            "left": 442.8046875,
-            "right": 637.1953125,
-            "top": 205.265625,
-            "bottom": 401.859375,
-            "width": 194.390625,
-            "height": 196.59375,
+            "id": "vale",
+            "left": 486.3010559082031,
+            "right": 593.683349609375,
+            "top": 199.94729614257812,
+            "bottom": 393.9976501464844,
+            "width": 107.38229370117188,
+            "height": 194.05035400390625,
             "inSceneBounds": true
           },
           {
-            "id": "victorian-inspired",
-            "left": 619.9140625,
-            "right": 814.3046875,
-            "top": 205.265625,
-            "bottom": 401.859375,
-            "width": 194.390625,
-            "height": 196.59375,
+            "id": "thorne",
+            "left": 661.8724365234375,
+            "right": 770.8890380859375,
+            "top": 196.87452697753906,
+            "bottom": 393.9976501464844,
+            "width": 109.0166015625,
+            "height": 197.1231231689453,
             "inSceneBounds": true
           }
         ]
@@ -132,23 +132,19 @@
     },
     {
       "id": "provider_marks_aspect_and_styling",
-      "title": "Provider natural aspects preserved and OpenAI SVG color-scheme:light",
+      "title": "Advocate avatars retain aspect ratio, bounds, and styling",
       "status": "passed",
-      "durationMs": 1348,
+      "durationMs": 1339,
       "details": {
-        "openai": {
-          "naturalWidth": 180,
-          "naturalHeight": 180,
-          "renderedWidth": 44,
-          "renderedHeight": 44,
-          "colorScheme": "light"
+        "left": {
+          "exists": true,
+          "width": 129.59375,
+          "height": 129.59378051757812
         },
-        "claude": {
-          "naturalWidth": 248,
-          "naturalHeight": 248,
-          "renderedWidth": 44,
-          "renderedHeight": 44,
-          "colorScheme": "light"
+        "right": {
+          "exists": true,
+          "width": 129.59375,
+          "height": 129.59371948242188
         }
       },
       "error": null
@@ -157,7 +153,7 @@
       "id": "playback_clock_play_pause",
       "title": "Play/pause and no advances after pause using page.clock",
       "status": "passed",
-      "durationMs": 442,
+      "durationMs": 610,
       "details": {
         "initialProgress": "01 / 16",
         "advancedProgress": "02 / 16",
@@ -169,7 +165,7 @@
       "id": "step_updates_chat_docket_rounds",
       "title": "Step to each event updates chat exactly once, docket, and rounds",
       "status": "passed",
-      "durationMs": 2418,
+      "durationMs": 2593,
       "details": {
         "stepsVerified": 13
       },
@@ -179,14 +175,14 @@
       "id": "ruling_markers_and_reset",
       "title": "Ruling markers complete decisions and reset to LISTENING on subsequent non-ruling event",
       "status": "passed",
-      "durationMs": 3332,
+      "durationMs": 3554,
       "details": {
         "finalRulingState": [
           {
-            "perspective": "Fairness",
+            "perspective": "Cost",
             "decision": "Accept",
             "status": "ACCEPT",
-            "ariaLabel": "Fairness: Accept. Both owners keep their essential priorities."
+            "ariaLabel": "Cost: Accept. A single evaluator avoids unnecessary model calls."
           },
           {
             "perspective": "Feasibility",
@@ -195,15 +191,15 @@
             "ariaLabel": "Feasibility: Narrow. One bounded hearing fits the weekend. Three separate judge services do not."
           },
           {
-            "perspective": "Cost",
+            "perspective": "Fairness",
             "decision": "Accept",
             "status": "ACCEPT",
-            "ariaLabel": "Cost: Accept. A single evaluator avoids unnecessary model calls."
+            "ariaLabel": "Fairness: Accept. Both owners keep their essential priorities."
           }
         ],
         "resetMarkers": [
           {
-            "perspective": "Fairness",
+            "perspective": "Cost",
             "hasDecision": false,
             "status": "LISTENING"
           },
@@ -213,7 +209,7 @@
             "status": "LISTENING"
           },
           {
-            "perspective": "Cost",
+            "perspective": "Fairness",
             "hasDecision": false,
             "status": "LISTENING"
           }
@@ -225,7 +221,7 @@
       "id": "deadlock_indicator",
       "title": "Deadlock event 14 displays deadlock status and awaits appeal",
       "status": "passed",
-      "durationMs": 2218,
+      "durationMs": 2310,
       "details": {
         "hidden": false,
         "type": "deadlock",
@@ -239,7 +235,7 @@
       "id": "appeal_event_15_paused_disabled",
       "title": "Event 15 appeal pauses playback and disables step/play buttons",
       "status": "passed",
-      "durationMs": 2314,
+      "durationMs": 2493,
       "details": {
         "panelHidden": false,
         "playDisabled": true,
@@ -253,7 +249,7 @@
       "id": "focus_guidance_appeal_and_verdict",
       "title": "Focus moves from playback to first appeal choice and final download",
       "status": "passed",
-      "durationMs": 2352,
+      "durationMs": 2494,
       "details": {
         "focusAtAppeal": {
           "activeChoice": true,
@@ -272,7 +268,7 @@
       "id": "dialogue_expand_collapse",
       "title": "Dialogue full text expand and collapse toggle operates properly",
       "status": "passed",
-      "durationMs": 1615,
+      "durationMs": 1565,
       "details": {
         "beforeExpand": {
           "hidden": false,
@@ -299,7 +295,7 @@
       "id": "human_choices_and_download",
       "title": "Both human choices separately complete hearing, 4 items agreed, and plan download verified",
       "status": "passed",
-      "durationMs": 4687,
+      "durationMs": 3320,
       "details": {
         "local": {
           "verdict": {
@@ -328,7 +324,7 @@
       "id": "restart_clears_choice_and_chat",
       "title": "Restart clears previous choices, resets chat and docket",
       "status": "passed",
-      "durationMs": 2382,
+      "durationMs": 2630,
       "details": {
         "progress": "01 / 16",
         "chatCount": 1,
@@ -342,7 +338,7 @@
       "id": "docket_details_preserved_on_step",
       "title": "Docket details open state and focus preserved when stepping",
       "status": "passed",
-      "durationMs": 1451,
+      "durationMs": 1527,
       "details": {
         "isOpen": true,
         "summaryActive": true
@@ -353,7 +349,7 @@
       "id": "chat_scroll_preserve_and_indicator",
       "title": "Chat scroll up preserves position and displays new message indicator",
       "status": "passed",
-      "durationMs": 2012,
+      "durationMs": 2074,
       "details": {
         "scrolledState": {
           "scrollTop": 0,
@@ -371,7 +367,7 @@
       "id": "toggles_about_and_participants",
       "title": "About and participants panel toggles work with aria-expanded",
       "status": "passed",
-      "durationMs": 1482,
+      "durationMs": 1626,
       "details": {
         "aboutOpen": {
           "panelHidden": false,
@@ -396,7 +392,7 @@
       "id": "intro_replay_pauses",
       "title": "Replaying intro returns to intro and pauses active playback",
       "status": "passed",
-      "durationMs": 1554,
+      "durationMs": 1562,
       "details": {
         "introHidden": false,
         "workspaceHidden": true,
@@ -408,7 +404,7 @@
       "id": "mobile_tabs_accessibility",
       "title": "Mobile tabs expose court, chat, and docket views without inaccessible content",
       "status": "passed",
-      "durationMs": 1499,
+      "durationMs": 1453,
       "details": {
         "courtTab": true,
         "chatTab": true,
@@ -420,7 +416,7 @@
       "id": "reduced_motion_behavior",
       "title": "Reduced motion disables camera animations and runtime toggle clears active motion",
       "status": "passed",
-      "durationMs": 494,
+      "durationMs": 1875,
       "details": {
         "initialAnimationNone": true,
         "runtimeClearedMotion": true
@@ -431,7 +427,7 @@
       "id": "screenshot_suite",
       "title": "Capture full-page screenshots: intro, court, ruling, appeal, verdict, docket, chat, mobile-court, mobile-chat, mobile-docket, court-320",
       "status": "passed",
-      "durationMs": 10338,
+      "durationMs": 12191,
       "details": {
         "generatedScreenshots": [
           "intro.png",
@@ -453,7 +449,7 @@
       "id": "axe_wcag_accessibility_audit",
       "title": "Run Axe WCAG 2 A/AA + 2.1 AA across desktop & mobile (explicitly scanning chat and docket tabs)",
       "status": "passed",
-      "durationMs": 9838,
+      "durationMs": 9555,
       "details": {
         "totalAxeRulesViolated": 0
       },

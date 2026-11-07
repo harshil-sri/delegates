@@ -27,7 +27,7 @@ export function createCourtServer(engine, {roomUrl, port = 18802, allowedOrigins
       response.writeHead(code,{'content-type':type});
       response.end(request.method==='HEAD' ? undefined : Buffer.isBuffer(content) || typeof content==='string' ? content : JSON.stringify(content));
     };
-    const listenPort=port || server.address()?.port;
+    const listenPort=server.address()?.port || port;
     if (![`localhost:${listenPort}`,`127.0.0.1:${listenPort}`].includes(request.headers.host)) return send(403,{error:'Loopback host required.'});
     if (request.method==='OPTIONS' && origin && origins.has(origin)) {
       response.setHeader('access-control-allow-methods','GET, HEAD');
@@ -87,14 +87,14 @@ export function createCourtServer(engine, {roomUrl, port = 18802, allowedOrigins
     let ingestion = JSON.stringify(status());
     const flush = () => {
       const rows = engine.timeline(caseId,last ?? 0);
-      if (!rows.length) return;
+      if (!rows.length) return false;
       const snapshot = engine.snapshot(caseId);
       for (const row of rows) { if (!hiddenBeat(row)) write('beat',toBeat(snapshot,row),row.id); last = row.id; }
-      write('court',view(caseId));
+      write('court',view(caseId),last);
+      return true;
     };
     response.write('retry: 3000\n\n');
-    if (last === null) { write('court',view(caseId)); last = engine.lastEventId(caseId); }
-    else flush();
+    if (last === null || !flush()) { last = engine.lastEventId(caseId); write('court',view(caseId),last); }
     const entry = {response, timer:null, heartbeat:null};
     entry.timer = setInterval(() => {
       try {
