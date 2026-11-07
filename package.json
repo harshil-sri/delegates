@@ -24,6 +24,8 @@
     "listen": "node scripts/listen.mjs",
     "status": "node scripts/status.mjs",
     "test": "node --test test/*.test.mjs",
-    "verify": "node scripts/verify-receipt.mjs"
+    "verify": "node scripts/verify-receipt.mjs",
+    "trip": "node scripts/trip.mjs",
+    "trip:reset": "node scripts/trip.mjs --reset --announce"
   }
 }

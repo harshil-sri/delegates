@@ -1,0 +1,153 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "reply",
+  "profile",
+  "questions"
+ ],
+ "properties": {
+  "reply": {
+   "type": "string"
+  },
+  "profile": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "homeCity",
+    "budgetMax",
+    "currency",
+    "weekly",
+    "dated",
+    "preferences",
+    "dealbreakers"
+   ],
+   "properties": {
+    "homeCity": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "budgetMax": {
+     "type": [
+      "number",
+      "null"
+     ]
+    },
+    "currency": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "weekly": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "label",
+       "days",
+       "start",
+       "end",
+       "hard",
+       "from",
+       "until"
+      ],
+      "properties": {
+       "label": {
+        "type": "string"
+       },
+       "days": {
+        "type": "array",
+        "items": {
+         "type": "string",
+         "enum": [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat",
+          "Sun"
+         ]
+        }
+       },
+       "start": {
+        "type": "string",
+        "description": "HH:MM 24h"
+       },
+       "end": {
+        "type": "string",
+        "description": "HH:MM 24h"
+       },
+       "hard": {
+        "type": "boolean"
+       },
+       "from": {
+        "type": [
+         "string",
+         "null"
+        ]
+       },
+       "until": {
+        "type": [
+         "string",
+         "null"
+        ]
+       }
+      }
+     }
+    },
+    "dated": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "label",
+       "start",
+       "end",
+       "hard"
+      ],
+      "properties": {
+       "label": {
+        "type": "string"
+       },
+       "start": {
+        "type": "string",
+        "description": "YYYY-MM-DDTHH:MM"
+       },
+       "end": {
+        "type": "string",
+        "description": "YYYY-MM-DDTHH:MM"
+       },
+       "hard": {
+        "type": "boolean"
+       }
+      }
+     }
+    },
+    "preferences": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "dealbreakers": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "questions": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  }
+ }
+}

@@ -1,0 +1,71 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "message",
+  "plan"
+ ],
+ "properties": {
+  "message": {
+   "type": "string"
+  },
+  "plan": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "title",
+    "destination",
+    "depart",
+    "return",
+    "travel",
+    "itinerary",
+    "costPerPerson",
+    "currency"
+   ],
+   "properties": {
+    "title": {
+     "type": "string"
+    },
+    "destination": {
+     "type": "string"
+    },
+    "depart": {
+     "type": "string",
+     "description": "YYYY-MM-DDTHH:MM"
+    },
+    "return": {
+     "type": "string",
+     "description": "YYYY-MM-DDTHH:MM"
+    },
+    "travel": {
+     "type": "string"
+    },
+    "itinerary": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "when",
+       "what"
+      ],
+      "properties": {
+       "when": {
+        "type": "string"
+       },
+       "what": {
+        "type": "string"
+       }
+      }
+     }
+    },
+    "costPerPerson": {
+     "type": "number"
+    },
+    "currency": {
+     "type": "string"
+    }
+   }
+  }
+ }
+}
