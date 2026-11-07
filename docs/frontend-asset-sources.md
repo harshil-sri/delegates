@@ -1,6 +1,22 @@
 # Frontend Asset Sources and Verification
 
-## Latest judge-only revision
+## Current assets (supersedes everything below)
+
+- **Judges:** original Delegates artwork drawn in code in `frontend/public/judges.mjs`
+  (Justice Sōjirō Arata, Justice Imani Vale, Lord Justice Barnaby Thorne). No
+  third-party character art is shipped. The Capcom reference cutouts, the
+  reference sheets, the extraction script and `delegates-redesign-context.zip` were
+  removed from the repository tree.
+- **Advocates:** pixel avatars in `frontend/public/avatars.mjs`. The Claude crab
+  follows Anthropic's Claude Code mascot to identify that provider; the GPT and
+  Codex mascots are original.
+- **Fonts:** Boska and Switzer from Fontshare (ITF Free Font License), self-hosted;
+  Cormorant Garamond and IBM Plex Sans under the OFL (licences in `fonts/`).
+- **Motion:** GSAP 3.13 and ScrollTrigger, self-hosted in `frontend/public/vendor/`
+  under the GSAP standard licence.
+- **Storyboard art:** the project's own SVGs in `assets/`, copied to `frontend/public/storyboard/`.
+
+## Superseded: earlier judge-only revision (historical, assets removed)
 
 The user explicitly approved direct use of the supplied character references for
 the local preview. Active art slots now load `japan-reference.svg`,

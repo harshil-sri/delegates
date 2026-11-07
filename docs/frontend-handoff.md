@@ -24,6 +24,10 @@ only shared judge assets, SVG reference namespacing, and provenance/accessibilit
 copy. The intro storyboard/timing, courtroom CSS/layout, hearing reducer and
 backend are unchanged. Both scenes use the revised artwork.
 
+**Superseded:** the judges are now original artwork in `frontend/public/judges.mjs`
+and the reference-derived assets below were removed; see
+[frontend-asset-sources.md](frontend-asset-sources.md). Historical note follows.
+
 With explicit user permission, Japanese and British characters now use transparent
 extracts of the supplied Capcom reference art. The woman uses a new original
 portrait/mantle over an adapted teal costume from the British reference. These
