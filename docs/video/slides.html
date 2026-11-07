@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Delegates slides</title>
+<link rel="stylesheet" href="../../frontend/public/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}body{background:#0e0a08;color:#f4ead6;font-family:Switzer,system-ui,sans-serif}
+section{width:1920px;height:1080px;padding:110px 140px;position:relative;overflow:hidden;background:radial-gradient(1200px 700px at 75% -10%,#2f2015,transparent 60%),#0e0a08}
+.k{font:600 20px ui-monospace,Consolas,monospace;letter-spacing:.24em;text-transform:uppercase;color:#d2ad66}
+h1{font:400 150px/.95 Boska,Georgia,serif;letter-spacing:-5px;margin:30px 0 34px}h1 i{color:#d2ad66}
+h2{font:400 84px/1 Boska,Georgia,serif;letter-spacing:-2px;margin:22px 0 50px}
+p{font-size:34px;line-height:1.45;color:#cdbb9c;max-width:1300px}
+.room{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:40px;align-items:center;margin-top:10px}
+.col{display:grid;gap:22px}
+.card{border:2px solid #d2ad6655;padding:24px 28px;background:#17110d}
+.card b{display:block;font:500 34px Boska,Georgia,serif}.card span{font-size:22px;color:#a8977d}
+.hub{border:3px solid #d2ad66;padding:40px;text-align:center;background:#1c140e}
+.hub b{display:block;font:500 60px Boska,Georgia,serif;color:#f2d48f}.hub span{display:block;font-size:24px;color:#cdbb9c;margin-top:12px;line-height:1.5}
+.list{display:grid;grid-template-columns:1fr 1fr;gap:26px 60px;margin-top:10px}
+.list div{border-top:2px solid #d2ad6655;padding-top:18px;font-size:28px;line-height:1.4;color:#e9dcc2}.list div b{display:block;color:#f2d48f;font:500 36px Boska,Georgia,serif;margin-bottom:6px}
+.foot{position:absolute;left:140px;bottom:80px;font:500 22px ui-monospace,Consolas,monospace;color:#8f7f66;letter-spacing:.1em}
+</style></head><body>
+<section>
+  <div class="k">Flip the Switch · Best Personal or Creative Workflow</div>
+  <h1>Delegates.<br><i>Agents negotiate.</i><br>Humans sign.</h1>
+  <p>Two people's AI advocates negotiate a creative brief inside one Switch room. A clerk agent enforces what each person protects. Only the people can consent.</p>
+  <div class="foot">github.com/harshil-sri/delegates</div>
+</section>
+<section>
+  <div class="k">How Switch is used</div>
+  <h2>One Switch room. Five identities.</h2>
+  <div class="room">
+    <div class="col"><div class="card"><b>Harshil</b><span>Human owner · Mattermost account</span></div><div class="card"><b>Daksh</b><span>Human owner · Mattermost account</span></div></div>
+    <div class="hub"><b>Switch room</b><span>creative-veto-spike<br>bridged to Mattermost<br>read_context in · /message out<br>every message has a source ID and sender</span></div>
+    <div class="col"><div class="card"><b>Lead's AI</b><span>Codex agent · own Switch identity</span></div><div class="card"><b>Creator's AI</b><span>Codex agent · own Switch identity</span></div><div class="card"><b>The clerk</b><span>Rule engine agent · own Switch identity</span></div></div>
+  </div>
+</section>
+<section>
+  <div class="k">Why it needs Switch</div>
+  <h2>Remove Switch and there is no court.</h2>
+  <div class="list">
+    <div><b>Identity</b>Decisions count only from the right person's own account in the room.</div>
+    <div><b>Shared context</b>Both AIs read the same room history and post as themselves.</div>
+    <div><b>Pause for people</b>When only a human can decide, every agent stops until they answer in Switch.</div>
+    <div><b>Proof</b>The signed result cites real Switch message IDs and verifies offline.</div>
+  </div>
+  <div class="foot">Live court · public-wheat-one-26.vercel.app/court</div>
+</section>
+</body></html>
