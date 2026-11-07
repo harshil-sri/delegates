@@ -1,5 +1,10 @@
 # Delegates Courtroom — Product Spec
 
+> Redesign source of truth: `delegates-courtroom-design-blueprint-v1.1.md`.
+> Preserve the frontend-only offline boundary, but not the rejected visual
+> implementation or invented judge names below. The Section 2A visual study
+> precedes a new full implementation; role-to-art mapping remains unassigned.
+
 register: product
 
 **Version:** 1.0
@@ -33,12 +38,12 @@ Two AI advocates negotiate through Switch; a three-judge theatrical courtroom ma
 ## 4. In scope for frontend demo
 
 - Separate cinematic intro → 75/25 workspace.
-- Three equal original judges (Aki, Edmund, Mira) on elevated bench.
+- Three equal original full-body judicial characters on one elevated bench; no invented names.
 - Two advocates as provider marks (Harshil GPT, Daksh Claude).
 - Persistent docket below stage.
 - Switch chat panel (25%) as a read-only scripted room preview, not a live view.
 - Objection / ruling / deadlock / appeal / final plan choreography.
-- Provisional configurable judge role mapping.
+- Independently configurable judge role mapping, unassigned until selected.
 - Event IDs + dedup + history + pause/step/restart + download + human appeal.
 
 ## 5. Out of scope

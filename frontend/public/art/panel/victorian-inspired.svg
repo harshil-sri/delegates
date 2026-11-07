@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 650" fill="none">
+<title>Original seated Victorian-inspired judicial character with wine robe and pale mantle</title>
+<defs>
+ <linearGradient id="robe" x1="60" y1="170" x2="290" y2="560" gradientUnits="userSpaceOnUse"><stop stop-color="#ab706e"/><stop offset=".3" stop-color="#78474f"/><stop offset=".7" stop-color="#4b303e"/><stop offset="1" stop-color="#71434a"/></linearGradient>
+ <linearGradient id="face" x1="143" y1="40" x2="209" y2="148" gradientUnits="userSpaceOnUse"><stop stop-color="#e9c6a0"/><stop offset=".6" stop-color="#c89d7c"/><stop offset="1" stop-color="#a16d58"/></linearGradient>
+ <linearGradient id="cape" x1="60" y1="160" x2="280" y2="260" gradientUnits="userSpaceOnUse"><stop stop-color="#e2d7b6"/><stop offset=".5" stop-color="#c7b897"/><stop offset="1" stop-color="#9a8d75"/></linearGradient>
+ <pattern id="ink" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-26)"><path d="M0 0v6" stroke="#292032" stroke-opacity=".16"/></pattern>
+</defs>
+<ellipse cx="180" cy="630" rx="136" ry="12" fill="#211d23" opacity=".3"/>
+<g class="body" stroke="#302730" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+ <path d="m113 554-8 47-26 18q-8 18 72 9l11-24-6-48m53 0 2 49 17 25q78 3 62-15l-27-14-10-49" fill="#353038"/>
+ <path d="m111 591 40 3m-44 9 38 3m75-12 36-4m-31 13 36-3" stroke="#a8a197" stroke-width="1.2"/>
+ <path d="M81 313q-27 32-29 87l9 179q46 23 110-1l10-118 16 120q51 22 111-3l-3-173q-2-57-29-90Z" fill="url(#robe)"/>
+ <path d="m89 359 24 41-11 170 26 13 20-164 27-27m22-1 23 25 18 168 30-14-14-169 23-42" fill="#4d303f" stroke-width="1.5"/>
+ <path d="m73 410 1 145m21-152-8 155m36-138-12 137m41-129-12 131m33-130-8 137m49-143 16 136m4-146 15 142m10-153 15 151m1-159 10 153" stroke="#c49488" stroke-opacity=".48" stroke-width="1.3"/>
+ <path d="m135 157-63 14-39 36 11 128 55 30 33-69 2 60 45 41 48-40-1-62 34 69 58-29 8-125-43-39-64-16Z" fill="url(#robe)"/>
+ <path d="m136 164-13 32 18 147 37 34 43-34 15-146-17-33Z" fill="#454047"/>
+ <path d="m145 166 32 40 33-41-15 56-18 14-18-15Z" fill="#d9c9a5"/>
+ <path d="m175 239-12 38 14 25 14-26-11-37Z" fill="#a08a63"/>
+ <path d="m136 156-64 15-34 34 38 57 54-24 49 50 49-51 54 25 38-55-37-36-65-15-15 32-26 27-25-27Z" fill="url(#cape)"/>
+ <path d="m73 180-22 26 30 40 49-25 48 49 50-49 48 25 29-40-23-26" stroke="#ad9564" stroke-width="4"/>
+ <path d="m74 194 11 24m8-36 13 26m-3-31 17 24m-1-29 17 24m105-23-17 24m31-19-17 24m32-17-15 25m28-19-10 25m-130 8 28 30 31-31" stroke="#f0e4c5" stroke-width="1.5"/>
+ <path d="m48 252 7 72 44 15 16-39-28 13-3-48m224-12-8 71-44 15-17-39 29 13 2-48" fill="#693c48"/>
+ <path d="m60 263 7 48 22 10m-17-48 4 25m220-35-9 49-20 9m16-48-5 27" stroke="#c69b8c" stroke-width="1.2"/>
+ <path d="m79 329 24-9 13 22-27 16m166-37 25 10-9 27-29-17" fill="#d9cdb2"/>
+ <path d="m105 325 24-3 20 10 5 13-12 12-30-14m135-17-26-3-18 10-5 13 12 11 28-13" fill="url(#face)"/>
+ <path d="m126 334 17 7m-19 1 18 7m72-15 16 7m-18 1 16 6" stroke="#946650" stroke-width="1.2"/>
+ <path d="m143 334 62-6 3 16-61 6Z" fill="#e5d5b2"/><ellipse cx="146" cy="342" rx="4" ry="8" fill="#b6a381"/>
+ <path d="m151 339 47-5m-46 10 44-5" stroke="#b6a381" stroke-width="1"/>
+ <path d="m137 305 83-1-1 20-81 1Z" fill="#4a393a"/><path d="m169 303 22-1v25l-22 1Z" fill="#c0a268"/><path d="m175 309 10 1v10l-10 1Z" fill="#63553e" stroke-width="1"/>
+ <path d="m127 365 24 20-13 70m89-90-23 20 14 71" stroke="#b4867b" stroke-width="1.3"/>
+</g>
+<g class="head" stroke="#302730" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+ <path d="m151 123-5 38 31 42 34-43-6-42" fill="#b58165"/>
+ <path d="m147 149 30 33 31-34-4 20-27 35-31-36Z" fill="#e6d8b6"/>
+ <path d="m136 71-13-6-2 29 19 15m73-35 15-7-2 29-17 14" fill="#cca17f"/>
+ <path d="M137 44q40-23 79 1l-4 66-20 34-15 12-21-16-17-30Z" fill="url(#face)"/>
+ <path d="m138 83 9 32 24 27 5 15-21-16-17-30-2-23m76-6-9 34-20 23 16-8 13-22" fill="#a36f59" stroke="none"/>
+ <path d="M133 82q-18-24-4-46 2-20 24-25 25-14 48 3 25 2 24 24 11 24-8 47l-9-34q-39 4-61-16l-6 42Z" fill="#8a8c82"/>
+ <path d="m137 42 11-19m-4 26 14-29m-4 28 15-28m-4 28 13-25m-1 26 11-24m0 25 9-20m2 21 7-15m1 19 8-10m-81 12 4 21m77-22 2 22" stroke="#d5d4bc" stroke-width="1.8"/>
+ <path d="m145 75 19-3m28 0 17 5" stroke="#6f6c5d" stroke-width="4"/>
+ <path d="m149 88 12-1m34 1 11 1m-28-5-4 25 10 2" stroke="#775c49" stroke-width="1.6"/>
+ <path d="m154 86v4m46-2v4" stroke="#342f32" stroke-width="2.8"/>
+ <path d="M145 82h22v18h-22Zm46 1h22v18h-22Zm-24 7h24m-47-4-11-6m81 8 8-6" stroke="#756c56" stroke-width="1.7"/>
+ <path d="m146 107 13 2m38 1 10-2m-42 16q14-6 27 1m-23 7 18-1m-41-18 8 8m45-7-7 8" stroke="#9c7058" stroke-width="1.2"/>
+ <path class="mouth" d="m167 125 24 1" stroke="#785442" stroke-width="1.5"/>
+</g>
+<path d="m135 157-63 14-39 36 11 128 55 30 33-69 2 60 45 41 48-40-1-62 34 69 58-29 8-125-43-39-64-16Z" fill="url(#ink)" pointer-events="none"/>
+</svg>

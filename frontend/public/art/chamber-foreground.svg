@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1000" fill="none" preserveAspectRatio="none">
+<title>Opposing walnut advocate stations</title>
+<defs><linearGradient id="wood" x2="0" y2="1"><stop stop-color="#845a3c"/><stop offset=".3" stop-color="#4c3329"/><stop offset=".8" stop-color="#63422f"/><stop offset="1" stop-color="#30251f"/></linearGradient><g id="station" stroke="#2b2323" stroke-width="4"><path d="m57 764 306-62 113 59-305 81Z" fill="#ac8152"/><path d="m171 842 305-81v208l-305 31Z" fill="url(#wood)"/><path d="m57 764 114 78v158L57 909Z" fill="#372b26"/><path d="m195 859 253-65v150l-253 31Z" stroke="#9d774d" stroke-width="2"/><path d="m213 867 215-54v112l-215 30Z" stroke="#9d774d" stroke-width="1"/><path d="m85 766 276-53m-263 61 265-50m-174 144v106m280-204v184" stroke="#d3ae75" stroke-opacity=".3" stroke-width="1.3"/></g></defs>
+<use href="#station"/><use href="#station" transform="translate(1440 0) scale(-1 1)"/>
+</svg>

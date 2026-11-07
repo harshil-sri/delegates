@@ -1,5 +1,10 @@
 # Delegates Courtroom — Design Spec
 
+> Superseded for the redesign by `delegates-courtroom-design-blueprint-v1.1.md`.
+> The old render and its invented names are rejected. The new pre-build study
+> is `design-review/v1.1/index.html`. Final artwork and character-role assignment
+> are not approved; do not treat the historical claims below as current approval.
+
 **Version:** 1.0
 **Status:** Approved
 **Date:** 2026-11-06

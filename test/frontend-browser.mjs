@@ -10,7 +10,7 @@ const { AxeBuilder } = requireQA('@axe-core/playwright');
 
 const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:4173';
 const RESULTS_FILE = path.resolve('docs/frontend-browser-results.json');
-const SCREENSHOT_DIR = path.resolve('design-review/final');
+const SCREENSHOT_DIR = path.resolve('design-review/v1.1/implementation');
 
 function pickExecutable() {
   if (process.env.CHROMIUM_EXECUTABLE) {
@@ -47,7 +47,7 @@ function pickExecutable() {
   throw new Error(`No compatible Chromium binary found. Tried CHROMIUM_EXECUTABLE, chromium.executablePath(), and:\n${fallbackCandidates.join('\n')}`);
 }
 
-async function settleView(page, waitMs = 300) {
+async function settleView(page, waitMs = 500) {
   await page.evaluate(async () => {
     await document.fonts.ready;
   });
@@ -253,7 +253,9 @@ async function main() {
           const ratio = metrics.courtMainWidth / metrics.switchPanelWidth;
           assert.ok(Math.abs(ratio - 3) < 0.1, `Desktop layout should be ~3:1 ratio, got ${ratio.toFixed(2)}`);
         } else if (vp.name === 'compact') {
-          assert.ok(metrics.switchPanelWidth >= 300, `Switch panel should respect 300px minimum in compact`);
+          assert.equal(metrics.switchPanelWidth, 0, 'Compact view must use tabs rather than compressing the chat');
+          await page.click('[data-tab="chat"]');
+          assert.ok(await page.locator('.switch-panel').evaluate(el => el.clientWidth >= 300), 'Chat tab must preserve readable width');
         }
 
         results[vp.name] = metrics;
@@ -507,7 +509,7 @@ async function main() {
 
       assert.equal(deadlock.hidden, false, 'Moment banner must be visible during deadlock');
       assert.equal(deadlock.type, 'deadlock', 'Moment type must be deadlock');
-      assert.equal(deadlock.title, 'Deadlock.', 'Moment title must be Deadlock.');
+      assert.equal(deadlock.title, 'DEADLOCK', 'Moment title must clearly identify DEADLOCK');
       assert.equal(deadlock.launchStatus, 'Awaiting Appeal', 'Launch item status must be Awaiting Appeal');
 
       await context.close();
@@ -963,15 +965,15 @@ async function main() {
 
       const introAnim = await pageReduced.evaluate(() => {
         const scene = document.querySelector('#intro-scene');
-        const art = document.querySelector('.intro-art');
+        const art = document.querySelector('.threshold');
         return {
           animationName: window.getComputedStyle(scene).animationName,
-          doorDisplay: window.getComputedStyle(art, '::before').display
+          doorDisplay: window.getComputedStyle(art).display
         };
       });
 
       assert.equal(introAnim.animationName, 'none', 'Intro scene animation must be none under reduced motion');
-      assert.equal(introAnim.doorDisplay, 'none', 'Door pseudo-elements must be display: none under reduced motion');
+      assert.equal(introAnim.doorDisplay, 'none', 'Threshold must be hidden under reduced motion');
       await reducedContext.close();
 
       const normalContext = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });

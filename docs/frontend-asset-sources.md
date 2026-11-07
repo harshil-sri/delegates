@@ -1,5 +1,33 @@
 # Frontend Asset Sources and Verification
 
+## Latest judge-only revision
+
+The user explicitly approved direct use of the supplied character references for
+the local preview. Active art slots now load `japan-reference.svg`,
+`british-reference.svg`, and `woman-reference.svg` in `frontend/public/art/panel/`.
+The first two contain transparent extracts of **The Great Ace Attorney Chronicles
+artwork © CAPCOM**, from the supplied Creative Uncut sheets:
+
+- `https://www.creativeuncut.com/gallery-47/art/tgaac-empire-of-japan-judge.jpg`
+- `https://www.creativeuncut.com/gallery-47/art/tgaac-british-empire-judge.jpg`
+
+The woman combines a locally authored portrait and gold-edged teal mantle with a
+recoloured British-reference costume. It is derivative study work, **not wholly
+original character art**. All three SVGs include provenance metadata. The earlier
+original vector studies remain intact but are no longer active.
+
+These assets are for this local preview, not a grant of public-use rights. The
+static build now contains these reference-derived assets too and must not be
+published without resolving the rights or replacing them. No deployment occurred.
+
+Reproduction: `python3 design-review/v1.1/prepare-judge-art.py` uses the existing
+local Pillow, NumPy and SciPy installation, supplied reference sheets and woman
+portrait template. It makes no network or model calls. SVGs embed PNG artwork;
+head/body clips retain event-driven articulation. Internal `use` links and clip
+IDs are namespaced separately for the intro and court scenes.
+
+The historical original-art description below refers to the preceding pass.
+
 This document records the provenance, download URLs, and verified file details for official brand and font assets used in the Delegates courtroom interface.
 
 ## 1. Brand Assets
@@ -66,11 +94,19 @@ Stylesheet query used to resolve font binary endpoints:
 
 ## 4. Original courtroom artwork
 
-`frontend/public/art/courtroom.svg`, `judge-aki.svg`, `judge-edmund.svg`,
-`judge-mira.svg`, and `seal.svg` were created for this draft. They are editable,
-layered SVG illustrations, not extracted game artwork, stock art, or generated
-images. The game references informed the theatrical composition, not copied
-characters or costumes. No image-generation service was called.
+The active v1.1 scene uses `art/chamber.svg`, `art/chamber-foreground.svg`, and
+three original transparent illustrations in `art/panel/`: `japan-inspired.svg`,
+`woman.svg`, and `victorian-inspired.svg`. All were authored locally. The chamber
+develops the reviewed architectural study with its stand-in figures removed;
+the characters are a new coherent seated set, not those temporary figures or
+the rejected judge assets. Head/body layers provide state motion; no copied game
+character art is used. These are vector character studies, not final painterly
+quality or user-approved final art. The existing original `seal.svg` is retained.
+
+The rejected room and judge files remain unused historical assets. The reference
+images under `design-review/v1.1/references/` are attributed private-review copies
+only; they are not loaded by the application or copied to its build. No
+image-generation service was available or called.
 
 ## 5. Trademark boundaries
 

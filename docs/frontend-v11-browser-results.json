@@ -1,0 +1,18 @@
+{
+  "checks": [
+    {
+      "name": "Four real camera beats, layered parallax, and seven-second entry",
+      "passed": true
+    },
+    {
+      "name": "Runtime reduced motion skips remaining intro and replay preserves hearing",
+      "passed": true
+    },
+    {
+      "name": "Visible complete figures, unclipped advocate captions, and changed-item focus",
+      "passed": true
+    }
+  ],
+  "passed": 3,
+  "failed": 0
+}

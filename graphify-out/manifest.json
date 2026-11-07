@@ -55,13 +55,13 @@
     "semantic_hash": ""
   },
   "frontend/public/app.mjs": {
-    "mtime": 1794008317.2867658,
-    "ast_hash": "c09fd0d681c18f4407b86aa755ee3474",
+    "mtime": 1794048622.9560077,
+    "ast_hash": "1385d14f1acfdb56359f472a52be2cfe",
     "semantic_hash": ""
   },
   "frontend/public/hearing.mjs": {
-    "mtime": 1794006972.2769253,
-    "ast_hash": "9a9207c115a63fa0c45cfa9617a9b051",
+    "mtime": 1794048622.9560077,
+    "ast_hash": "c4a526b4fbcd42413d0e420481781afd",
     "semantic_hash": ""
   },
   "frontend/server.mjs": {
@@ -250,8 +250,8 @@
     "semantic_hash": ""
   },
   "test/frontend-hearing.test.mjs": {
-    "mtime": 1794009345.7584522,
-    "ast_hash": "6fd2eaa863826d728d04417dcc88ddf5",
+    "mtime": 1794044275.0128176,
+    "ast_hash": "e1ad5028eaffae8b64e32db8ffe8aa85",
     "semantic_hash": ""
   },
   "test/frontend-server.test.mjs": {
@@ -275,13 +275,13 @@
     "semantic_hash": ""
   },
   ".plans/DESIGN.md": {
-    "mtime": 1794007931.8646019,
-    "ast_hash": "a3c0f2b58dd9977fdfece3197f3a81e5",
+    "mtime": 1794042695.4828992,
+    "ast_hash": "a9f44d41d445f430d7bbb4174c305997",
     "semantic_hash": ""
   },
   ".plans/PRODUCT.md": {
-    "mtime": 1794007931.8646019,
-    "ast_hash": "5fe2477b24e21cf276d62f1ae688d9c3",
+    "mtime": 1794044555.0245392,
+    "ast_hash": "609d8ef32b94db71cab4857862c20164",
     "semantic_hash": ""
   },
   ".plans/courtroom-frontend-spec.md": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "docs/frontend-asset-sources.md": {
-    "mtime": 1794008280.5189106,
-    "ast_hash": "fc5ad86282dbf24fe4eafcd775e2fd58",
+    "mtime": 1794048785.2117577,
+    "ast_hash": "aecc8c8c57e8b32c85b06168bb91762c",
     "semantic_hash": ""
   },
   "docs/frontend-test-results.md": {
@@ -380,8 +380,8 @@
     "semantic_hash": ""
   },
   "frontend/public/index.html": {
-    "mtime": 1794007051.5109818,
-    "ast_hash": "d151f592d19dfbd53d4688ce3c3af947",
+    "mtime": 1794048622.9560077,
+    "ast_hash": "7b4eb6f90a6b5637a947a36fe9a78449",
     "semantic_hash": ""
   },
   "infra/NOTICE.md": {
@@ -480,23 +480,193 @@
     "semantic_hash": ""
   },
   "docs/frontend-browser-results.json": {
-    "mtime": 1794009127.1938403,
-    "ast_hash": "02c5c820696ecb7cefc1d4a135c8cac1",
+    "mtime": 1794048782.483281,
+    "ast_hash": "402fe76de281234e878883ccd523a327",
     "semantic_hash": ""
   },
   "test/frontend-browser.mjs": {
-    "mtime": 1794009065.5869887,
-    "ast_hash": "1b84dcca5cace82fe48fd3ae691c077e",
+    "mtime": 1794044483.4532185,
+    "ast_hash": "81b75a1161c5d236eec3f43095ea204c",
     "semantic_hash": ""
   },
   "docs/frontend-handoff.md": {
-    "mtime": 1794009076.0548024,
-    "ast_hash": "acf21f219f95989f4dd0a674a2da7b55",
+    "mtime": 1794048785.2117577,
+    "ast_hash": "e467dc710b7f573ffcbec0aba250304a",
     "semantic_hash": ""
   },
   "docs/frontend-visual-review.md": {
     "mtime": 1794008945.1505435,
     "ast_hash": "9af2f5a7d6b91cfa5e1e36aa242b4d98",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/study.mjs": {
+    "mtime": 1794042476.8526423,
+    "ast_hash": "327355f4e78a22f0a7384c01e88d6cf2",
+    "semantic_hash": ""
+  },
+  "delegates-courtroom-design-blueprint-v1.1.md": {
+    "mtime": 1794041781.7267208,
+    "ast_hash": "78c1dce43931238df22326b9f50b785b",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/README.md": {
+    "mtime": 1794044555.0245392,
+    "ast_hash": "d60c62f1c2a3da4584361fdb3d89dbaa",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/character-notes.md": {
+    "mtime": 1794042186.562355,
+    "ast_hash": "34a1f495435238138e98339df1db9e0f",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/fonts/OFL-cormorant-garamond.txt": {
+    "mtime": 1794007404.9065511,
+    "ast_hash": "6085761d4b4b031541e48038b5701c6f",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/fonts/OFL-ibm-plex-sans.txt": {
+    "mtime": 1794007405.2224822,
+    "ast_hash": "4d4949dda4b23922e334f0cbf6179065",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/index.html": {
+    "mtime": 1794042695.4828992,
+    "ast_hash": "cf4cb083012247c238a21321b71e7c4a",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/requirements.md": {
+    "mtime": 1794044634.4675648,
+    "ast_hash": "a2b9eecabc47db97cce63a3a187eae73",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/workspace.html": {
+    "mtime": 1794042695.4828992,
+    "ast_hash": "e12110c50f6b9550ae1d3ca24f250985",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/brands/claude.svg": {
+    "mtime": 1794007392.805343,
+    "ast_hash": "94f6219b9b809bd887ec49a59756c323",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/brands/openai.svg": {
+    "mtime": 1794007617.9650786,
+    "ast_hash": "b7870b74c9033e004994539c57e0235b",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/courtroom-composition.svg": {
+    "mtime": 1794042284.6269805,
+    "ast_hash": "b4f81c0fb40d0d6c8888601e032d1ef7",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/references/aviary.jpg": {
+    "mtime": 1794042002.0046911,
+    "ast_hash": "8129d15ad11c532c1f6d06f8beaaacf3",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/references/british-concept.jpg": {
+    "mtime": 1794042003.398591,
+    "ast_hash": "336ea1b6f17c4eedd618d7aa252d2012",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/references/british.jpg": {
+    "mtime": 1794042003.4152217,
+    "ast_hash": "34db2ba49d7e0d5ff0f2f5cb29a0bfd8",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/references/japan-concept.jpg": {
+    "mtime": 1794042003.398591,
+    "ast_hash": "db6664e467ce01dbf32178af521eb35d",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/references/japan.jpg": {
+    "mtime": 1794042003.373645,
+    "ast_hash": "289d7c536473538fa7ca71eb8cea4dba",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/references/official-screen-6.jpg": {
+    "mtime": 1794042072.317992,
+    "ast_hash": "04847cd4a3db02da252498e22f67e9b6",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/references/victorian.jpg": {
+    "mtime": 1794042002.3548079,
+    "ast_hash": "ea0513de32d3e8354364da028491cddc",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/woman-concept.svg": {
+    "mtime": 1794042186.562355,
+    "ast_hash": "6d8f50369ca1d569830656c817f3c57d",
+    "semantic_hash": ""
+  },
+  "docs/frontend-v11-browser-results.json": {
+    "mtime": 1794048795.8360302,
+    "ast_hash": "a32c8c53a2c9b19a6f3ef892d41d9676",
+    "semantic_hash": ""
+  },
+  "test/frontend-v11-browser.mjs": {
+    "mtime": 1794044467.420339,
+    "ast_hash": "8a6e158f4cae4562b049b703dfa5b02a",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/chamber-foreground.svg": {
+    "mtime": 1794044321.3063083,
+    "ast_hash": "5aad35c980302c0eef7d585e71f183f5",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/chamber.svg": {
+    "mtime": 1794044321.3063083,
+    "ast_hash": "ec3fcab6a9aa055caa60822cc4c7abd3",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/panel/japan-inspired.svg": {
+    "mtime": 1794043735.499815,
+    "ast_hash": "d5c0a6338024497aec0086573a46e9a1",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/panel/victorian-inspired.svg": {
+    "mtime": 1794043735.499815,
+    "ast_hash": "e5ef2103d3710982abea6f152215b266",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/panel/woman.svg": {
+    "mtime": 1794043735.499815,
+    "ast_hash": "9ab1b7f374d28ef1c3e6ad6be9a8116c",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/prepare-judge-art.py": {
+    "mtime": 1794048670.0699515,
+    "ast_hash": "2d8891a42d0f3cdecb5228a86d5af197",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/implementation/JUDGE-ART-PASS.md": {
+    "mtime": 1794048785.2117577,
+    "ast_hash": "6996aba4d1853957b442250bc8945be4",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/implementation/QA.md": {
+    "mtime": 1794044899.0546474,
+    "ast_hash": "2d849ae2439dff749056b1f4ae3678a6",
+    "semantic_hash": ""
+  },
+  "design-review/v1.1/woman-reference.template.svg": {
+    "mtime": 1794048670.0741076,
+    "ast_hash": "32c54eac7da8ffc0bbe68abf8b71f348",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/panel/british-reference.svg": {
+    "mtime": 1794048677.0426419,
+    "ast_hash": "b2de99d9e4598405b61d115c94f3cf40",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/panel/japan-reference.svg": {
+    "mtime": 1794048676.6487157,
+    "ast_hash": "6f5d03554b20dab0cf96d483bebaca38",
+    "semantic_hash": ""
+  },
+  "frontend/public/art/panel/woman-reference.svg": {
+    "mtime": 1794048678.7608297,
+    "ast_hash": "ae073daf26bbe284934e6ea10c3ab5b9",
     "semantic_hash": ""
   }
 }

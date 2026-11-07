@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 650" fill="none">
+<title>Woman judge: original portrait and mantle with adapted reference costume</title>
+<metadata>Local art study. Original Delegates portrait and mantle over a recoloured costume derived from the supplied British judge reference, The Great Ace Attorney Chronicles © CAPCOM. Not wholly original artwork; public distribution is not authorized.</metadata>
+<defs>
+ <clipPath id="costume"><path d="M0 149H360V650H0Z"/></clipPath>
+ <linearGradient id="velvet" x1="75" y1="150" x2="270" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#52675d"/><stop offset=".4" stop-color="#263e3d"/><stop offset=".75" stop-color="#39574e"/><stop offset="1" stop-color="#172f33"/></linearGradient>
+ <linearGradient id="skin" x1="150" y1="47" x2="207" y2="134" gradientUnits="userSpaceOnUse"><stop stop-color="#e8c798"/><stop offset=".43" stop-color="#d3aa7c"/><stop offset=".75" stop-color="#b47c59"/><stop offset="1" stop-color="#80513d"/></linearGradient>
+ <linearGradient id="hair" x1="143" y1="18" x2="211" y2="116" gradientUnits="userSpaceOnUse"><stop stop-color="#76746a"/><stop offset=".35" stop-color="#464b49"/><stop offset="1" stop-color="#272e31"/></linearGradient>
+ <linearGradient id="gold"><stop stop-color="#795d2b"/><stop offset=".4" stop-color="#d4b36c"/><stop offset=".6" stop-color="#e0c47e"/><stop offset="1" stop-color="#8f703a"/></linearGradient>
+ <g id="leaf" stroke="#b59a5c" stroke-width=".8"><path d="M0 0Q-14-18-1-28Q12-17 0 0Z" fill="#8c794c"/><path d="M0-2V-25m0 8-5-4m5 10 5-7"/></g>
+</defs>
+<g class="body">
+ <g clip-path="url(#costume)"><image x="20" y="13" width="320" height="627" preserveAspectRatio="none" href="COSTUME_DATA"/></g>
+ <g stroke="#272b2b" stroke-width="1.7" stroke-linejoin="round">
+  <path d="M151 113 111 132 82 157 92 191 138 207 179 238 220 207 270 187 278 158 246 131 209 113Z" fill="url(#velvet)"/>
+  <path d="m149 119 30 49 31-49-4 50-27 35-27-35Z" fill="#e0d4ad"/>
+  <path d="m154 132 26 32 24-32-13 36 12 23-24-9-24 9 11-23Z" fill="#d5c29a" stroke="#998563" stroke-width="1"/>
+  <path d="m178 168-10 27 12 14 12-15-12-26Z" fill="url(#gold)"/><path d="m179 176-4 17 6 5 5-6Z" fill="#3d6559"/>
+  <path d="M149 118 113 139 94 159 103 181 139 193 179 224 220 193 257 179 265 159 244 140 210 118" stroke="url(#gold)" stroke-width="5"/>
+  <path d="m148 126-33 20-12 14 8 13 29 13 39 29 42-29 29-13 7-14-16-14-29-18" stroke="#72613d" stroke-width="1"/>
+  <path d="m105 155 7 17m4-24 8 24m5-29 7 32m13-33 5 33m60-33-5 33m20-32-7 32m20-27-8 24m19-16-7 17" stroke="#a99a70" stroke-width="1.2"/>
+  <path d="m136 188 43 30 42-30" stroke="#e0c382" stroke-width="1"/>
+ </g>
+ <g><use href="#leaf" transform="translate(124 181) rotate(-25) scale(.6)"/><use href="#leaf" transform="translate(141 190) rotate(-40) scale(.6)"/><use href="#leaf" transform="translate(158 202) rotate(-40) scale(.6)"/><use href="#leaf" transform="translate(235 180) rotate(25) scale(.6)"/><use href="#leaf" transform="translate(218 190) rotate(40) scale(.6)"/><use href="#leaf" transform="translate(201 202) rotate(40) scale(.6)"/></g>
+</g>
+<g class="head" stroke="#343330" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+ <path d="m161 99-4 33 22 29 24-30-5-33" fill="#b1845c"/><path d="m162 117 16 18 21-20-4 20-15 19-20-20Z" fill="#ceab7b" stroke="none"/>
+ <path d="M144 58q-15-12-11-27 5-20 27-24 20-9 40 3 24 5 25 23 7 20-8 37l-8 38-62 2Z" fill="url(#hair)"/>
+ <path d="M210 24q21-21 31-1 12 20-9 29l-16-1" fill="url(#hair)"/>
+ <path d="m225 20 6 18m-13-12 10 18m-8-8 12 11" stroke="#8f8b76" stroke-width="1.2"/>
+ <path d="m148 66-9-5-3 9 3 18 10 6m61-26 9-4 3 9-5 18-9 4" fill="#bd9169"/>
+ <path d="M149 42q27-12 60 4l-2 44-10 25-18 13-20-15-11-25Z" fill="url(#skin)"/>
+ <path d="m150 65 4 22 10 18 15 15v8l-20-15-11-25-1-21m59-7-4 27-13 22 11-8 7-21" fill="#926343" stroke="none"/>
+ <path d="M143 61q-8-23 7-37 18-16 42-4 22 5 23 27l-4 23-8-22q-22-2-40-20-4 24-20 33Z" fill="url(#hair)"/>
+ <path d="m147 42 7-17m-3 23 9-20m-3 25 11-20m-5-12 12 13m-2-17 12 16m-1-16 12 19m-2-15 11 19m-1-12 5 17" stroke="#93917a" stroke-width="1.1"/>
+ <path d="m151 63 15-4m25 1 15 5" stroke="#4a4940" stroke-width="3"/>
+ <path d="m153 73q7-5 14-1m23 0q8-4 14 2" stroke="#574332" stroke-width="1.6"/>
+ <path d="m154 75 12 1m25-1 12 2" stroke="#d6ba8a" stroke-width="1"/>
+ <path d="m160 71-1 5m38-4-1 5" stroke="#343b36" stroke-width="2.5"/>
+ <path d="m178 69-4 21 7 3m-6-8 2-7" stroke="#9a734d" stroke-width="1"/>
+ <path d="m180 76 1 12" stroke="#efd2a1" stroke-width="1.4"/>
+ <path d="m154 83 11 2m28 0 11-1m-48 8 8 5m37-5-7 5m-30-43 8-3m19 1 7 3" stroke="#aa8057" stroke-width=".8"/>
+ <path d="m169 103q10-5 19-1l-8 5Z" fill="#a26b53" stroke="none"/><path class="mouth" d="m169 103 18-1" stroke="#76533d" stroke-width="1"/>
+ <path d="m175 111 9-1m-20-4 4 8m24-9-5 10" stroke="#b2895e" stroke-width=".8"/>
+ <path d="m144 95 1 12m69-11-2 12" stroke="url(#gold)" stroke-width="2"/><path d="m145 106-4 8 5 5 4-6Zm67 1-4 7 4 5 5-6Z" fill="url(#gold)" stroke-width=".8"/>
+</g>
+</svg>

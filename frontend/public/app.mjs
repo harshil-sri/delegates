@@ -1,4 +1,4 @@
-import { characters, speakers, createState, advance, resolveAppeal, exportPlan, script } from './hearing.mjs';
+import { characters, perspectives, judgeRoleMapping, speakers, createState, advance, resolveAppeal, exportPlan, script } from './hearing.mjs';
 
 const $ = selector => document.querySelector(selector);
 let state = createState();
@@ -9,6 +9,8 @@ let lastMessageCount = 0;
 let unread = 0;
 let expanded = false;
 let entered = false;
+let introTimers = [];
+let lastRulingId;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 function escape(value) {
@@ -16,10 +18,11 @@ function escape(value) {
 }
 
 function sceneMarkup() {
-  return `<img class="scene-background" src="/art/courtroom.svg" alt="" width="1440" height="800">
-    ${characters.map(character => `<div class="judge" data-character="${character.id}"><img class="judge-figure" src="${character.asset}" alt="" width="200" height="330"></div>`).join('')}
-    <div class="bench-front" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="judge-markers">${characters.map(character => `<div class="judge-marker" role="group" data-perspective="${character.perspective}" aria-label="${character.name}, ${character.perspective}"><span>${character.perspective.toUpperCase()}</span><strong>${character.name.replace('Justice ', '')}</strong><small>LISTENING</small></div>`).join('')}</div>
+  return `<img class="scene-background" src="/art/chamber.svg" alt="" width="1440" height="1000">
+    ${characters.map((character, index) => `<div class="judge" data-character="${character.id}" role="img" aria-label="Panel member ${index + 1}, ${character.id === 'woman' ? 'adapted costume and original portrait' : 'supplied Capcom reference artwork'}. Perspective not assigned."><img class="judge-figure" src="${character.asset}" alt="" width="360" height="650"></div>`).join('')}
+    <div class="bench-front" aria-hidden="true"></div>
+    <div class="judge-markers" aria-label="The panel’s perspectives, not yet assigned to individual characters"><span class="panel-legend">Panel perspectives · artwork unassigned</span>${perspectives.map(perspective => `<div class="judge-marker" role="group" data-perspective="${perspective}" aria-label="${perspective}: listening"><strong>${perspective}</strong><small>Listening</small></div>`).join('')}</div>
+    <img class="room-foreground" src="/art/chamber-foreground.svg" alt="" width="1440" height="1000">
     <div class="advocate-spotlight left" aria-hidden="true"></div><div class="advocate-spotlight right" aria-hidden="true"></div>
     <div class="advocate-mark left"><img src="/brands/openai.svg" alt="OpenAI, sample GPT advocate" width="64" height="64"></div>
     <div class="advocate-mark right"><img src="/brands/claude.svg" alt="Claude, sample advocate" width="64" height="64"></div>`;
@@ -28,6 +31,36 @@ function sceneMarkup() {
 $('#court-scene').innerHTML = sceneMarkup();
 $('#intro-scene').innerHTML = sceneMarkup();
 
+Promise.all(characters.map(async character => {
+  const response = await fetch(character.asset);
+  if (!response.ok) return;
+  const source = await response.text();
+  for (const scene of ['court-scene', 'intro-scene']) {
+    const prefix = `${scene}-${character.id}-`;
+    const markup = source.replace(/id="([^"]+)"/g, (_, id) => `id="${prefix}${id}"`).replace(/url\(#([^)]+)\)/g, (_, id) => `url(#${prefix}${id})`).replace(/href="#([^"]+)"/g, (_, id) => `href="#${prefix}${id}"`);
+    const host = $(`#${scene} [data-character="${character.id}"]`);
+    host.innerHTML = markup;
+    host.querySelector('svg').setAttribute('aria-hidden', 'true');
+  }
+})).catch(() => { $('#announcer').textContent = 'Character motion is unavailable. The hearing transcript remains available.'; });
+
+function startIntro() {
+  introTimers.forEach(clearTimeout);
+  introTimers = [];
+  const intro = $('#intro');
+  intro.classList.remove('is-running');
+  intro.dataset.beat = reducedMotion.matches ? '3' : '0';
+  $('#enter-court').hidden = !reducedMotion.matches;
+  $('#intro-beat').textContent = reducedMotion.matches ? '04 / The whole court' : '01 / The threshold';
+  if (reducedMotion.matches) return;
+  void intro.offsetWidth;
+  intro.classList.add('is-running');
+  [[1600, '1', '02 / The bench'], [3400, '2', '03 / The advocates'], [5100, '3', '04 / The whole court']].forEach(([delay, beat, label]) => {
+    introTimers.push(setTimeout(() => { intro.dataset.beat = beat; $('#intro-beat').textContent = label; }, delay));
+  });
+  introTimers.push(setTimeout(() => { $('#enter-court').hidden = false; }, 7000));
+}
+
 function setEntered(value) {
   entered = value;
   $('#intro').hidden = value;
@@ -35,11 +68,18 @@ function setEntered(value) {
   $('#workspace').hidden = !value;
   $('#workspace').inert = !value;
   if (value) {
+    introTimers.forEach(clearTimeout);
+    introTimers = [];
+    if (!reducedMotion.matches) {
+      $('#court-scene').animate([{ transform: 'translateX(3%) scale(1.08)' }, { transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+      $('.switch-panel').animate([{ transform: 'translateX(24px)' }, { transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+    }
     $('#main').focus({ preventScroll: true });
     window.scrollTo(0, 0);
     requestAnimationFrame(checkDialogueOverflow);
   } else {
     setPlaying(false);
+    startIntro();
     $('#skip-intro').focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
@@ -52,29 +92,36 @@ function clearChoreography() {
 }
 
 function showRuling(current) {
+  if (lastRulingId === current.id) return;
+  lastRulingId = current.id;
   clearChoreography();
   document.querySelectorAll('#court-scene .judge-marker').forEach(marker => {
     marker.removeAttribute('data-decision');
     marker.querySelector('small').textContent = current.assessments ? 'CONSIDERING' : 'LISTENING';
-    const character = characters.find(character => character.perspective === marker.dataset.perspective);
-    marker.setAttribute('aria-label', `${character.name}, ${character.perspective}: ${current.assessments ? 'considering' : 'listening'}`);
+    marker.setAttribute('aria-label', `${marker.dataset.perspective}: ${current.assessments ? 'considering' : 'listening'}`);
+  });
+  document.querySelectorAll('#court-scene .judge').forEach(figure => {
+    figure.classList.add(current.assessments ? 'is-assessing' : current.speaker === 'panel' ? 'is-speaking' : 'is-listening');
   });
   if (!current.assessments) return;
-  characters.forEach((character, index) => {
-    const figure = $(`#court-scene [data-character="${character.id}"]`);
-    const marker = $(`#court-scene [data-perspective="${character.perspective}"]`);
-    const assessment = current.assessments[character.perspective];
+  perspectives.forEach((perspective, index) => {
+    const characterId = judgeRoleMapping[perspective];
+    const figure = characterId ? $(`#court-scene [data-character="${characterId}"]`) : null;
+    const marker = $(`#court-scene [data-perspective="${perspective}"]`);
+    const assessment = current.assessments[perspective];
     if (!assessment) return;
     const finish = () => {
-      figure.classList.remove('is-assessing');
-      figure.classList.add({ Accept: 'is-accepting', Narrow: 'is-narrowing', Reject: 'is-rejecting' }[assessment[0]] || 'is-listening');
+      if (figure) {
+        figure.classList.remove('is-assessing');
+        figure.classList.add({ Accept: 'is-accepting', Narrow: 'is-narrowing', Reject: 'is-rejecting' }[assessment[0]] || 'is-listening');
+      }
       marker.dataset.decision = assessment[0];
       marker.querySelector('small').textContent = assessment[0].toUpperCase();
-      marker.setAttribute('aria-label', `${character.name}, ${character.perspective}: ${assessment[0]}. ${assessment[1]}`);
+      marker.setAttribute('aria-label', `${perspective}: ${assessment[0]}. ${assessment[1]}`);
+      if (index === perspectives.length - 1) document.querySelectorAll('#court-scene .judge.is-assessing').forEach(judge => { judge.classList.replace('is-assessing', 'is-listening'); });
     };
     if (reducedMotion.matches) finish();
     else {
-      figure.classList.add('is-assessing');
       choreography.push(setTimeout(finish, 500 + index * 400));
     }
   });
@@ -88,11 +135,13 @@ function renderDocket() {
       details = document.createElement('details');
       details.className = 'docket-item';
       details.id = `item-${item.id}`;
-      details.innerHTML = `<summary><span class="item-number">0${index + 1}</span><span><strong class="item-title"></strong><span class="item-owner"></span></span><span class="item-status"></span><span class="item-chevron" aria-hidden="true">+</span></summary><div class="item-detail"></div>`;
+      details.innerHTML = `<summary><span class="item-number">0${index + 1}</span><span><strong class="item-title"></strong><span class="item-wording"></span><span class="item-owner"></span></span><span class="item-status"></span><span class="item-chevron" aria-hidden="true">+</span></summary><div class="item-detail"></div>`;
       container.append(details);
     }
     details.querySelector('.item-title').textContent = item.title;
-    details.querySelector('.item-owner').textContent = item.owner;
+    const latest = item.history.at(-1);
+    details.querySelector('.item-owner').textContent = `${item.owner}${latest ? ` · Round ${latest.round} · ${latest.type.replaceAll('_', ' ')}` : ''}`;
+    details.querySelector('.item-wording').textContent = item.text;
     const status = details.querySelector('.item-status');
     status.textContent = item.status;
     status.dataset.status = item.status;
@@ -100,6 +149,7 @@ function renderDocket() {
     details.querySelector('.item-detail').innerHTML = `<p>${escape(item.text)}</p><h3>Decision history</h3>${item.history.length ? `<ol>${item.history.map(change => `<li><span>Round ${change.round} · ${escape(change.type.replaceAll('_', ' '))} · ${escape(change.status)}</span>${escape(change.text)}</li>`).join('')}</ol>` : '<p>No proposal has been heard yet.</p>'}`;
   }
   $('#agreed-count').textContent = `${state.items.filter(item => item.status === 'Agreed').length} of 4 agreed`;
+  $('#locate-item').hidden = !state.current.item;
 }
 
 function renderChat() {
@@ -165,7 +215,7 @@ function render() {
   moment.hidden = !['objection', 'ruling', 'deadlock', 'appeal', 'verdict'].includes(event.type);
   moment.dataset.type = event.type;
   $('#moment-label').textContent = { objection: 'A POINT OF DISAGREEMENT', ruling: 'THE BENCH HAS SPOKEN', deadlock: 'FOUR ROUNDS. NO CONSENSUS.', appeal: 'OVER TO THE PEOPLE', verdict: 'LET THE RECORD SHOW' }[event.type] || '';
-  $('#moment-title').textContent = { objection: 'Objection.', ruling: 'Motion settled.', deadlock: 'Deadlock.', appeal: 'An appeal.', verdict: 'Case closed.' }[event.type] || '';
+   $('#moment-title').textContent = { objection: 'Objection', ruling: 'Ruling', deadlock: 'DEADLOCK', appeal: 'APPEAL', verdict: 'Final verdict' }[event.type] || '';
   $('#appeal-panel').hidden = !awaiting;
   $('#verdict-panel').hidden = !state.complete;
   $('#verdict-summary').textContent = `Four items settled across four rounds. ${state.choice === 'local' ? 'The owners chose a guided local demo.' : 'The owners chose a recorded walkthrough.'}`;
@@ -243,7 +293,8 @@ $('#step-button').addEventListener('click', () => {
 $('#restart-button').addEventListener('click', () => {
   setPlaying(false);
   clearChoreography();
-  state = createState();
+   state = createState();
+   lastRulingId = undefined;
   lastMessageCount = 0;
   unread = 0;
   $('#chat-log').replaceChildren();
@@ -285,9 +336,20 @@ $('#chat-log').addEventListener('scroll', () => {
 });
 $('#download-plan').addEventListener('click', download);
 $('#download-record').addEventListener('click', download);
-reducedMotion.addEventListener('change', () => { if (state.current) showRuling(state.current); });
+$('#locate-item').addEventListener('click', () => {
+  const item = $(`#item-${state.current.item}`);
+  if (item) {
+    item.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    item.querySelector('summary').focus({ preventScroll: true });
+  }
+});
+reducedMotion.addEventListener('change', () => {
+  if (!entered) startIntro();
+  if (state.current) { lastRulingId = undefined; showRuling(state.current); }
+});
 window.addEventListener('resize', checkDialogueOverflow);
 document.fonts.ready.then(checkDialogueOverflow);
 document.addEventListener('visibilitychange', () => { if (document.hidden) setPlaying(false); });
 advance(state);
 render();
+startIntro();

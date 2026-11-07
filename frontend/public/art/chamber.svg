@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1000" fill="none" preserveAspectRatio="none">
+<title>Delegates chamber: coffered ceiling, raised shared bench, side galleries and opposing advocate stations</title>
+<defs>
+ <linearGradient id="plaster" x2="0" y2="1"><stop stop-color="#b39978"/><stop offset="1" stop-color="#746251"/></linearGradient>
+ <linearGradient id="timber" x2="0" y2="1"><stop stop-color="#855b3c"/><stop offset=".25" stop-color="#4c3329"/><stop offset=".8" stop-color="#63422f"/><stop offset="1" stop-color="#30251f"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#615347"/><stop offset="1" stop-color="#2e2927"/></linearGradient>
+ <linearGradient id="velvet" x2="1"><stop stop-color="#39252d"/><stop offset=".5" stop-color="#704044"/><stop offset="1" stop-color="#3c282d"/></linearGradient>
+ <linearGradient id="glass" x2="0" y2="1"><stop stop-color="#9baca7"/><stop offset="1" stop-color="#d7c7a1"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#f5d7a1" stop-opacity=".25"/><stop offset="1" stop-color="#d8b67a" stop-opacity="0"/></radialGradient>
+ <pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0v9" stroke="#241d23" stroke-width=".7" opacity=".15"/></pattern>
+ <g id="arch" stroke="#3e302b" stroke-width="3"><path d="M0 360V135a105 105 0 0 1 210 0v225Z" fill="#4b3e33"/><path d="M14 348V135a91 91 0 0 1 182 0v213Z" fill="url(#glass)"/><path d="M105 43v304M17 166h179M17 257h179M42 70l63 97 64-97"/><path d="M-10 360h230v17H-10Z" fill="#9e805c"/></g>
+ <g id="column" stroke="#4d3b2e" stroke-width="2"><path d="M0 0h62v19H0Zm7 19h48v13H7Z" fill="#c1a980"/><path d="M12 32h38v377H12Z" fill="#998165"/><path d="M16 36v370m8-370v370m10-370v370m8-370v370" stroke="#d1b88e" stroke-opacity=".5"/><path d="M5 409h52v18H5ZM0 427h62v14H0Z" fill="#b39770"/></g>
+ <g id="chandelier" stroke="#b29461" stroke-width="3"><path d="M0-135V10m-70 0q10 72 70 72 60 0 70-72M-43 32q3 22 43 33 40-11 43-33M0 6v96m-70-88h140"/><path d="M-78 4h16v16h-16Zm140 0h16v16H62ZM-51 23h16v16h-16Zm86 0h16v16H35Zm-8 58h16v15h-16Z" fill="#ead6b0"/><circle cy="15" r="150" fill="url(#light)" stroke="none"/></g>
+ <g id="chair" stroke="#34272a" stroke-width="3"><path d="M-72 5q0-32 72-44Q72-27 72 5v205H-72Z" fill="#715039" stroke="#b18b58"/><path d="M-61 8q0-23 61-34Q61-15 61 8v176H-61Z" fill="url(#velvet)"/><path d="m-43 11 43 49L43 11M-43 88 0 60l43 28M-43 88l43 49 43-49" stroke="#a07b60" stroke-width="1"/><path d="M-81 182h162v24H-81Zm8 24-8 77m153-77 8 77" fill="#644730"/></g>
+</defs>
+<path d="M0 0h1440v1000H0Z" fill="url(#plaster)"/>
+<!-- The side walls, ceiling coffers and floor share a vanishing region behind the bench. -->
+<path d="M0 0h1440l-286 171H285Z" fill="#68574a" stroke="#3e332d" stroke-width="4"/>
+<path d="m80 0 244 171M300 0l172 171M560 0l77 171M880 0l-77 171M1140 0 968 171M1360 0l-244 171M60 40h1320M148 94h1144M233 146h974" stroke="#b59a76" stroke-width="8"/>
+<path d="m80 3 244 168M300 3l172 168M560 3l77 168M880 3l-77 168M1140 3 968 168M1360 3l-244 168M60 46h1320M148 100h1144M233 152h974" stroke="#3e342e" stroke-width="2"/>
+<path d="M0 0 285 171v438L0 943Zm1440 0-286 171v438l286 334Z" fill="#756450" stroke="#44382f" stroke-width="3"/>
+<path d="M285 171h869v438H285Z" fill="#9b8468"/>
+<path d="M285 174h869M285 187h869M285 202h869" stroke="#c2a881" stroke-width="5"/>
+<path d="M435 512V302q0-118 115-118t115 118v210Zm340 0V302q0-118 115-118t115 118v210Z" fill="url(#velvet)" stroke="#b39a75" stroke-width="12"/>
+<path d="M700 218h40v298h-40" fill="#7e6a53"/>
+<path d="M475 232v275m27-300v300m30-315v315m30-314v314m29-304v304m28-280v280m195-275v275m28-300v300m29-315v315m31-314v314m29-304v304m27-280v280" stroke="#c39477" stroke-width="3" opacity=".17"/>
+<g transform="translate(54 135) skewY(23) scale(.66 .9)"><use href="#arch"/></g>
+<g transform="translate(1386 135) scale(-.66 .9) skewY(23)"><use href="#arch"/></g>
+<use href="#column" x="303" y="180"/><use href="#column" x="663" y="180"/><use href="#column" x="1076" y="180"/>
+<path d="m0 451 284 66v65L0 580Zm1440 0-285 66v65l285-2Z" fill="url(#timber)" stroke="#ad8655" stroke-width="3"/>
+<path d="m0 417 284 83m1156-83-285 83" stroke="#292b2b" stroke-width="6"/>
+<path d="m24 427v39m32-30v39m32-30v39m32-30v39m32-30v39m32-30v39m32-30v39m32-30v39m1065-103v39m-32-30v39m-32-30v39m-32-30v39m-32-30v39m-32-30v39m-32-30v39m-32-30v39" stroke="#2c2b29" stroke-width="4"/>
+<use href="#chandelier" x="245" y="233"/><use href="#chandelier" x="1195" y="233"/>
+<path d="M284 609h872l284 391H0Z" fill="url(#floor)"/>
+<path d="m35 1000 500-391m-280 391 354-391m101 391V609m474 391L812 609m593 391L902 609M185 725h1070M109 830h1224M37 951h1367" stroke="#a58a66" stroke-width="1" opacity=".25"/>
+<path d="m638 620-81 380h326l-84-380Z" fill="#5f343c" stroke="#aa8a57" stroke-width="3"/>
+<path d="m650 635-72 365m209-365 73 365" stroke="#ab8859" stroke-width="2"/>
+<!-- Continuous raised platform. The low, open rail does not reduce figures to busts. -->
+<path d="M327 530h787l67 130H260Z" fill="#49362b" stroke="#ad8655" stroke-width="3"/>
+<path d="M260 660h921v20H260Zm-19 22h960v19H241Zm-20 22h1000v19H221Z" fill="url(#timber)" stroke="#aa8150" stroke-width="2"/>
+<use href="#chair" transform="translate(484 265) scale(1.35)"/>
+<use href="#chair" transform="translate(720 265) scale(1.35)"/>
+<use href="#chair" transform="translate(956 265) scale(1.35)"/>
+<path d="M325 635h790v12H325Z" fill="#755133" stroke="#c3a06a" stroke-width="2"/>
+<g opacity=".22" stroke="#ddb880" stroke-width="1.4"><path d="m11 581 255-2m-247 10 241-1m-230 13 225-4m1165-17-246-2m239 12-235-2m221 14-220-5M335 645h772M300 676h839"/></g>
+<!-- Opposing advocate stations form a foreground, not floating application tiles. -->
+<ellipse cx="285" cy="820" rx="171" ry="100" fill="url(#light)"/><ellipse cx="1155" cy="820" rx="171" ry="100" fill="url(#light)"/>
+<path d="M0 0h1440v1000H0Z" fill="url(#hatch)"/>
+</svg>

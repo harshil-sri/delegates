@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" fill="none">
+<title>Original woman judicial character, unapproved ink and colour concept</title>
+<defs>
+ <linearGradient id="coat" x1="70" y1="270" x2="320" y2="680" gradientUnits="userSpaceOnUse"><stop stop-color="#587371"/><stop offset=".5" stop-color="#354e51"/><stop offset="1" stop-color="#26353f"/></linearGradient>
+ <linearGradient id="skirt" x1="100" y1="400" x2="280" y2="760" gradientUnits="userSpaceOnUse"><stop stop-color="#bc965e"/><stop offset=".5" stop-color="#8f6946"/><stop offset="1" stop-color="#654c3c"/></linearGradient>
+ <linearGradient id="skin" x1="165" y1="80" x2="235" y2="190" gradientUnits="userSpaceOnUse"><stop stop-color="#e1b994"/><stop offset="1" stop-color="#af795e"/></linearGradient>
+ <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-24)"><path d="M1 0v7" stroke="#1d2630" stroke-opacity=".15"/></pattern>
+</defs>
+<ellipse cx="202" cy="769" rx="123" ry="12" fill="#43372d" opacity=".13"/>
+<g stroke="#292a30" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+ <path d="m144 681-14 66-19 13q-6 14 50 5l13-21 3-59m55 0 8 63 10 18q57 7 51-7l-23-13-11-63" fill="#313438"/>
+ <path d="m147 724 20 6m-28 14 22 6m82-23 25-4m-19 27 25-6" stroke="#899193" stroke-width="1.5"/>
+ <path d="m151 354-39 107-28 249q38 22 117 24 77 0 116-24l-31-245-38-109Z" fill="url(#skirt)"/>
+ <path d="m144 422-23 278 12 18 25-6 18-267m15-9-3 290m24-294 16 293m13-287 27 276 31-7-34-289" fill="#72563f" stroke-width="1.2"/>
+ <path d="m129 502-15 179m50-195-13 197m25-151-10 155m37-218 4 226m27-186 14 188m19-153 19 143" stroke="#e1bf83" stroke-opacity=".38" stroke-width="1.3"/>
+ <path d="M99 219q-20 16-31 58L40 386l45 28 28-60-16 160q30 20 60 4l26-131 37 1 28 134q26 10 63-7l-20-171 26 67 45-27-35-117q-8-36-31-49l-53-31-85-1Z" fill="url(#coat)"/>
+ <path d="m149 202-8 51 43 119 20-9 16 7 41-117-13-51Z" fill="#e0ceb0"/>
+ <path d="m154 222 34 67-1 69m54-137-34 69 2 69" fill="#c4b396" stroke="#8c7862" stroke-width="1.3"/>
+ <path d="m154 188-53 34-22 61 66-18 39 89-16-114Zm89 1 53 33 23 60-65-16-40 88 16-115Z" fill="#567573"/>
+ <path d="m103 226-13 40 60-13 29 65m113-92 17 41-58-13-30 66" stroke="#d2b87e" stroke-width="4"/>
+ <path d="m116 235-16 19 44-8m128-10 20 20-38-9" stroke="#d2b87e" stroke-width="1"/>
+ <path d="m99 280-26 91 16 15 34-91m174-9 24 85-15 16-30-91" fill="#2c4449" stroke-width="1.4"/>
+ <path d="m90 321-20 54m35-63-23 65m212-57 19 53m-37-57 23 62" stroke="#a4b0a1" stroke-opacity=".5" stroke-width="1.1"/>
+ <path d="m44 380-6 27 44 24 12-29Z" fill="#d6c8ac"/><path d="m312 401 13 27 41-24-8-27Z" fill="#d6c8ac"/>
+ <path d="m46 412 2 30q3 14 17 20l16-5 7-17-10-10-9 9-3-18m263 2-4 30q-1 17 12 18l14-9 4-16-1-32" fill="url(#skin)"/>
+ <path d="m51 435 14 10m-11-1 10 9m270-14 11 1m-12 7h10" stroke="#93654e" stroke-width="1"/>
+ <path d="m54 443 33-68 5 2-28 71" fill="#d6b373" stroke-width="1.2"/><path d="m88 381 11-42q-20 8-21 33Z" fill="#e4d4b1" stroke-width="1"/>
+ <path d="m308 390 38 10-4 91-42-11Z" fill="#463d3c"/><path d="m308 397 31 9-3 73-29-7Z" fill="#d8c6a2"/><path d="m310 410 22 6m-23 3 23 6m-24 3 23 6m-24 3 22 6" stroke="#9e896a" stroke-width="1"/>
+ <path d="m162 371 73 1 3 21-78-1Z" fill="#63523d"/><path d="m181 370 31 1-2 24-29-1Z" fill="#c9aa6b"/><path d="m188 376 16 1-1 10-15-1Z" fill="#63726a" stroke-width="1"/>
+ <path d="m157 404-12 95m18-74-11 60m87-79 13 92m-19-68 8 57" stroke="#94a79b" stroke-width="1.3"/>
+ <path d="m171 163-6 45 33 28 32-27-9-48" fill="#b98c6d"/><path d="m169 194 29 25 29-26-3 21-26 23-30-23Z" fill="#e6d8bc"/>
+ <path d="M144 112q-15-15-13 10t21 23m94-33q14-15 12 10t-20 23" fill="#c39774"/>
+ <path d="M148 77q45-30 94 4l-1 62q-5 30-42 46-32-12-47-43Z" fill="url(#skin)"/>
+ <path d="m155 138 6 20 26 20 11 10-28-10-17-26-4-27m91 1-9 32-18 22 20-12 11-25" fill="#93634f" stroke="none"/>
+ <path d="M145 111q-23-30-8-54 3-20 25-29 25-18 56-5 31-8 42 15 18 16 9 36-1 19-24 33l-6-32q-34 2-64-19-2 36-30 55Z" fill="#443e3c"/>
+ <path d="M245 34q20-17 31 0 14 20-1 31l-15 3m-14-29 15 15m-10-24 20 14" fill="#554a43"/>
+ <path d="m147 64 9 34m-4-47 12 28m-1-39 12 23m6-28 17 18m-10-24 29 20m-11-22 23 18m-13-12 26 14m-12-13 17 17" stroke="#a69d88" stroke-width="2"/>
+ <path d="m153 106 23-4m36-1 23 5" stroke="#51413b" stroke-width="4"/>
+ <path d="m155 116q11-7 22 0m34 0q11-7 21 0" stroke-width="2"/><path d="m164 113-1 6m59-6-1 6" stroke-width="3"/>
+ <path d="m192 110-6 31 12 3m-9-25 5 13m-16 25q19-7 34-1m-28 8 20-1m-40-39 11 4m40-4-9 4" stroke="#835c49" stroke-width="1.4"/>
+ <path d="m154 93 17-5m45 0 18 6m-73 42 9 7m51-8-8 8" stroke="#aa7b5d" stroke-width="1"/>
+ <circle cx="146" cy="144" r="4" fill="#b79961"/><circle cx="246" cy="144" r="4" fill="#b79961"/>
+ <path d="m148 203-7 24m109-23 8 24" stroke="#d2b87e" stroke-width="3"/>
+ <path d="m196 238-8 41 11 14 12-14-10-41" fill="#b8985f"/><path d="m196 249-1 24 6-1" stroke="#765b42" stroke-width="1"/>
+</g>
+<path d="M99 219q-20 16-31 58L40 386l45 28 28-60-16 160q30 20 60 4l26-131 37 1 28 134q26 10 63-7l-20-171 26 67 45-27-35-117q-8-36-31-49l-53-31-85-1Z" fill="url(#hatch)" opacity=".65"/>
+</svg>

@@ -10,6 +10,8 @@ import {
   initialItems,
   appealOptions,
   characters,
+  perspectives,
+  judgeRoleMapping,
   speakers,
 } from '../frontend/public/hearing.mjs';
 
@@ -294,9 +296,11 @@ describe('hearing.mjs', () => {
   // 15. Characters and speakers exports
   test('characters and speakers exports', () => {
     assert.equal(characters.length, 3, 'Should have 3 characters');
-    assert.equal(characters[0].id, 'aki', 'First character should be aki');
-    assert.equal(characters[1].id, 'edmund', 'Second character should be edmund');
-    assert.equal(characters[2].id, 'mira', 'Third character should be mira');
+    assert.deepEqual(characters.map(character => character.id), ['japan-inspired', 'woman', 'victorian-inspired']);
+    assert.ok(characters.every(character => !('name' in character) && !('perspective' in character)), 'Artwork must not invent names or silently assign roles');
+    assert.deepEqual(perspectives, ['Fairness', 'Feasibility', 'Cost']);
+    assert.deepEqual(judgeRoleMapping, { Fairness: null, Feasibility: null, Cost: null });
+    assert.ok(Object.isFrozen(judgeRoleMapping), 'Mapping is explicit configuration, not mutable hearing state');
 
     assert.ok(speakers.clerk, 'Should have clerk speaker');
     assert.ok(speakers.harshil, 'Should have harshil speaker');

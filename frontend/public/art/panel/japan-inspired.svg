@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 650" fill="none">
+<title>Original seated judicial character in layered indigo robes</title>
+<defs>
+ <linearGradient id="robe" x1="70" y1="170" x2="295" y2="580" gradientUnits="userSpaceOnUse"><stop stop-color="#687181"/><stop offset=".34" stop-color="#343c51"/><stop offset=".75" stop-color="#252d40"/><stop offset="1" stop-color="#4c5363"/></linearGradient>
+ <linearGradient id="face" x1="138" y1="37" x2="205" y2="143" gradientUnits="userSpaceOnUse"><stop stop-color="#edd0a3"/><stop offset=".6" stop-color="#c5a079"/><stop offset="1" stop-color="#a67355"/></linearGradient>
+ <linearGradient id="silk" x1="130" y1="180" x2="205" y2="445" gradientUnits="userSpaceOnUse"><stop stop-color="#ddcba1"/><stop offset=".5" stop-color="#aa926a"/><stop offset="1" stop-color="#72614b"/></linearGradient>
+ <pattern id="ink" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-26)"><path d="M0 0v6" stroke="#161f32" stroke-opacity=".17"/></pattern>
+</defs>
+<ellipse cx="180" cy="630" rx="136" ry="12" fill="#211d23" opacity=".3"/>
+<g class="body" stroke="#242431" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+ <path d="m111 550-8 55-24 14q-10 16 63 10l17-23-3-55m53-1 3 56 14 25q77 4 66-12l-28-19-11-50" fill="#343138"/>
+ <path d="m106 591 43 3m-47 8 43 4m72-13 40-3m-35 13 39-3" stroke="#a39e8d" stroke-width="1.2"/>
+ <path d="M83 311q-21 60-25 96l9 166q40 23 105-6l11-117 9 115q54 31 108 7l3-164-29-102Z" fill="url(#robe)"/>
+ <path d="m83 352 23 48-6 157 27 13 12-151 35-31m104-36-26 47 9 163-28 10-16-155-30-33" fill="#262e43" stroke-width="1.8"/>
+ <path d="m86 387-7 163m29-143-2 143m26-127-7 118m30-130-13 126m122-155 16 161m-32-137 15 137m-39-126 10 127" stroke="#98a0a8" stroke-opacity=".4" stroke-width="1.3"/>
+ <path d="m77 559 38 12m-32-20 35 12m123 2 43-8m-37 14 44-8" stroke="#b3b4a4" stroke-width="1"/>
+ <path d="m130 154-60 22-35 39 13 134 56 14 27-72 3 66 42 48 49-44 1-70 27 70 64-17 8-128-39-39-59-21Z" fill="url(#robe)"/>
+ <path d="m132 156-24 27 28 144 39 61 49-68 13-137-24-26-20 63-16 27-24-38Z" fill="url(#silk)"/>
+ <path d="m128 151 16 62 37 67 30-66 17-61-23 8-22 66-32-66Z" fill="#ded2b4"/>
+ <path d="m125 165 18 59 33 58m49-117-17 58-22 49" stroke="#6e624e" stroke-width="2"/>
+ <path d="m70 179-34 37 48 50 32-18-5-55 29 92-16-122Z" fill="#555f72"/>
+ <path d="m286 180 38 37-52 49-33-19 5-54-30 92 17-122Z" fill="#555f72"/>
+ <path d="m70 187-23 29 40 36 23-13m175-52 27 29-42 36-25-13" stroke="#c0ae82" stroke-width="4"/>
+ <path d="m70 199-9 14 24 19m198-32 12 13-24 19" stroke="#c0ae82" stroke-width="1.2"/>
+ <path d="m50 250 5 77 49 10 13-45-29 16-7-43m227-14-6 76-48 11-14-45 28 16 7-43" fill="#303b50"/>
+ <path d="m61 259 5 56 27 7m-23-51 5 35m220-46-7 55-26 7m18-51-5 35" stroke="#8d99a2" stroke-width="1.3"/>
+ <path d="m68 325 41 1 6 21-47 1m182-21 43-2v24l-47 1" fill="#d2c6a5"/>
+ <path d="m106 330 19 4 19-1 10 10-7 12-27 3-14-12m147-11-22-4-15 3-12 13 6 12 31 1 13-14" fill="url(#face)"/>
+ <path d="m123 344 20 1m-20 6 18 1m79-9 15-1m-14 8 15-1" stroke="#8c674e" stroke-width="1.1"/>
+ <path d="m126 318 94 6-3 44-95-5Z" fill="#625247"/><path d="m130 323 84 6-2 31-85-4Z" fill="#b7a37d"/><path d="m138 331 67 5m-68 2 68 6m-68 1 68 6" stroke="#74634f" stroke-width="1"/>
+ <path d="m143 279 69 1-1 24-68-1Z" fill="#6b6254"/><path d="m170 278 21 1v27l-22-1Z" fill="#bda46e"/><path d="m176 286 9 1-1 12-9-1" stroke="#5e5141" stroke-width="1"/>
+ <path d="m141 377 22 12-8 31m57-42-22 11 10 32m-35 5 6 97m20-97 2 97" stroke="#92968f" stroke-width="1.3"/>
+</g>
+<g class="head" stroke="#282832" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+ <path d="m150 116-4 48 31 42 33-43-6-51" fill="#b58c66"/><path d="m147 150 30 36 30-37-3 19-27 37-32-39Z" fill="#e5d8b8"/>
+ <path d="m137 64-14-3-1 32 20 15m71-44 15-2 1 32-19 14" fill="#c7a07a"/>
+ <path d="M137 42q37-23 77 3l-2 61-18 34-18 12-23-13-14-30Z" fill="url(#face)"/>
+ <path d="m139 78 10 39 24 18 4 16-24-12-14-30-3-24m74-11-8 36-17 19 12-4 16-21" fill="#9c755b" stroke="none"/>
+ <path d="M133 72q-12-22-3-39 7-19 22-23 26-10 48 4 24 1 25 22l-9 39-8-29-49-7-16 10Z" fill="#85867e"/>
+ <path d="m135 42 12-19m-3 19 13-25m0 23 10-25m3 27 6-26m7 27 1-24m8 26-1-19m9 22-2-17m-55 18-9 24m76-27 4 28" stroke="#d6d3b9" stroke-width="1.8"/>
+ <path d="m145 73 20-4m25 0 18 5" stroke="#54544d" stroke-width="5"/>
+ <path d="m145 84 18-1m29 0 15 3m-29-6-4 24 10 2" stroke="#5b5148" stroke-width="1.8"/>
+ <path d="m154 81-1 5m46-1-1 4" stroke="#302f35" stroke-width="3"/>
+ <path d="m147 92 12 2m36 1 12-1m-55-33 11-4m31 1 9 5m-40 48q15-8 29 1" stroke="#916f54" stroke-width="1.3"/>
+ <path d="m150 110 12 4 15 10 15-11 13-3-2 20-19 20-19-6-13-15Z" fill="#787b74"/>
+ <path d="m156 119 9 17m0-16 9 23m3-18 5 17m4-23 4 14m5-17-1 12" stroke="#cecdb1" stroke-width="1.2"/>
+ <path d="m162 113q14-6 28 0" stroke="#473c37" stroke-width="1.4"/>
+ <path class="mouth" d="m170 118 15 1" stroke="#493e37" stroke-width="1.4"/>
+</g>
+<path d="m130 154-60 22-35 39 13 134 56 14 27-72 3 66 42 48 49-44 1-70 27 70 64-17 8-128-39-39-59-21Z" fill="url(#ink)" pointer-events="none"/>
+</svg>
