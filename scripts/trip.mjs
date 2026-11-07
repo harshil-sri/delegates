@@ -51,6 +51,11 @@ const senderRoles = new Map([
   [p.agents.lead.sender, 'lead'], [p.agents.creator.sender, 'creator'], [p.clerk.sender, 'clerk'],
   [p.humans.lead.sender, 'human-lead'], [p.humans.creator.sender, 'human-creator'],
 ]);
+// Switch posts these notices under an agent's name when a passive agent is
+// @mentioned. They are platform chatter, not the delegate speaking, so the
+// website feed leaves them out.
+const switchNotices = ['I read room messages asynchronously, not in real time', 'I only take instructions from my owner', "I'm currently offline — my connector", "I'm not in an active session right now"];
+const isSwitchNotice = body => switchNotices.some(text => body.includes(text));
 const feedServer = createServer((req, res) => {
   if (req.method !== 'GET' || !req.url.startsWith('/api/room')) { res.writeHead(404).end(); return; }
   res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
@@ -86,7 +91,7 @@ try {
   while (!stopping) {
     try {
       const messages = await clerk.context();
-      feed = messages.slice(-300).map(m => ({ id: m.id, role: senderRoles.get(m.sender) ?? 'other', body: m.body, timestamp: m.timestamp ?? null }));
+      feed = messages.filter(m => !isSwitchNotice(m.body)).slice(-300).map(m => ({ id: m.id, role: senderRoles.get(m.sender) ?? 'other', body: m.body, timestamp: m.timestamp ?? null }));
       for (const message of messages) {
         if (seen.has(message.id)) continue;
         seen.add(message.id);
