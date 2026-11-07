@@ -54,7 +54,7 @@ const senderRoles = new Map([
 // Switch posts these notices under an agent's name when a passive agent is
 // @mentioned. They are platform chatter, not the delegate speaking, so the
 // website feed leaves them out.
-const switchNotices = ['I read room messages asynchronously, not in real time', 'I only take instructions from my owner', "I'm currently offline — my connector", "I'm not in an active session right now"];
+const switchNotices = ['I read room messages asynchronously, not in real time', 'I only take instructions from my owner', "I'm currently offline â€” my connector", "I'm not in an active session right now"];
 const isSwitchNotice = body => switchNotices.some(text => body.includes(text));
 const feedServer = createServer((req, res) => {
   if (req.method !== 'GET' || !req.url.startsWith('/api/room')) { res.writeHead(404).end(); return; }
@@ -84,19 +84,21 @@ saveSeen();
 let stopping = false;
 process.on('SIGINT', () => { stopping = true; });
 process.on('SIGTERM', () => { stopping = true; });
-console.log(`Trip mode live in ${config.room.name}. ${names.lead} → @${config.actors.lead.name}, ${names.creator} → @${config.actors.creator.name}, plan/approve → @${config.actors.clerk.name}.`);
+console.log(`Trip mode live in ${config.room.name}. ${names.lead} â†’ @${config.actors.lead.name}, ${names.creator} â†’ @${config.actors.creator.name}, plan/approve â†’ @${config.actors.clerk.name}.`);
 if (!room.trip.plans.length && !room.trip.profiles.lead && !room.trip.profiles.creator && process.argv.includes('--announce')) await room.reset();
 
 try {
   while (!stopping) {
     try {
       const messages = await clerk.context();
-      feed = messages.filter(m => !isSwitchNotice(m.body)).slice(-300).map(m => ({ id: m.id, role: senderRoles.get(m.sender) ?? 'other', body: m.body, timestamp: m.timestamp ?? null }));
+      // The website window starts clean after the clerk's latest reset reply.
+      const lastReset = messages.findLastIndex(m => senderRoles.get(m.sender) === 'clerk' && m.body.startsWith('Fresh start.'));
+      feed = messages.slice(lastReset + 1).filter(m => !isSwitchNotice(m.body)).slice(-300).map(m => ({ id: m.id, role: senderRoles.get(m.sender) ?? 'other', body: m.body, timestamp: m.timestamp ?? null }));
       for (const message of messages) {
         if (seen.has(message.id)) continue;
         seen.add(message.id);
         const job = room.handle(message);
-        if (job) console.log(`${new Date().toISOString()} ${names[job.role]} → ${job.kind}`);
+        if (job) console.log(`${new Date().toISOString()} ${names[job.role]} â†’ ${job.kind}`);
       }
       saveSeen();
       await room.drain();
