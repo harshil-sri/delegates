@@ -169,3 +169,21 @@ code{display:block;font:12px/1.5 var(--mono);color:var(--parchment);background:#
 .podium-right .bubble{right:8%}.podium-right .bubble:after{left:auto;right:34px}
 .seal-slot.is-signed .wax{animation:none}
 @media(max-width:1000px){.bubble{max-width:62vw}.judge-bubble[data-judge="arata"]{left:28%}.judge-bubble[data-judge="thorne"]{left:72%}}
+
+/* ── Ace Attorney-style dialogue box ───────────────────────────────────── */
+.caption{background:#0d0f17f2;border:3px solid #e8e1cf;outline:2px solid #0d0f17;box-shadow:0 0 0 5px #0d0f17,0 18px 40px -12px #000;padding:20px 26px 22px;border-radius:0;image-rendering:pixelated}
+.caption figcaption{position:absolute;left:18px;top:-17px;padding:5px 12px;background:#0d0f17;border:3px solid #e8e1cf;color:#f2d48f;font:700 12px/1 var(--mono);letter-spacing:.16em}
+.caption figcaption #caption-kind{color:#8f8a7d;margin-left:10px}
+.caption[data-voice="lead"] figcaption{color:#6fe0bf}.caption[data-voice="creator"] figcaption{color:#aab2ff}.caption[data-voice="owner"] figcaption{color:#ffb07a}
+.caption blockquote{margin:6px 0 0;font:500 clamp(17px,1.45vw,21px)/1.45 var(--sans);color:#f4efe2;letter-spacing:.005em;-webkit-line-clamp:4;min-height:3em}
+.caption.is-done:after{content:'▼';position:absolute;right:16px;bottom:10px;color:#f2d48f;font:14px/1 var(--mono);animation:caret 1s steps(2) infinite}
+@keyframes caret{0%{transform:translateY(0)}50%{transform:translateY(3px)}}
+.emote-anchor{position:absolute;bottom:80%;width:1px;height:1px}
+.emote-anchor[data-judge="arata"]{left:20.8%}.emote-anchor[data-judge="vale"]{left:50%}.emote-anchor[data-judge="thorne"]{left:79.2%}
+.emote-anchor .emote{width:40px}
+.podium-avatar .emote{bottom:92%}
+.sound{background:transparent;border:1px solid var(--line-strong);color:var(--cream);font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;border-radius:999px}
+.sound[aria-pressed="false"]{color:var(--muted)}
+.bubble{border-radius:0;border-width:2px;box-shadow:4px 4px 0 #0d0f17}
+.bubble span{font-family:var(--sans);font-weight:500;font-size:clamp(13px,.95vw,15px);line-height:1.35}
+.scene{transform-origin:50% 60%}

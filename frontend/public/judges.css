@@ -196,3 +196,18 @@ body{font-family:var(--sans)}
 @keyframes a-chuckle{0%,100%{transform:none}20%,60%{transform:translateY(-2px) rotate(-1deg)}40%,80%{transform:translateY(1px) rotate(1deg)}}
 @keyframes a-blush{0%,100%{opacity:.5}50%{opacity:.85}}
 @keyframes a-sigh{0%,100%{transform:none}40%{transform:translateY(-2px)}70%{transform:translateY(4px) rotate(-2deg)}}
+
+/* ── Pixel world ───────────────────────────────────────────────────────── */
+.pixel-room{image-rendering:pixelated;image-rendering:crisp-edges}
+.pixel-bench{image-rendering:pixelated}
+.pixel-bench .bench-name{font:700 12px var(--mono,monospace);fill:#2a1a0c;letter-spacing:.02em}
+.pixel-bench .bench-role{font:700 9px var(--mono,monospace);fill:#5b3a12;letter-spacing:.24em}
+/* Retro stepped motion: sprites move in whole poses, not smooth tweens. */
+.pixel-bench .j-torso{animation-timing-function:steps(2,jump-none)}
+.pixel-bench .j-head,.pixel-bench .j-gavel-arm,.pixel-bench .j-beam,.pixel-bench .j-pan-l,.pixel-bench .j-pan-r,.pixel-bench .j-bead,.pixel-bench .j-finger,.pixel-bench .j-specs{animation-timing-function:steps(3,jump-none)!important}
+.pixel-bench .j-pupil{transition:transform .2s steps(2)}
+.pixel-bench .j-impact{stroke-dasharray:11 6}
+.pixel-bench .mote{animation-timing-function:steps(8)}
+.emote{position:absolute;left:50%;bottom:100%;width:46px;transform:translate(-50%,-6px);z-index:14;image-rendering:pixelated;animation:emote-pop 2.4s steps(1) both;pointer-events:none}
+.emote svg{display:block;width:100%;height:auto}
+@keyframes emote-pop{0%{opacity:0;transform:translate(-50%,6px)}6%{opacity:1;transform:translate(-50%,-10px)}12%,84%{opacity:1;transform:translate(-50%,-6px)}92%{transform:translate(-50%,-10px)}100%{opacity:0;transform:translate(-50%,-10px)}}

@@ -1,5 +1,5 @@
 import { characters, perspectives, judgeRoleMapping, speakers, createState, advance, resolveAppeal, exportPlan, script } from './hearing.mjs';
-import { benchMarkup } from './judges.mjs';
+import { benchMarkup, pixelateBackgrounds } from './pixel-judges.mjs';
 import { avatarMarkup, setAvatarState } from './avatars.mjs';
 import { demoVoices } from './demo-voices.mjs';
 
@@ -61,6 +61,7 @@ function sceneMarkup(prefix = '') {
 
 $('#court-scene').innerHTML = sceneMarkup('court');
 $('#intro-scene').innerHTML = sceneMarkup('intro');
+pixelateBackgrounds();
 
 
 

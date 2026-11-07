@@ -1,8 +1,9 @@
-import { benchMarkup, judges } from './judges.mjs';
+import { pixelateBackgrounds, benchMarkup, judges } from './pixel-judges.mjs';
 
 const stage = document.querySelector('#bench-stage');
 const scene = document.querySelector('#court-scene');
 scene.innerHTML = `<img class="scene-background" src="/art/chamber.svg" alt="" width="1440" height="1000">${benchMarkup()}`;
+pixelateBackgrounds();
 document.querySelector('#bench-cards').innerHTML = judges.map(judge => `<article><span class="eyebrow">${judge.perspective.toUpperCase()}</span><h2>${judge.name}</h2><p>${judge.blurb}</p></article>`).join('');
 const figures = () => [...scene.querySelectorAll('.judge')];
 const setAll = state => figures().forEach(figure => figure.setAttribute('class', `judge ${state}`));

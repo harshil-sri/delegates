@@ -23,7 +23,7 @@
     <nav class="top-nav" aria-label="Views">
       <button id="retry-live" class="retry-button" hidden aria-label="Retry connecting to the live clerk">Retry live</button>
       <span class="mode" id="mode" data-mode="connecting" role="status" aria-live="polite"><b></b><span id="mode-label">Connecting to the clerk</span></span>
-      <a href="/bench.html">Meet the bench</a>
+      <button class="sound" id="sound-toggle" type="button" aria-pressed="true">Sound on</button><a href="/bench.html">Meet the bench</a>
     </nav>
   </header>
 
@@ -37,7 +37,7 @@
       </div>
       <div class="phase" aria-live="polite"><span class="eyebrow" id="phase-code">Filing</span><h1 id="phase-label">The court is assembling.</h1><p id="phase-detail"></p></div>
       <div class="stamp" id="stamp" aria-hidden="true"><span id="stamp-text"></span></div>
-      <figure class="caption" id="caption" aria-live="polite"><figcaption><span id="caption-speaker">The clerk</span><span id="caption-kind"></span></figcaption><blockquote id="caption-text">Waiting for the room.</blockquote></figure>
+      <figure class="caption" id="caption" aria-live="polite"><figcaption><span id="caption-speaker">The clerk</span><span id="caption-kind"></span></figcaption><blockquote id="caption-text" aria-live="off">Waiting for the room.</blockquote></figure>
       <div class="replay-bar" id="replay-bar" hidden>
         <button id="replay-toggle" aria-label="Pause replay">Pause</button><button id="replay-step" aria-label="Next beat">Next</button><button id="replay-restart" aria-label="Restart replay">Restart</button>
         <div class="replay-track"><span id="replay-progress"></span></div><span id="replay-count">0 / 0</span>

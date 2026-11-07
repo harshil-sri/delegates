@@ -1,4 +1,5 @@
-import { benchMarkup } from './judges.mjs';
+import { pixelateBackgrounds, benchMarkup } from './pixel-judges.mjs';
+import { typewrite, emote, soundToggle } from './retro.mjs';
 import { avatarMarkup, setAvatarState } from './avatars.mjs';
 
 // The live court reads the clerk's read-only stream through this server's
@@ -100,6 +101,7 @@ function beatLine(beat) {
 
 // ── Stage setup ─────────────────────────────────────────────────────────────
 $('#bench-host').innerHTML = benchMarkup({perspectives});
+pixelateBackgrounds();
 $('#avatar-lead').innerHTML = avatarMarkup('codex', 'left');
 $('#avatar-creator').innerHTML = avatarMarkup('codex-alt', 'right');
 const stage = $('#stage'), scene = $('#court-scene');
@@ -118,6 +120,19 @@ function replayEvent(event) { stage.dataset.event = ''; void stage.offsetWidth; 
 const host = $('#bench-host');
 host.insertAdjacentHTML('beforeend', ['arata', 'vale', 'thorne'].map(id => `<div class="bubble judge-bubble" data-judge="${id}" aria-hidden="true"><b></b><span></span></div>`).join(''));
 for (const role of ['lead', 'creator']) $(`#podium-${role}`).insertAdjacentHTML('afterbegin', `<div class="bubble" data-who="${role}" aria-hidden="true"><b></b><span></span></div>`);
+host.insertAdjacentHTML('beforeend', ['arata', 'vale', 'thorne'].map(id => `<div class="emote-anchor" data-judge="${id}"></div>`).join(''));
+soundToggle($('#sound-toggle'));
+const emoteAt = (who, kind) => emote(who in judgeNames ? host.querySelector(`.emote-anchor[data-judge="${who}"]`) : $(`#podium-${who} .podium-avatar`), kind);
+// Camera: cut towards whoever addresses the court, then return to the wide shot.
+let cameraTimer;
+function focus(target, hold = 3600) {
+  if (!gsapReady()) return;
+  const origin = {lead: '12% 78%', creator: '88% 78%', vale: '50% 40%', thorne: '74% 40%', arata: '26% 40%'}[target];
+  if (!origin) return;
+  clearTimeout(cameraTimer);
+  gsap.to(scene, {scale: target in judgeNames ? 1.22 : 1.3, transformOrigin: origin, duration: 1.1, ease: 'power3.inOut', overwrite: true});
+  cameraTimer = setTimeout(() => gsap.to(scene, {scale: 1, duration: 1.2, ease: 'power3.inOut', overwrite: true}), hold);
+}
 const judgeNames = {arata: 'Justice Arata · the letter', vale: 'Justice Vale · presiding', thorne: 'Lord Justice Thorne · consent'};
 const bubbleTimers = new Map(), actTimers = new Map(), pending = new Set();
 let lastBeatAt = 0;
@@ -132,7 +147,7 @@ function say(who, text, {tone = '', ms = 3800, delay = 0} = {}) {
     el.dataset.tone = tone;
     el.querySelector('b').textContent = isJudge ? judgeNames[who] : who === 'lead' ? 'Counsel for the lead' : 'Counsel for the creator';
     const line = clean(text);
-    el.querySelector('span').textContent = line.length > 170 ? `${line.slice(0, 167).trimEnd()}…` : line;
+    typewrite(el.querySelector('span'), line.length > 170 ? `${line.slice(0, 167).trimEnd()}…` : line, {voice: isJudge ? who : who, cps: 70});
     clearTimeout(bubbleTimers.get(who));
     if (isJudge) judgeEl(who)?.setAttribute('data-talk', '');
     if (gsapReady()) gsap.fromTo(el, {opacity: 0, y: 16, scale: .82}, {opacity: 1, y: 0, scale: 1, duration: .5, ease: 'back.out(2.2)', overwrite: true});
@@ -167,6 +182,13 @@ const ownerName = role => state.view?.cast?.owners?.[role]?.username ?? role;
 function chorus(beat) {
   lastBeatAt = Date.now();
   hush();
+  const kinds = {proposal: ['lead', '♪'], endorsement: ['creator', 'idea'], deliberating: [beat.speaker, '...'], summons: [beat.target, 'sweat'], appeal: ['vale', '?'], decision: ['thorne', beat.accepted ? 'idea' : 'anger'], ruling: ['arata', '♪'], verdict: ['vale', '♪'], signature: ['thorne', 'idea'], recess: ['vale', 'sweat'], turn_failed: ['vale', 'sweat']};
+  if (beat.type === 'objection') { emoteAt(beat.basis === 'review' ? 'creator' : 'thorne', '!'); focus(beat.basis === 'review' ? 'creator' : 'thorne'); }
+  else if (beat.type === 'overruled' && beat.agentOverreach) { emoteAt('thorne', 'anger'); focus('thorne'); }
+  else if (kinds[beat.type]?.[0]) emoteAt(...kinds[beat.type]);
+  if (beat.type === 'proposal') focus('lead', 4200);
+  if (beat.type === 'endorsement') focus('creator', 4200);
+  if (['appeal', 'verdict', 'draft_verdict'].includes(beat.type)) focus('vale', 3400);
   switch (beat.type) {
     case 'filing': say('vale', 'The court is in session. Two briefs, one storyboard, and only people may decide.'); act('vale', 'tap'); act('thorne', 'nod', 900, 900); break;
     case 'procedure': say('thorne', 'Advocates may argue. Only the owners may consent.', {delay: 300}); act('thorne', 'finger'); break;
@@ -233,12 +255,11 @@ function setCaption(beat) {
   $('#caption-speaker').textContent = speakerName(beat.speaker);
   $('#caption-kind').textContent = kindLabel[beat.type] ?? beat.kind;
   const quote = $('#caption-text'), line = beatLine(beat) ?? '';
-  quote.textContent = line;
-  if (gsapReady() && line.length < 420) {
-    quote.innerHTML = line.split(' ').map(word => `<span class="ch">${esc(word)}</span>`).join(' ');
-    const words = quote.querySelectorAll('.ch');
-    gsap.to(words, {opacity: 1, duration: .25, stagger: Math.min(.06, 1.8 / words.length), ease: 'power1.out'});
-  }
+  const voice = beat.speaker?.startsWith('owner:') ? 'owner' : ['lead', 'creator'].includes(beat.speaker) ? beat.speaker : 'clerk';
+  const box = $('#caption');
+  box.classList.remove('is-done');
+  box.dataset.voice = voice;
+  typewrite(quote, line.length > 360 ? `${line.slice(0, 357).trimEnd()}…` : line, {voice, onDone: () => box.classList.add('is-done')});
 }
 function stamp(text, tone = 'bad') {
   const el = $('#stamp');
@@ -866,7 +887,7 @@ function motion() {
   if (!gsapReady()) return;
   gsap.registerPlugin(ScrollTrigger);
   gsap.timeline({defaults: {ease: 'expo.out'}})
-    .from('.scene-background', {scale: 1.18, filter: 'blur(10px) brightness(.4)', duration: 2.4})
+    .from('.scene-background', {scale: 1.12, opacity: 0, duration: 2})
     .from('.layer-bench', {yPercent: 14, opacity: 0, duration: 1.8}, '<0.3')
     .from('.podium', {y: 80, opacity: 0, duration: 1.4, stagger: .12}, '<0.4')
     .from('.top > *', {y: -20, opacity: 0, duration: 1, stagger: .08}, '<')
