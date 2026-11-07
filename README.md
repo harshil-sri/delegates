@@ -1,307 +1,286 @@
-# Creative Veto Court
+<div align="center">
 
-## Integrated courtroom
+# Delegates Courtroom
 
-The illustrated Delegates frontend runs via a custom Node HTTP server:
+**Agents negotiate. Humans sign.**
+
+Two AI advocates negotiate a creative storyboard through [Switch](https://docs.switchagents.ai/). A deterministic clerk keeps brief changes and final approval in human hands.
+
+![Flip the Switch](https://img.shields.io/badge/Flip_the_Switch-Track_2:_Personal_or_Creative-6C47FF)
+![Code with Wispr](https://img.shields.io/badge/Side_track-Code_with_Wispr-0B5D4B)
+![Switch](https://img.shields.io/badge/Switch_core-0.31.0-1F2937)
+![Node](https://img.shields.io/badge/Node.js-22.13%2B-339933)
+![Dependencies](https://img.shields.io/badge/npm_dependencies-0-success)
+![Tests](https://img.shields.io/badge/tests-113_passing-success)
+
+[Watch the demo](VIDEO_URL) · [Read the blog post](https://dev.to/harshil-sri/building-a-switch-courtroom-where-ai-can-negotiate-but-cant-consent-1g6k) · [Switch docs](https://docs.switchagents.ai/)
+
+</div>
+
+---
+
+## At a glance
+
+| | |
+|---|---|
+| **Built for** | Flip the Switch (WeMakeDevs x DevTools Academy x Switch), Track 2: Best Personal or Creative Workflow |
+| **Side tracks** | Code with Wispr, Best Blog, #HowISwitch |
+| **Team** | Harshil and Daksh |
+| **Agents** | `cvc-lead-advocate` and `cvc-creator-advocate` (Codex CLI), `cvc-clerk` (deterministic Node.js, no model) |
+| **Chat bridge** | Mattermost, through Switch |
+| **Output** | HTML storyboard and text script (not a rendered video) |
+
+> [!IMPORTANT]
+> The recorded rehearsal uses real Switch and Codex advocate turns, but **every owner decision in it is a labelled synthetic fixture**. It proves the mechanism works. It is not evidence that two real people reached an agreement.
+
+## The problem
+
+A creative lead wants a collaborator's portrait in a promo. The collaborator wants to contribute artwork but does not allow their portrait to be used. An AI assistant can suggest alternatives, but it shouldn't quietly drop either person's requirement, and it shouldn't treat its own suggestion as permission.
+
+Delegates is for creative collaborators who want agents to handle proposals while keeping those decisions explicit.
+
+## Try it in two minutes
+
+No Switch, Docker or API key needed. You just need Node.js 22.13 or newer.
 
 ```sh
-node frontend/server.mjs
+git clone --depth 1 --branch main https://github.com/harshil-sri/delegates.git
+cd delegates
+npm run dev
 ```
 
-Open **http://127.0.0.1:4173/**. From the cinematic intro, **Enter Court** or
-**Skip intro** opens `/court.html`, the read-only view of the backend case.
-The server proxies `/api` to `127.0.0.1:18802`; set `CVC_COURT_PORT` if the clerk
-uses another port. Starting the real clerk requires the Switch setup below.
+Open `http://127.0.0.1:4173/` and enter the court. Useful routes:
 
-Without the backend, the court can play a clearly labelled recorded rehearsal.
-That mode is also available explicitly at `/court.html?replay=1`. A missing case
-is an error, not a reason to show another case's recording. The previous scripted
-weekend-build demo remains separately available at **`/?demo=1`**.
+| Route | What you get |
+|---|---|
+| `/court.html?replay=1` | The recorded rehearsal, labelled as a replay |
+| `/?demo=1` | The older, separately scripted hearing |
+| `/` | Live mode, which reads the backend through `/api` and falls back to the labelled replay without one |
 
-This is a **read-only frontend**: it displays the court but never sends decisions.
-All approvals happen in the Switch/Mattermost room, from the bound human accounts.
-The frontend cannot grant consent or send an approval through HTTP.
+Check the project and the committed replay files:
 
-See [integration verification](docs/integration-verification.md) for startup,
-test coverage and verification limits, and the [API contract](docs/frontend-api.md)
-for the backend view model and event stream. `npm run build` produces static files
-in `dist/`; a static host alone does not provide the API proxy.
+```sh
+npm run check
+npm test
+npm run build
+npm run verify -- frontend/public/data/replay-receipt.json frontend/public/data/replay-storyboard.html frontend/public/data/replay-script.txt
+```
 
-The source includes functional regression tests and browser runners. Historical
-screenshots in `design-review/final/` show an earlier design, not visual approval
-of the integrated application.
+All of these passed on a fresh clone. The replay contains synthetic owner signatures, even though the verifier's generic output calls them human approvals.
 
-## Existing backend
+## How it works
 
-Two Codex-backed advocates and a deterministic clerk collaborate in one private
-Switch room bridged to local Mattermost. A persistent clerk now enforces
-human-owned mandates, amendments, and approvals of immutable storyboard bundles.
-The read-only case page is **http://localhost:18802/**.
+The repo records a real rehearsal in [`docs/negotiation-live-result.json`](docs/negotiation-live-result.json). A few terms first: **H1** is the lead's brief, **D1** is the creator's brief, **BOARD1** is the first storyboard proposal, and **H2** is the lead's brief after an amendment.
 
-## Automatic storyboard negotiation
+| Step | What happens |
+|---|---|
+| **1. Conflict** | H1 requires Daksh's portrait in a four-panel, 30-second promo called SIGNAL. D1 forbids that portrait and requires the closing line `Made together. On our terms.` and the credit `Visuals: Daksh`. |
+| **2. Proposal** | The lead advocate's Codex worker reads the clerk's request through Switch and posts BOARD1 under its own identity. |
+| **3. Objection** | Deterministic checks catch the conflict. The creator advocate's separate Codex turn reviews that exact board and requests an amendment to H1. It does not ask to ignore D1. |
+| **4. Pause** | No model runs while the owner question is pending. In this rehearsal a labelled synthetic owner fixture accepts the amendment, creating H2. |
+| **5. Revision** | BOARD2 uses an object-based alternative. The creator recommends that exact revision and hash, and the encoded checks pass. |
+| **6. Signatures** | Export needs both owners to approve the same bundle. The original rehearsal stops here with zero real human approvals and the live case (C01) unchanged. |
 
-Once **both owners adopt their current briefs**, the background clerk runs the
-workflow automatically:
+The committed browser replay adds synthetic final signatures so you can try the storyboard, script and receipt downloads. Nobody actually signed it, and its receipt verifies internal consistency, not real-world consent.
 
-1. The lead advocate produces a structured four-panel board through a real Codex turn.
-2. The clerk stores that actual Switch source and runs deterministic checks.
-3. The creator advocate reads that exact board and returns a review bound to its
-   revision and full content hash.
-4. If a brief change is needed, the clerk asks its owner and schedules no more
-   model turns while the amendment is pending. Only that owner may accept or decline.
-5. An accepted amendment triggers a revised lead proposal and another creator review.
-6. Only a passing candidate recommended by the creator becomes a frozen preview
-   for both humans to approve. The creator's recommendation grants no human approval.
+### Architecture
 
-The workflow allows at most two lead proposals per run and one schema repair per
-turn. A declined amendment, exhausted round limit, provider failure, or interrupted
-worker stops the run honestly. Either bound human may explicitly restart a stopped
-run with the **NEGOTIATE** command displayed on the case page. Old or duplicate
-agent replies cannot advance a different turn, board, or brief revision.
+```mermaid
+flowchart TD
+    H["Harshil / court-owner"] -->|Owner commands| M["Mattermost private channel"]
+    D["Daksh / court-creator"] -->|Owner commands| M
+    M <-->|Chat bridge| S["Switch room: creative-veto-spike"]
 
-See [the automatic negotiation protocol](docs/automatic-negotiation.md) and
-[the real background-worker rehearsal](docs/negotiation-live-result.json).
-The rehearsal uses a separate private room and database, real Codex replies,
-and explicitly synthetic mandate/amendment fixtures. It generates no human
-approvals and leaves live C01 unchanged.
+    S <-->|Own credentials: read context / post reply| L["cvc-lead-advocate<br/>Codex CLI"]
+    S <-->|Own credentials: read context / post reply| C["cvc-creator-advocate<br/>Codex CLI"]
+    S <-->|Requests, source messages, acknowledgements| K["cvc-clerk<br/>Deterministic listener and case engine"]
 
-## Mandate and approval engine
+    K <--> DB["SQLite<br/>Briefs, turns, approvals, frozen bundles"]
+    K --> API["Read-only API and event stream :18802"]
+    API -->|Frontend server proxy| F["Courtroom frontend :4173"]
+    F --> V["People inspect proposals and previews"]
+    K -->|Only after both matching approvals| E["HTML storyboard, script, receipt"]
+```
 
-The two human owners are separate native Mattermost accounts:
+The frontend displays decisions but can't submit approvals over HTTP.
 
-- **`court-owner`** owns the lead's H brief. Its existing password is
-  `MATTERMOST_USER_PASSWORD` in ignored `.runtime/stack.env`.
-- **`court-creator`** owns the creator's D brief. Its generated password is
-  `MATTERMOST_CREATOR_PASSWORD` in ignored `.runtime/court-users.env`.
+## How Switch is used
 
-Only the bound owner may adopt or replace their brief, or accept/decline an
-amendment to it. Either participant or advocate may request a change. Agents,
-the clerk, copied display names, and platform messages on someone's behalf cannot
-make a human decision.
+Switch is the backbone of the live workflow, not a wrapper around it.
 
-Both humans must approve the **same current board revision and complete bundle
-digest**. Brief changes and new boards invalidate earlier approval targets.
-The prepared HTML, script, assets, brief hashes and renderer version are bound
-into that digest. Official downloads serve the stored reviewed bytes, after
-both approvals pass. An owner may revoke their own current approval.
+### Room and bridge
 
-Case C01 was initialized with unadopted H1/D1 and zero human approvals.
-Setup does not send decisions through either human account. Automated positive
-approval tests use synthetic identities and a separate test database.
+The live workflow uses one private Switch room, `creative-veto-spike`, bridged to a local Mattermost instance at `http://localhost:18865/creative-veto/channels/creative-veto-spike`. The recorded negotiation check uses a separate private room, `cvc-negotiation-verification`, with an isolated database.
 
-See [the engine protocol and validation](docs/mandate-engine.md) and
-[the live agent-authority rejection evidence](docs/court-engine-live-result.json).
+Two native Mattermost accounts represent the owners:
 
-## Verified behavior
+- `court-owner` owns the lead's H brief.
+- `court-creator` owns the creator's D brief.
 
-The clerk posts a targeted request. The lead advocate reads the actual room
-context through its own Switch credential, runs Codex CLI, and posts its result
-under its own identity. The creator advocate reads the lead's stored message,
-runs a separate Codex turn, and posts its objection/alternative. The clerk reads
-both replies, checks the three distinct source identities, and independently
-verifies that Mattermost received the messages.
+### Agents and rules
 
-See [the observed run](docs/spike-result.md),
-[credential-free source references](docs/spike-result.json), and
-[the live-worker verification](docs/live-listener-result.json). Reports are generated
-only after a real successful run. The scenario is synthetic; no human consent
-is simulated and no final storyboard is claimed.
+| Switch identity | Implementation | Responsibility and rules |
+|---|---|---|
+| `cvc-lead-advocate` | OpenAI Codex CLI worker | Propose against the current saved briefs. Preserve the lead's requirements, and never invent permission or amend either brief. Return schema-constrained JSON for exactly four panels totalling 30 seconds. |
+| `cvc-creator-advocate` | Separate OpenAI Codex CLI turn | Read the lead's actual proposal through Switch. Review its exact revision and full hash against both briefs. Recommend, request a revision, request an owner amendment, or report a block. A recommendation is never human approval. |
+| `cvc-clerk` | Deterministic Node.js code, no model | Consume source messages, enforce identity and command rules, schedule bounded turns, check candidates, pause for owners, and gate exports. |
 
-## Requirements
+Instructions and schemas are in [`agents/`](agents/). Both advocates currently use one machine's existing Codex login with separate Switch credentials, so they are not independently hosted providers. The GPT and Claude labels in the older scripted demo do not describe the live setup. The illustrated judges in the UI are presentation characters, not extra model agents.
 
-- Node.js 22.13 or newer (tested on 26.7), PowerShell, and Docker Desktop with its Linux engine running.
-- Codex CLI installed and `codex login status` reporting an existing sign-in.
-- Network access for the first image pull and actual Codex calls.
-- The default Windows Codex npm installation is detected. For another installation,
-  set `CVC_CODEX_CLI` to its `codex.js` or native executable path.
+### Message flow
 
-The app has no npm dependencies. It uses your existing Codex login; provider
-credentials are not copied into the project or sent to Switch. Advocate calls
-use read-only mode, an ephemeral session, and a constrained reply schema.
+[`scripts/setup-room.mjs`](scripts/setup-room.mjs) registers three external, passive HTTP identities through `/gateway/agents/register-other`, creates the room, and installs instructions that require explicitly addressed requests. Then, for each scheduled advocate turn:
 
-## Start and verify
+1. The clerk posts a targeted request.
+2. The advocate reads `/agents/{id}/ops/read_context` with its own credential.
+3. The local adapter runs Codex with the current case state and response schema.
+4. The advocate posts through `/agents/{id}/message`.
+5. The listener reads the reply back from Switch and validates its source before committing it.
 
-From this directory:
+A local model response alone can't advance the case. The creator has to see the scheduled proposal in Switch, and stale or mismatched replies can't advance another turn.
+
+Human decisions travel through the room too. Only the bound owner can adopt their brief, accept an amendment to it, or approve a bundle. Both owners must approve the same revision and complete bundle digest. New briefs or boards invalidate earlier approval targets, and owners can revoke their own approval.
+
+### What breaks without Switch
+
+The live workflow loses its shared room, authenticated source identities, targeted requests, advocate context and reply transport, and human decision ingestion. Negotiation can't progress, and live exports can't become approved. The static replay and offline receipt verifier still work, but they show recorded behaviour and don't replace the live workflow.
+
+The bundled stack pins Switch core, gateway and setup to 0.31.0 and Mattermost to 11.9.0. Its Compose file comes from Switch Console 0.40.1 (see [`infra/NOTICE.md`](infra/NOTICE.md)). Switch core is not patched.
+
+## Run the live Switch workflow
+
+<details>
+<summary><b>Show setup steps</b> (Docker, Codex login, Windows PowerShell helpers)</summary>
+
+<br>
+
+**Verification scope.** A fresh `main` clone at `6b1282c` was checked on Linux with Node 24.21.0, npm 11.19.0, Docker Compose 5.7.0 and Codex CLI 0.164.0. Initialization, Compose config validation, syntax checks, 113 tests, the static build, frontend route checks and committed receipt verification passed. The live stack and provider rehearsal were **not rerun** for this README, and PowerShell wasn't available, so the Windows scripts were only read through. Steps marked **(unverified)** fall in that group.
+
+**1. Prerequisites.** Docker with Linux containers running. The background-worker scripts target Windows PowerShell. Install Codex CLI if needed **(unverified, install not rerun)**:
+
+```sh
+npm install -g @openai/codex
+codex login status
+```
+
+An existing ChatGPT login was confirmed during verification. Real advocate turns use that account and may consume its allowance. Switch Console-managed agent sessions aren't required, because this project supplies its own external workers and starts the bundled Switch stack.
+
+**2. Generate local config.** Verified. This creates an ignored `.runtime/stack.env` with generated credentials and default ports.
+
+```sh
+npm run init
+```
+
+**3. Start the stack (Windows PowerShell, unverified, source-checked only).**
 
 ```powershell
 .\scripts\start-stack.ps1
+```
+
+It starts Docker project `creative-veto-spike` with the `collab` and `gateway` profiles. The Compose config validated, but image pulling and service startup were not rerun.
+
+| Service | URL |
+|---|---|
+| Switch API | http://localhost:18800 |
+| Switch dashboard | http://localhost:18801 |
+| Mattermost | http://localhost:18865 |
+| Clerk case page and API | http://localhost:18802 |
+| Courtroom frontend | http://127.0.0.1:4173 |
+
+**4. Register agents and initialize the case (unverified, needs the live stack).**
+
+```powershell
 npm run setup
-.\scripts\stop-workers.ps1
 npm run setup:engine
-npm test
+```
+
+Setup saves agent credentials in the ignored `.runtime/room.json`. Engine setup creates and binds the owner accounts and initializes case C01. Dashboard credentials are `GATEWAY_ADMIN_EMAIL` and `GATEWAY_ADMIN_PASSWORD` in `.runtime/stack.env`. The `court-owner` Mattermost password is `MATTERMOST_USER_PASSWORD` in the same file, and `court-creator`'s credentials are in `.runtime/court-users.env`. Keep `.runtime/` private, and don't regenerate credentials over existing database volumes.
+
+On Windows the adapter finds a standard npm Codex install. If yours is elsewhere, set `CVC_CODEX_CLI` to the executable or `codex.js` path before starting the workers.
+
+**5. Start and inspect the workers (unverified, live startup not rerun).**
+
+```powershell
 .\scripts\start-workers.ps1
 npm run status
 ```
 
-`npm run check:listener` sends two new clerk prompts and verifies that both
-background advocate workers answer automatically. It invokes the real provider
-and is separate from the offline unit tests. `npm run check:clerk` verifies the
-deterministic clerk's status reply without invoking a model.
-`npm run check:engine` sends an agent-authored adoption command and verifies
-its rejection through actual Switch source messages. It sends no human decisions.
-The original scripted spike is still available as `npm run spike` with workers stopped.
-`npm run check:negotiation` runs the real background negotiation in an isolated
-verification room. It invokes Codex and clearly labels its synthetic owner inputs.
+Or run the listener in the foreground instead, but use one or the other, not both **(unverified)**:
 
-`start-stack.ps1` generates private random local credentials once and reuses them.
-It starts the upstream standalone stack in Docker project `creative-veto-spike`.
-Initial pulls can take several minutes. Startup details are in
-`.runtime/stack-start.log`. An interrupted first startup can be retried with the
-same script; do not regenerate credentials over existing database volumes.
+```sh
+npm run listen
+```
 
-`setup` is repeatable and preserves the three saved identities. It refuses to
-overwrite a conflicting existing identity or room when its local credential
-file is missing. The installed release must support message IDs in
-`read_context`; incomplete room history fails explicitly.
+Then run `npm run dev` in another terminal.
 
-## Open the room
+**6. Walk through the human workflow (unverified, not done with real owners yet).** Open the case page and the Mattermost channel, using separate browser profiles for the two accounts.
 
-- Mattermost channel: http://localhost:18865/creative-veto/channels/creative-veto-spike
-- Switch dashboard: http://localhost:18801
-- Agent bridge: http://localhost:18800
-- Case page and read-only API: http://localhost:18802
+- Each owner reviews their brief and posts its displayed **ADOPT** command.
+- The advocates propose and review the first board.
+- Only `court-owner` accepts or declines the proposed H amendment.
+- After the revision and recommendation, both owners inspect the frozen preview.
+- Each owner posts the displayed **APPROVE** command for the same digest.
 
-For Mattermost, the local user is `court-owner`. Its password is the
-`MATTERMOST_USER_PASSWORD` entry in ignored `.runtime/stack.env`. The dashboard
-uses `GATEWAY_ADMIN_EMAIL` / `GATEWAY_ADMIN_PASSWORD` from that same private file.
-Do not publish the file or paste it into a shared chat.
+Don't reuse hashes from screenshots or make up commands. The case page shows the current exact commands, and one approval doesn't unlock export.
 
-With workers running, send a **new** message in the channel:
+**7. Optionally rerun the recorded verification (unverified).**
+
+```sh
+npm run check:negotiation
+```
+
+This runs real Codex turns through Switch in an isolated verification room. The owner adoption and amendment inputs are explicitly synthetic, so it does not collect real human approvals. To stop the Windows background workers, run `.\scripts\stop-workers.ps1` **(unverified)**.
+
+</details>
+
+## Repository structure
+
+<details>
+<summary><b>Show file map</b></summary>
+
+<br>
 
 ```text
-@cvc-lead-advocate Explain the portrait requirement and the decision the lead needs to make.
+agents/                         Advocate instructions and JSON response schemas
+infra/compose.yml               Pinned upstream Switch and Mattermost stack
+infra/NOTICE.md                 Stack provenance and version information
+scripts/setup-room.mjs          Register identities, create room, install policies
+scripts/setup-engine.mjs        Bind owners and initialize the persistent case
+scripts/listen.mjs              Start room ingestion, workers and read-only API
+scripts/check-negotiation.mjs   Isolated real Switch and Codex rehearsal
+src/switch-client.mjs           Switch context-reading and message-posting adapter
+src/codex-provider.mjs          Schema-constrained Codex CLI invocation
+src/court-engine.mjs            Ownership, amendments, approvals and SQLite state
+src/negotiation.mjs             Bounded proposal and review scheduling
+src/storyboard.mjs              Encoded checks and deterministic bundle rendering
+src/receipt-verify.mjs          Offline receipt and file-consistency checks
+frontend/server.mjs             Static frontend server and read-only API proxy
+frontend/public/court.mjs       Integrated live and replay courtroom client
+frontend/public/data/           Committed recording and synthetic-signature exports
+assets/                         Fixed storyboard asset catalog
+test/                           Automated regression tests and browser runners
+docs/automatic-negotiation.md   Protocol, recorded evidence and verification limits
 ```
 
-Then ask the other advocate to read the actual reply:
+</details>
 
-```text
-@cvc-creator-advocate Read the lead's last proposal and suggest an object-based alternative that protects your boundary.
-```
+## How it was built
 
-For the deterministic clerk, send `@cvc-clerk status C01`.
+We used OpenCode and AI coding agents to help implement, review, debug and test the project. The runtime advocates are separate Codex CLI workers, not the coding agents that built the app.
 
-To complete the human workflow:
+The build went from a real Switch and Mattermost round trip, to persistent owner mandates, exact-bundle approval and bounded negotiation, and finally the integrated courtroom display. Recorded evidence and protocol notes live alongside the code.
 
-1. Open the case page and review both draft briefs. Each owner copies their own
-   **ADOPT** command into the room from their own account.
-2. The agents automatically propose and review BOARD1. Its portrait conflict
-   produces an owner question. Only `court-owner` can accept the proposed H1
-   replacement. Accepting creates H2 while preserving D1.
-3. The lead automatically proposes BOARD2 and the creator reviews its exact
-   content. A passing recommendation prepares the frozen preview.
-4. Both owners inspect the preview and copy the same displayed **APPROVE** command
-   into chat from their respective accounts. A single approval leaves export blocked.
-5. When both approvals match, the page exposes the approved HTML, script and receipt.
+For the Code with Wispr side track, we used [Wispr Flow](https://wisprflow.ai/) to dictate prompts, agent instructions and documentation. Voice dictation was part of building the project, not a runtime speech feature. For the full story, read the [blog post](https://dev.to/harshil-sri/building-a-switch-courtroom-where-ai-can-negotiate-but-cant-consent-1g6k).
 
-Use separate browser profiles or a private window for the second account during
-a local rehearsal. A posted decision takes effect when the clerk acknowledges it.
-Editing or deleting an old post does not revoke the recorded decision; send a new
-**REVOKE** command to withdraw your own current approval.
+## Limitations and what's next
 
-The identities are:
+| Limitation | What's next |
+|---|---|
+| **Recorded consent is synthetic.** The rehearsal proves message flow and negotiation, not a finished agreement between two humans. | Record the full workflow with both real owners approving the same bundle. |
+| **One machine, one provider login.** Both advocates use the same Codex account, and briefs are shared in the room. | Independently owned advocate workers and private chambers. |
+| **Narrow creative scope.** A four-panel, 30-second storyboard and script from a fixed asset catalog. No video, and no legal or wider creative review. | Broader asset catalog and rendering. |
+| **Local trust and deployment limits.** The Windows helpers and pinned stack need a fresh end-to-end rerun. Receipts check consistency, not cryptographic proof of identity or an independently authenticated Switch history. | A full rerun on a clean machine and stronger receipts. |
 
-- `cvc-lead-advocate` — represents the creative lead's brief.
-- `cvc-creator-advocate` — represents the collaborating creator's brief.
-- `cvc-clerk` — deterministic room observer and spike coordinator.
+## Team
 
-These are **external/passive HTTP agents**, using separate identities and a local
-Codex worker adapter. The Switch UI may report awaiting-manual-poll: the workers
-poll rather than hold Console-managed sessions. `npm run status` reports the
-local listener, and its logs are `.runtime/listener.out.log` and
-`.runtime/listener.err.log`.
-
-The listener answers new explicit mentions. Its saved seen-message IDs prevent
-duplicate advocate turns after restarting. The case engine separately consumes
-commands transactionally by room/source ID in SQLite, preserving decisions even
-if delivery repeats. First start with an engine replays available room history;
-commands from before case creation cannot adopt a new target.
-It ignores the advocates' own messages to avoid an autonomous response loop.
-Provider failures are recorded and not silently retried. The clerk observes
-messages without impersonating a human or granting approvals. Advocate turns
-pause while an amendment awaits its owner. Current persisted briefs and decisions
-are passed into advocate turns; the original spike defaults cannot override them.
-The room keeps polling while a model runs, so an owner edit can cancel an
-in-flight turn. Built-in passive-agent notices never schedule another model.
-
-To run in the foreground, use `npm run listen`. To stop this project's background
-listener, run `.\scripts\stop-workers.ps1`. Stop the listener before running a
-fresh scripted spike so two workers cannot answer the same prompt.
-
-## Current scope
-
-This increment implements owner adoption, amendment requests and decisions,
-owner-only direct replacement, structured board ingestion, deterministic checks,
-immutable HTML/script preparation, two-owner approvals, revocation and export.
-Automatic structured proposals, exact-board creator reviews and bounded turn
-scheduling are implemented. The page is a plain operational view. Briefs are
-shared in the room, and both advocates use this machine's existing Codex login.
-Private chambers, two-machine agent ownership, full court presentation and public
-multi-tenant hosting remain future work. Manual PROPOSE commands cannot bypass
-the creator review while automatic negotiation is enabled.
-
-The room history is read completely: 500 entries per page (Switch's maximum),
-paging backwards with `before` and merging by message ID, up to 10,000 entries.
-Anything larger, or paging that does not advance, stops processing explicitly.
-A failed poll, identity check, incomplete history or unavailable provider pauses
-ingestion visibly (`/health` → `ingestion.state: "paused"`, with the reason and a
-banner on the case page) and retries with backoff up to 30 seconds. It never
-crashes the listener or skips a message. A clerk turn request that cannot be
-confirmed within 90 seconds stops the run as `TURN_REQUEST_UNDELIVERED` instead
-of waiting forever. Source timestamps use a
-Switch server time reference to tolerate this machine's Docker/Windows clock
-offset. The runtime is local and loopback-bound.
-
-## Courtroom frontend API
-
-`GET /api/cases/C01/court` returns one courtroom view model: phase, cast,
-active speaker, pending human question, latest board and checks, signatures,
-and the case as a list of courtroom beats (summons, proposal, objection,
-appeal, decision, signature, verdict…). `GET /api/cases/C01/stream` pushes the
-same data live as server-sent events and resumes with `Last-Event-ID`. CORS is
-open only to local dev origins (`CVC_FRONTEND_ORIGINS` to change). The API stays
-read-only: decisions happen only in the Switch room. See
-[the frontend API](docs/frontend-api.md).
-
-## Verify an approval receipt offline
-
-After both owners approve, download the export, script and receipt from the
-case page, then:
-
-```powershell
-npm run verify -- C01-receipt.json C01-BOARD2-storyboard.html C01-BOARD2-script.txt
-```
-
-The verifier needs no server. It recomputes the bundle digest, the file
-hashes, each brief's hash and adoption, and the creator's exact-board review.
-It checks that two distinct human owners approved that exact digest from their
-own Switch messages, and re-runs the encoded rules. Changing one byte of the
-storyboard, one approval or one brief term makes it fail.
-
-## Files and runtime data
-
-- `agents/` — role briefs and the provider response schema.
-- `src/switch-client.mjs` — real Switch read/post adapter.
-- `src/court-engine.mjs` — transactional case, ownership and approval rules.
-- `src/court-http.mjs` — read-only case/preview/export server, courtroom view and SSE stream.
-- `src/court-view.mjs` — frontend view model: phases and courtroom beats.
-- `src/receipt-verify.mjs`, `scripts/verify-receipt.mjs` — offline approval-receipt verifier.
-- `src/negotiation.mjs` — persisted turn scheduling, reviews, pauses and limits.
-- `src/negotiation-worker.mjs`, `src/room-worker.mjs` — real Switch/Codex turns and continuous room ingestion.
-- `src/storyboard.mjs`, `assets/` — deterministic renderer and original fixed assets.
-- `src/codex-provider.mjs` — actual CLI invocation; there is no canned-model fallback.
-- `scripts/` — setup, spike, listener, status, and stack controls.
-- `infra/` — attributed, versioned upstream Compose file and license.
-- `.runtime/` — ignored secrets, `court.sqlite` and its WAL, local state, provider logs, and detailed evidence.
-
-Switch core/gateway/setup are pinned to **0.31.0**, bundled with official Console
-release **0.40.1**. Mattermost is **11.9.0**. See `infra/NOTICE.md` for provenance.
-No Switch-core source is patched. Keep `.runtime/` out of Git and any public archive.
-
-## Local Docker startup repair on this machine
-
-During setup Docker failed on an inaccessible zero-byte `dockerInference` socket.
-The stale `C:\Users\iamda\AppData\Local\Docker\run` directory was renamed to
-`run.before-creative-veto-20261107`, preserving it. Docker's backend was then
-started without its desktop frontend. No volumes were pruned or reset; existing
-containers were preserved. This repair is machine-specific and is not part of
-the project's startup script.
+Built by **Harshil** and **Daksh** for Flip the Switch, hosted by WeMakeDevs and DevTools Academy.
