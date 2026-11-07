@@ -19,7 +19,7 @@
   <a class="skip" href="#record">Skip to the court record</a>
   <header class="top">
     <a class="mark" href="/court.html" aria-label="Delegates, live court"><span>delegates</span><i>.</i></a>
-    <div class="case-chip"><span id="case-id">C01</span><span class="sep">/</span><span>SIGNAL promo · storyboard</span></div>
+    <span id="case-id" hidden></span>
     <nav class="top-nav" aria-label="Views">
       <button id="retry-live" class="retry-button" hidden aria-label="Retry connecting to the live clerk">Retry live</button>
       <span class="mode" id="mode" data-mode="connecting" role="status" aria-live="polite"><b></b><span id="mode-label">Connecting to the clerk</span></span>
@@ -32,8 +32,8 @@
       <div class="scene" id="court-scene" data-speaker="clerk">
         <img class="scene-background layer-back" src="/art/chamber.svg" alt="" width="1440" height="1000">
         <div class="layer-bench" id="bench-host"></div>
-        <div class="podium podium-left layer-front" id="podium-lead"><div class="podium-avatar" id="avatar-lead"></div><div class="podium-card"><span class="eyebrow" id="lead-model">Advocate</span><strong id="lead-name">Lead advocate</strong><span id="lead-for">for —</span></div></div>
-        <div class="podium podium-right layer-front" id="podium-creator"><div class="podium-avatar" id="avatar-creator"></div><div class="podium-card"><span class="eyebrow" id="creator-model">Advocate</span><strong id="creator-name">Creator advocate</strong><span id="creator-for">for —</span></div></div>
+        <div class="podium podium-left layer-front" id="podium-lead"><div class="podium-avatar" id="avatar-lead"></div><div class="podium-card"><span class="eyebrow" id="lead-model">Advocate</span><strong id="lead-name">Lead advocate</strong><span id="lead-for">for  </span></div></div>
+        <div class="podium podium-right layer-front" id="podium-creator"><div class="podium-avatar" id="avatar-creator"></div><div class="podium-card"><span class="eyebrow" id="creator-model">Advocate</span><strong id="creator-name">Creator advocate</strong><span id="creator-for">for  </span></div></div>
       </div>
       <div class="phase" aria-live="polite"><span class="eyebrow" id="phase-code">Filing</span><h1 id="phase-label">The court is assembling.</h1><p id="phase-detail"></p></div>
       <div class="stamp" id="stamp" aria-hidden="true"><span id="stamp-text"></span></div>
@@ -45,16 +45,15 @@
     </section>
 
     <section class="question" id="question" hidden aria-labelledby="question-title">
-      <span class="eyebrow">The court is in recess · a human must decide</span>
+      <span class="eyebrow">Paused for a person</span>
       <h2 id="question-title"></h2><p id="question-detail"></p>
-      <div class="question-commands"><div><span>Accept, sent by <b id="question-owner"></b> in the Switch room</span><code id="question-accept"></code></div><div><span>Or decline</span><code id="question-decline"></code></div></div>
-    </section>
+      </section>
 
     <section class="file" aria-label="The case file">
-      <article class="panel briefs reveal"><header><span class="eyebrow">01 · Mandates</span><h2>What each person protects</h2></header><div class="brief-grid" id="briefs"></div></article>
-      <article class="panel board reveal"><header><span class="eyebrow">02 · The board</span><h2 id="board-title">No storyboard yet</h2><span class="board-meta" id="board-meta"></span></header><div class="board-grid" id="board"></div><ul class="checks" id="checks"></ul></article>
-      <article class="panel signatures reveal"><header><span class="eyebrow">03 · Signatures</span><h2>Only people sign</h2></header><div class="seals" id="seals"></div><p class="sign-note" id="sign-note">An advocate can argue for its owner. It can never consent for them.</p><div class="exports" id="exports"></div></article>
-      <article class="panel record reveal" id="record"><header><span class="eyebrow">04 · The record</span><h2>Every beat is a Switch message</h2></header><ol class="beats" id="beats" tabindex="0" aria-label="Court record"></ol></article>
+      <article class="panel briefs reveal"><header><h2>What each person wants</h2></header><div class="brief-grid" id="briefs"></div></article>
+      <article class="panel board reveal"><header><h2 id="board-title">The storyboard</h2><span class="board-meta" id="board-meta"></span></header><div class="board-grid" id="board"></div><ul class="checks" id="checks"></ul></article>
+      <article class="panel signatures reveal"><header><h2>Signatures</h2></header><div class="seals" id="seals"></div><p class="sign-note" id="sign-note">An advocate can argue for its owner. It can never consent for them.</p><div class="exports" id="exports"></div></article>
+      <article class="panel record reveal" id="record"><header><h2>Switch room log</h2></header><ol class="beats" id="beats" tabindex="0" aria-label="Court record"></ol></article>
     </section>
   </main>
   <footer class="foot"><span>Delegates · Creative Veto Court · <a href="/">scripted demo hearing</a></span><span id="foot-source">Read-only view. Decisions are made only in the Switch room.</span></footer>

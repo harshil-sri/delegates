@@ -68,8 +68,21 @@ const state = {
 };
 
 // ── Text helpers ────────────────────────────────────────────────────────────
-function clean(text) {
+function plain(text) {
   return String(text ?? '')
+    .replace(/synthetic-fixture-(lead|creator)/g, 'the $1')
+    .replace(/\b(adopt(?:s|ed)?) [HD]\d+\b/g, '$1 their brief')
+    .replace(/\b[HD]\d+ → [HD]\d+\.?/g, '')
+    .replace(/\bBOARD(\d+)\b/g, 'draft $1')
+    .replace(/\b[HD]\d+\/[HD]\d+\b/g, 'both briefs')
+    .replace(/\b[HD]\d+\b/g, 'the brief')
+    .replace(/\bA\d+\b/g, 'the change')
+    .replace(/Stage: [A-Z_]+\.?/g, '')
+    .replace(/portrait-daksh/g, 'the portrait')
+    .replace(/\s*[—–]\s*/g, ', ');
+}
+function clean(text) {
+  return plain(String(text ?? ''))
     .replace(/@cvc-[a-z-]+\s*/g, '')
     .replace(/\[CVC_[A-Z_]+[^\]]*\]\s*/g, '')
     .replace(/\{[\s\S]*\}/g, '')
@@ -78,22 +91,23 @@ function clean(text) {
     .replace(/\b[a-f0-9]{64}\b/g, '…')
     .replace(/\s+/g, ' ').trim();
 }
+const plainName = (username, role) => !username || /^synthetic-fixture-/.test(username) ? (role === 'lead' ? 'The lead' : 'The creator') : username;
 function speakerName(speaker, view = state.view) {
   if (!view) return speaker;
   if (speaker === 'clerk') return 'The clerk';
-  if (speaker === 'lead' || speaker === 'creator') return speaker === 'lead' ? 'Lead advocate' : 'Creator advocate';
-  if (speaker?.startsWith('owner:')) return view.cast.owners[speaker.slice(6)]?.username ?? 'Owner';
+  if (speaker === 'lead' || speaker === 'creator') return speaker === 'lead' ? 'Lead’s AI' : 'Creator’s AI';
+  if (speaker?.startsWith('owner:')) return plainName(view.cast.owners[speaker.slice(6)]?.username, speaker.slice(6));
   return speaker || 'Unknown';
 }
-const kindLabel = {filing: 'Filing', procedure: 'Procedure', mandate: 'Mandate adopted', summons: 'Summons', deliberating: 'Deliberating', proposal: 'Motion', ruling: 'Ruling of the checks', objection: 'Objection', endorsement: 'Recommendation', appeal: 'Recess · human decision', decision: 'Owner decision', draft_verdict: 'Frozen for signature', signature: 'Signature', withdrawal: 'Withdrawal', verdict: 'Verdict', recess: 'Negotiation paused', turn_failed: 'Turn failed', overruled: 'Overruled'};
+const kindLabel = {filing: 'Case opened', procedure: 'Rules', mandate: 'Brief agreed', summons: 'Called to speak', deliberating: 'Thinking', proposal: 'Proposal', ruling: 'Checks pass', objection: 'Objection', endorsement: 'Recommendation', appeal: 'Paused for a person', decision: 'Decision', draft_verdict: 'Ready to sign', signature: 'Signed', withdrawal: 'Signature withdrawn', verdict: 'Approved', recess: 'Paused', turn_failed: 'Paused', overruled: 'Overruled'};
 function beatLine(beat) {
   switch (beat.type) {
-    case 'proposal': return beat.quote;
-    case 'endorsement': return beat.quote;
-    case 'objection': return beat.basis === 'review' ? beat.quote : `BOARD${beat.boardRevision} fails: ${(beat.failed || []).map(check => check.detail).join(' ')}`;
-    case 'appeal': return beat.question || clean(beat.text).split(' replacing ')[0] + '.';
+    case 'proposal': return plain(beat.quote);
+    case 'endorsement': return plain(beat.quote);
+    case 'objection': return beat.basis === 'review' ? plain(beat.quote) : 'The portrait is not allowed: one person wants it, the other said no.';
+    case 'appeal': return plain(beat.question) || 'Only the owner of this brief can decide.';
     case 'overruled': return beat.agentOverreach ? 'An advocate tried to make a human decision. The advocate is not the client.' : beat.reason;
-    case 'deliberating': return `${speakerName(beat.speaker)} is preparing a structured turn.`;
+    case 'deliberating': return `${speakerName(beat.speaker)} is thinking.`;
     case 'recess': case 'turn_failed': return beat.reason;
     default: return clean(beat.text) || kindLabel[beat.type] || beat.kind;
   }
@@ -178,7 +192,7 @@ setInterval(() => {
   if (judgeEl(id)?.hasAttribute('data-act')) return;
   act(id, idleMoves[id][Math.floor(Math.random() * idleMoves[id].length)]);
 }, 2300);
-const ownerName = role => state.view?.cast?.owners?.[role]?.username ?? role;
+const ownerName = role => plainName(state.view?.cast?.owners?.[role]?.username, role);
 function chorus(beat) {
   lastBeatAt = Date.now();
   hush();
@@ -192,7 +206,7 @@ function chorus(beat) {
   switch (beat.type) {
     case 'filing': say('vale', 'The court is in session. Two briefs, one storyboard, and only people may decide.'); act('vale', 'tap'); act('thorne', 'nod', 900, 900); break;
     case 'procedure': say('thorne', 'Advocates may argue. Only the owners may consent.', {delay: 300}); act('thorne', 'finger'); break;
-    case 'mandate': say('thorne', `${ownerName(beat.role)} adopts ${beat.ref}. Recorded, by the only person who could.`, {tone: 'good'}); act('thorne', 'nod'); act('arata', 'specs', 1500, 500); break;
+    case 'mandate': say('thorne', `${ownerName(beat.role)} agrees to their brief. Only they could.`, {tone: 'good'}); act('thorne', 'nod'); act('arata', 'specs', 1500, 500); break;
     case 'summons': say('vale', beat.target === 'creator' ? 'Counsel for the creator: review it exactly as filed.' : 'Counsel for the lead, you have the floor.'); act('vale', 'lean'); break;
     case 'deliberating': act('arata', 'soroban'); act('vale', 'watch', 1800, 500); act('thorne', 'confer-left', 1600, 900); break;
     case 'proposal':
@@ -206,27 +220,27 @@ function chorus(beat) {
         if (ROLE_JUDGES.thorne.test(failed)) { say('thorne', 'Sustained. One brief forbids that portrait. Consent is not ours to give.', {tone: 'bad', ms: 5000}); act('thorne', 'finger', 1500, 300); }
         if (ROLE_JUDGES.vale.test(failed)) say('vale', 'It does not fit the panels or the thirty seconds.', {tone: 'bad', delay: 900});
         else say('vale', 'Four panels, thirty seconds. That part holds.', {tone: 'good', delay: 1100, ms: 3200});
-        if (ROLE_JUDGES.arata.test(failed)) { say('arata', 'And the letter is broken: an unregistered asset.', {tone: 'bad', delay: 1900}); act('arata', 'specs', 1500, 1900); }
+        if (ROLE_JUDGES.arata.test(failed)) { say('arata', 'And that picture is not on the approved list.', {tone: 'bad', delay: 1900}); act('arata', 'specs', 1500, 1900); }
       } else {
         say('creator', beat.quote, {tone: 'bad', ms: 5600});
         act('thorne', 'startle'); act('arata', 'confer-right', 1600, 900); act('vale', 'confer-left', 1600, 900);
-        say('vale', 'Noted. Only the owner of H1 can change H1.', {delay: 2400, ms: 3400});
+        say('vale', 'Noted. Only the lead can change the lead’s brief.', {delay: 2400, ms: 3400});
       }
       break;
     case 'appeal':
       say('vale', `Recess. Only ${ownerName(beat.awaiting?.slice(6) ?? 'lead')} can answer this.`, {ms: 5200}); act('vale', 'gavel');
       say('thorne', 'No advocate speaks until a person decides.', {delay: 1500, ms: 4200}); act('thorne', 'finger', 1500, 1500); act('arata', 'sigh', 1600, 900); break;
     case 'decision':
-      say('thorne', beat.accepted ? `Consent given, by the right person. ${beat.ref ?? ''} now binds.` : 'Declined. The original terms stand.', {tone: beat.accepted ? 'good' : 'bad', ms: 4400});
+      say('thorne', beat.accepted ? 'Consent given, by the right person.' : 'Declined. The original terms stand.', {tone: beat.accepted ? 'good' : 'bad', ms: 4400});
       act('thorne', beat.accepted ? 'chuckle' : 'sigh'); act('arata', 'soroban', 1500, 700); act('vale', 'nod', 900, 1200); break;
     case 'ruling':
       say('arata', 'To the letter. Every rule holds.', {tone: 'good'}); act('arata', 'nod');
-      say('vale', `BOARD${beat.boardRevision} passes.`, {tone: 'good', delay: 1000}); act('vale', 'gavel', 1100, 1000); act('thorne', 'scales', 1600, 500); break;
+      say('vale', 'This draft passes.', {tone: 'good', delay: 1000}); act('vale', 'gavel', 1100, 1000); act('thorne', 'scales', 1600, 500); break;
     case 'endorsement':
       say('creator', beat.quote, {tone: 'good', ms: 5400});
       say('thorne', 'A recommendation. Not a signature.', {delay: 2000, ms: 3600}); act('thorne', 'finger', 1400, 2000); break;
-    case 'draft_verdict': say('vale', 'Frozen and hashed. Two signatures, or nothing.', {ms: 5000}); act('vale', 'gavel'); act('arata', 'specs', 1500, 700); act('thorne', 'nod', 900, 1300); break;
-    case 'signature': say('thorne', `${ownerName(beat.role)} signs this exact bundle.`, {tone: 'good'}); act('thorne', 'nod'); act('arata', 'soroban', 1500, 500); break;
+    case 'draft_verdict': say('vale', 'Locked. Now both of them must sign.', {ms: 5000}); act('vale', 'gavel'); act('arata', 'specs', 1500, 700); act('thorne', 'nod', 900, 1300); break;
+    case 'signature': say('thorne', `${ownerName(beat.role)} signs.`, {tone: 'good'}); act('thorne', 'nod'); act('arata', 'soroban', 1500, 500); break;
     case 'withdrawal': say('vale', 'A signature withdrawn. The export is locked again.', {tone: 'bad'}); act('vale', 'sigh'); break;
     case 'verdict':
       say('vale', 'So ordered. Approved by both owners.', {tone: 'good', ms: 5600}); act('vale', 'gavel');
@@ -272,20 +286,20 @@ function stamp(text, tone = 'bad') {
 }
 
 // ── Case file rendering ─────────────────────────────────────────────────────
-function renderBriefs(owners, briefs = null, adoptCommands = state.view?.adopt) {
+const friendly = item => ({'portrait-daksh': 'the portrait', 'notebook': 'notebook sketch', 'hands-sketch': 'hands sketch', 'light-trails': 'light trails', 'signal-mark': 'SIGNAL logo'})[item] ?? item;
+function renderBriefs(owners, briefs = null) {
   if (!owners) return;
   $('#briefs').innerHTML = ['lead', 'creator'].map(role => {
     const owner = owners[role];
     if (!owner) return '';
     const brief = briefs?.[role] ?? owner.brief, content = brief.content ?? brief;
-    const adopted = brief.adopted ?? owner.adopted;
-    const adoptCmd = (!adopted && state.mode === 'live') ? adoptCommands?.[role] : null;
-    return `<div class="brief" data-role="${role}"><span class="seal ${adopted ? '' : 'pending'}">${adopted ? 'ADOPTED' : 'DRAFT'}</span>
-      <span class="eyebrow">${role === 'lead' ? 'Lead' : 'Creator'} · ${esc(brief.ref ?? owner.briefRef)}</span><h3>${esc(owner.username)}</h3><span class="who">${esc(content?.goal ?? '')}</span>
-      <dl><div><dt>Must include</dt><dd>${[...(content?.requiredAssets ?? []), ...(content?.requiredCopy ?? [])].map(item => `<span class="tag">${esc(item)}</span>`).join('') || '—'}</dd></div>
-      <div><dt>Will not allow</dt><dd>${(content?.forbiddenAssets ?? []).map(item => `<span class="tag forbid">${esc(item)}</span>`).join('') || '—'}</dd></div>
-      <div><dt>Closing line</dt><dd>${(content?.finalCopy ?? []).map(item => `<span class="tag">${esc(item)}</span>`).join('') || '—'}</dd></div></dl>
-      ${adoptCmd ? `<div class="brief-adopt" style="margin-top:14px;"><dt style="font:500 9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#7a654b;margin-bottom:4px;">Adopt in Switch</dt><code style="font-size:11px;padding:6px 8px;">${esc(adoptCmd)}</code></div>` : ''}</div>`;
+    const agreed = brief.adopted ?? owner.adopted;
+    const wants = [...(content?.requiredAssets ?? []), ...(content?.requiredCopy ?? []), ...(content?.finalCopy ?? [])];
+    const refuses = content?.forbiddenAssets ?? [];
+    return `<div class="brief" data-role="${role}"><span class="seal ${agreed ? '' : 'pending'}">${agreed ? 'AGREED' : 'DRAFT'}</span>
+      <h3>${esc(plainName(owner.username, role))}</h3><span class="who">${esc(content?.goal ?? '')}</span>
+      <dl><div><dt>Wants</dt><dd>${wants.map(item => `<span class="tag">${esc(friendly(item))}</span>`).join('') || 'Nothing specific'}</dd></div>
+      ${refuses.length ? `<div><dt>Won’t allow</dt><dd>${refuses.map(item => `<span class="tag forbid">${esc(friendly(item))}</span>`).join('')}</dd></div>` : ''}</dl></div>`;
   }).join('');
 }
 
@@ -298,16 +312,16 @@ function renderBoard(board, {animate = false} = {}) {
     $('#board-meta').textContent = '';
     return;
   }
-  $('#board-title').textContent = board.title || 'Storyboard';
+  $('#board-title').textContent = plain(board.title || 'Storyboard');
   const total = (board.panels || []).reduce((sum, panel) => sum + (panel.seconds || 0), 0);
-  $('#board-meta').textContent = `BOARD${board.revision} · ${(board.panels || []).length} panels · ${total}s${board.stale ? ' · superseded' : ''}`;
+  $('#board-meta').textContent = `${(board.panels || []).length} scenes · ${total} seconds${board.stale ? ' · old draft' : ''}`;
   grid.innerHTML = (board.panels || []).map((panel, index) => {
     const known = ['notebook', 'hands-sketch', 'light-trails', 'signal-mark'].includes(panel.assetId);
     return `<div class="card" data-asset="${esc(panel.assetId)}"><span class="sec">${index + 1} · ${panel.seconds}s</span>
       ${known ? `<img src="/storyboard/${panel.assetId}.svg" alt="${esc(panel.assetId)}">` : `<div class="missing">${esc(panel.assetId)}<br>not permitted</div>`}
-      <div class="on">${esc(panel.onScreen)}</div><p>${esc(panel.scene)}</p><span class="veto">Vetoed</span></div>`;
+      <div class="on">${esc(plain(panel.onScreen))}</div><p>${esc(plain(panel.scene))}</p><span class="veto">Vetoed</span></div>`;
   }).join('');
-  $('#checks').innerHTML = (board.checks ?? []).map(check => `<li data-pass="${check.passed}">${check.passed ? '✓' : '✕'} ${esc(check.detail)}</li>`).join('');
+  { const failed = (board.checks ?? []).filter(check => !check.passed); $('#checks').innerHTML = !board.checks?.length ? '' : failed.length ? '<li data-pass="false">✕ The portrait is not allowed in this draft</li>' : '<li data-pass="true">✓ Every rule passes</li>'; }
   const failed = (board.checks ?? []).filter(check => !check.passed);
   if (failed.length) vetoCards(failed);
   if (animate && gsapReady()) gsap.from(grid.querySelectorAll('.card'), {y: 60, rotate: (i) => (i - 1.5) * 4, opacity: 0, duration: .8, ease: 'expo.out', stagger: .08});
@@ -327,7 +341,7 @@ function renderSeals(view, signed = view.approvals) {
   if (!view?.cast?.owners) return;
   $('#seals').innerHTML = ['lead', 'creator'].map(role => {
     const isSigned = Boolean(signed?.[role]);
-    return `<div class="seal-slot ${isSigned ? 'is-signed' : ''}" data-role="${role}"><div class="wax">${isSigned ? '§' : ''}</div><strong>${esc(view.cast.owners[role]?.username ?? role)}</strong><span>${isSigned ? 'Signed this exact bundle' : 'Not signed'}</span></div>`;
+    return `<div class="seal-slot ${isSigned ? 'is-signed' : ''}" data-role="${role}"><div class="wax">${isSigned ? '§' : ''}</div><strong>${esc(plainName(view.cast.owners[role]?.username, role))}</strong><span>${isSigned ? 'Signed' : 'Not signed yet'}</span></div>`;
   }).join('');
   if (view.exports && (state.mode === 'live' || (state.mode === 'replay' && state.verdict))) {
     $('#exports').innerHTML = `<a href="${view.exports.html}" download>Approved storyboard</a><a href="${view.exports.script}" download>Script</a><a href="${view.exports.receipt}" target="_blank" rel="noopener">Consent receipt</a>`;
@@ -346,11 +360,10 @@ function renderQuestion(question, view) {
   const section = $('#question');
   if (!question) { section.hidden = true; return; }
   section.hidden = false;
-  $('#question-title').textContent = question.reason || `Should ${question.replaces} be replaced?`;
+  $('#question-title').textContent = plain(question.reason) || 'Should the brief change?';
   const ownerUsername = view.cast.owners[question.owner.slice(6)]?.username ?? 'Owner';
-  $('#question-detail').textContent = `Only ${ownerUsername} can decide ${question.requestId}. No advocate turn runs until they do.`;
-  $('#question-owner').textContent = ownerUsername;
-  $('#question-accept').textContent = question.accept; $('#question-decline').textContent = question.decline;
+  $('#question-detail').textContent = `Only ${plainName(ownerUsername, question.owner.slice(6))} can decide. Everything waits until they answer in Switch.`;
+
 }
 
 function renderBeatListItem(beat) {
@@ -433,18 +446,18 @@ function orderBeats(beats) {
 function replayPhase(beat, view, briefs) {
   const owner = role => view.cast.owners[role].username;
   switch (beat.type) {
-    case 'filing': case 'procedure': return {code: 'Filing', label: 'A case is filed.', detail: 'Two people, two advocates, one storyboard. Each owner must adopt their own brief.'};
-    case 'mandate': return {code: 'Mandates', label: `${owner(beat.role)} adopts ${beat.ref}.`, detail: 'Only the owner of a brief can adopt or change it.'};
-    case 'summons': case 'deliberating': return {code: 'Argument', label: beat.target === 'creator' || beat.speaker === 'creator' ? 'The creator advocate reviews.' : 'The lead advocate proposes.', detail: 'A real model turn, posted into the Switch room under its own identity.'};
-    case 'proposal': return {code: 'Motion', label: `BOARD${beat.boardRevision} is before the court.`, detail: 'The clerk checks it against both adopted briefs.'};
-    case 'objection': return beat.basis === 'rules' ? {code: 'Objection', label: 'The portrait is vetoed.', detail: 'Consent fails: one brief requires the portrait, the other forbids it.'} : {code: 'Objection', label: 'The creator objects.', detail: 'It proposes an object-based treatment and asks the lead owner to amend.'};
-    case 'appeal': return {code: 'Recess', label: 'Only a human can decide this.', detail: `The court is silent until ${owner('lead')} answers in Switch. No model runs meanwhile.`};
-    case 'decision': return {code: 'Decision', label: `${speakerName(beat.speaker)} ${beat.accepted ? 'accepts' : 'declines'}.`, detail: beat.accepted ? `${beat.ref} replaces the portrait requirement. Every earlier board is now stale.` : 'The original terms stand.'};
-    case 'ruling': return {code: 'Ruling', label: `BOARD${beat.boardRevision} passes every check.`, detail: 'Four panels, thirty seconds, permitted assets, exact copy.'};
-    case 'endorsement': return {code: 'Recommendation', label: 'The creator advocate recommends it.', detail: 'A recommendation is advisory. It is not consent.'};
-    case 'draft_verdict': return {code: 'Signatures', label: 'Frozen. Awaiting two signatures.', detail: 'The exact bundle is hashed. Each owner must approve it from their own account.'};
-    case 'signature': return {code: 'Signatures', label: `${owner(beat.role)} signs.`, detail: 'One signature is not consent. The export stays locked until both owners approve the same digest.'};
-    case 'verdict': return {code: 'Verdict', label: 'Approved, by both owners.', detail: 'The consent receipt binds the exact bytes, both briefs and both signatures. Anyone can verify it offline.'};
+    case 'filing': case 'procedure': return {code: 'Filing', label: 'A case is filed.', detail: 'Two people, two AI advocates, one storyboard.'};
+    case 'mandate': return {code: 'Briefs', label: `${plainName(owner(beat.role), beat.role)} agrees to their brief.`, detail: 'Only the owner of a brief can change it.'};
+    case 'summons': case 'deliberating': return {code: 'Argument', label: beat.target === 'creator' || beat.speaker === 'creator' ? 'The creator’s AI reviews.' : 'The lead’s AI proposes.', detail: 'Each AI posts in the Switch room as itself.'};
+    case 'proposal': return {code: 'Motion', label: 'A storyboard is proposed.', detail: 'The clerk checks it against both briefs.'};
+    case 'objection': return beat.basis === 'rules' ? {code: 'Objection', label: 'The portrait is vetoed.', detail: 'One person wants it. The other said no.'} : {code: 'Objection', label: 'The creator’s AI objects.', detail: 'It suggests objects instead of the portrait.'};
+    case 'appeal': return {code: 'Recess', label: 'Only a human can decide this.', detail: 'Everything stops until they answer in Switch.'};
+    case 'decision': return {code: 'Decision', label: `${speakerName(beat.speaker)} ${beat.accepted ? 'says yes' : 'says no'}.`, detail: beat.accepted ? 'The portrait is dropped. The old draft no longer counts.' : 'The original terms stand.'};
+    case 'ruling': return {code: 'Ruling', label: 'The new draft passes.', detail: 'Four scenes, thirty seconds, nothing either person ruled out.'};
+    case 'endorsement': return {code: 'Recommendation', label: 'The creator’s AI approves of it.', detail: 'Advice, not consent.'};
+    case 'draft_verdict': return {code: 'Signatures', label: 'Ready to sign.', detail: 'Each person signs from their own Switch account.'};
+    case 'signature': return {code: 'Signatures', label: `${plainName(owner(beat.role), beat.role)} signs.`, detail: 'One signature is not enough. Both must sign the same version.'};
+    case 'verdict': return {code: 'Verdict', label: 'Approved, by both owners.', detail: 'Anyone can check the receipt offline.'};
     default: return null;
   }
 }
@@ -855,9 +868,9 @@ async function startLive(caseId) {
 
 function setCast(view) {
   for (const role of ["lead", "creator"]) {
-    $(`#${role}-model`).textContent = "Codex advocate";
-    $(`#${role}-name`).textContent = role === "lead" ? "For the lead" : "For the creator";
-    $(`#${role}-for`).textContent = `acting for ${view.cast.owners[role]?.username ?? '—'}`;
+    $(`#${role}-model`).textContent = "Codex";
+    $(`#${role}-name`).textContent = role === "lead" ? "Lead’s AI" : "Creator’s AI";
+    $(`#${role}-for`).textContent = `for ${plainName(view.cast.owners[role]?.username, role)}`;
   }
 }
 function setMode(mode, label) {

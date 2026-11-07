@@ -1,5 +1,5 @@
 // Retro game layer: typewriter dialogue with per-speaker chiptune blips
-// (synthesised, original — no sampled game audio), and small pixel emotes.
+// (synthesised and original, no sampled game audio), and small pixel emotes.
 
 const voices = {
   lead: {f: 520, type: 'square'}, creator: {f: 640, type: 'square'},
