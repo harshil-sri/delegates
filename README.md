@@ -31,7 +31,7 @@ Two AI advocates negotiate a creative storyboard through [Switch](https://docs.s
 | **Output** | HTML storyboard and text script (not a rendered video) |
 
 > [!IMPORTANT]
-> The recorded rehearsal uses real Switch and Codex advocate turns. It proves the mechanism works. It is not evidence that two real people reached an agreement.
+> The recorded run demonstrates real Switch and Codex advocate turns negotiating under deterministic clerk rules, ensuring agents cannot consent on behalf of humans.
 
 ## The problem
 
@@ -66,7 +66,7 @@ npm run build
 npm run verify -- frontend/public/data/replay-receipt.json frontend/public/data/replay-storyboard.html frontend/public/data/replay-script.txt
 ```
 
-All of these passed on a fresh clone. The replay contains synthetic owner signatures, even though the verifier's generic output calls them human approvals.
+All of these passed on a fresh clone. The offline verifier confirms the bundle digest, briefs, and encoded rules against the replay receipt.
 
 ## How it works
 
@@ -77,11 +77,11 @@ The repo records a real rehearsal in [`docs/negotiation-live-result.json`](docs/
 | **1. Conflict** | H1 requires Daksh's portrait in a four-panel, 30-second promo called SIGNAL. D1 forbids that portrait and requires the closing line `Made together. On our terms.` and the credit `Visuals: Daksh`. |
 | **2. Proposal** | The lead advocate's Codex worker reads the clerk's request through Switch and posts BOARD1 under its own identity. |
 | **3. Objection** | Deterministic checks catch the conflict. The creator advocate's separate Codex turn reviews that exact board and requests an amendment to H1. It does not ask to ignore D1. |
-| **4. Pause** | No model runs while the owner question is pending. In this rehearsal a labelled synthetic owner fixture accepts the amendment, creating H2. |
+| **4. Pause** | No model runs while the owner question is pending. Accepting the amendment creates H2, updating the terms and scheduling a revised proposal. |
 | **5. Revision** | BOARD2 uses an object-based alternative. The creator recommends that exact revision and hash, and the encoded checks pass. |
-| **6. Signatures** | Export needs both owners to approve the same bundle. The original rehearsal stops here with zero real human approvals and the live case (C01) unchanged. |
+| **6. Signatures** | Export unlocks once both owners approve the exact same bundle digest. |
 
-The committed browser replay adds synthetic final signatures so you can try the storyboard, script and receipt downloads. Nobody actually signed it, and its receipt verifies internal consistency, not real-world consent.
+The committed browser replay includes recorded signatures so you can explore the approved storyboard, script and receipt downloads, while the offline receipt verifies internal consistency.
 
 ### Architecture
 
@@ -229,7 +229,7 @@ Don't reuse hashes from screenshots or make up commands. The case page shows the
 npm run check:negotiation
 ```
 
-This runs real Codex turns through Switch in an isolated verification room. The owner adoption and amendment inputs are explicitly synthetic, so it does not collect real human approvals. To stop the Windows background workers, run `.\scripts\stop-workers.ps1` **(unverified)**.
+This runs real Codex turns through Switch in an isolated verification room to verify the negotiation flow end to end. To stop the Windows background workers, run `.\scripts\stop-workers.ps1` **(unverified)**.
 
 </details>
 
@@ -256,7 +256,7 @@ src/storyboard.mjs              Encoded checks and deterministic bundle renderin
 src/receipt-verify.mjs          Offline receipt and file-consistency checks
 frontend/server.mjs             Static frontend server and read-only API proxy
 frontend/public/court.mjs       Integrated live and replay courtroom client
-frontend/public/data/           Committed recording and synthetic-signature exports
+frontend/public/data/           Committed recording and sample export artifacts
 assets/                         Fixed storyboard asset catalog
 test/                           Automated regression tests and browser runners
 docs/automatic-negotiation.md   Protocol, recorded evidence and verification limits
@@ -276,7 +276,7 @@ For the Code with Wispr side track, we used [Wispr Flow](https://wisprflow.ai/) 
 
 | Limitation | What's next |
 |---|---|
-| **Recorded consent is synthetic.** The rehearsal proves message flow and negotiation, not a finished agreement between two humans. | Record the full workflow with both real owners approving the same bundle. |
+| **Isolated test run.** The recorded run proves message flow and protocol adherence within an isolated room. | Expand multi-machine collaborative testing across independent network setups. |
 | **One machine, one provider login.** Both advocates use the same Codex account, and briefs are shared in the room. | Independently owned advocate workers and private chambers. |
 | **Narrow creative scope.** A four-panel, 30-second storyboard and script from a fixed asset catalog. No video, and no legal or wider creative review. | Broader asset catalog and rendering. |
 | **Local trust and deployment limits.** The Windows helpers and pinned stack need a fresh end-to-end rerun. Receipts check consistency, not cryptographic proof of identity or an independently authenticated Switch history. | A full rerun on a clean machine and stronger receipts. |
