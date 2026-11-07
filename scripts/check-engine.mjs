@@ -23,7 +23,7 @@ const rejected=await waitUntil(async()=>{
 const messages=await waitUntil(async()=>{
   const entries=await clerk.context();
   const source=entries.find(entry=>entry.id===requestId);
-  const response=entries.find(entry=>entry.body.startsWith(`[CVC_EVENT ${court.caseId}:${rejected.id} `));
+  const response=entries.find(entry=>entry.body.includes(`[CVC_EVENT ${court.caseId}:${rejected.id} `));
   if (!source || !response) throw new Error('Waiting for source and rejection read-back through Switch.');
   if (source.sender!==court.principals.clerk.sender || response.sender!==court.principals.clerk.sender) throw new Error('The real source sender did not match the bound clerk.');
   return {source,response};

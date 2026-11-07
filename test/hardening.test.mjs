@@ -122,7 +122,7 @@ test('court view narrates the real case as courtroom beats, including an advocat
   assert.equal(overreach.speaker,'lead');assert.equal(overreach.code,'HUMAN_REQUIRED');
   assert.equal(view.beats.find(beat=>beat.type==='decision').speaker,'owner:lead');
   assert.ok(view.beats.find(beat=>beat.type==='proposal').quote);
-  assert.ok(view.beats.every(beat=>!beat.text?.startsWith('[CVC_EVENT')));
+  assert.ok(view.beats.every(beat=>!beat.text?.includes('[CVC_EVENT')));
 });
 
 async function serve(t,engine,options={}) {

@@ -17,6 +17,18 @@ export const sampleBoard = (lead = 'H2', creator = 'D1') => ({
   ]
 });
 
+const stageWords = {NEEDS_HUMAN:'waiting for an owner to answer a question',AWAITING_MANDATES:'waiting for both owners to accept their briefs',NEGOTIATION_BLOCKED:'negotiation is paused',NEGOTIATING:'the two AI advocates are negotiating',NEEDS_NEW_BOARD:'waiting for a new storyboard',CHECK_FAILED:'the last storyboard broke a rule',AWAITING_BOARD:'waiting for a storyboard',AWAITING_APPROVALS:'waiting for both owners to sign',APPROVED:'signed by both owners'};
+export const stageText = value => stageWords[value] ?? value;
+const list = items => items.length ? items.join(', ') : 'nothing';
+export function describeBrief(content) {
+  return [`Goal: ${content.goal}`,
+    content.requiredAssets.length && `Must use: ${list(content.requiredAssets)}`,
+    content.forbiddenAssets.length && `Must not use: ${list(content.forbiddenAssets)}`,
+    content.requiredCopy.length && `Must say: ${list(content.requiredCopy.map(line=>`"${line}"`))}`,
+    content.finalCopy.length && `Must end with: ${list(content.finalCopy.map(line=>`"${line}"`))}`,
+    content.negotiable.length && `Open to change: ${content.negotiable.join(' ')}`].filter(Boolean).map(line=>`- ${line}`).join('\n');
+}
+const ownerName = (state, role) => state.principals.humans[role].username;
 const activeBriefs = state => Object.fromEntries(roles.map(role => [role,state.briefs[role].at(-1)]));
 const currentGrants = state => state.approvals.filter(approval => approval.digest === state.currentBundle && !approval.revokedBy);
 export function stage(state) {
@@ -57,7 +69,7 @@ export class CourtEngine {
   event(state, kind, source, data, reply) {
     const at = this.now();
     const row = this.db.prepare('INSERT INTO court_events(case_id,kind,at,source_id,data) VALUES(?,?,?,?,?) RETURNING id').get(state.id,kind,at,source?.id ?? null,canonical({actor:source?.sender ?? null,...data}));
-    if (reply) this.db.prepare('INSERT INTO court_outbox(event_id,room_id,body) VALUES(?,?,?)').run(row.id,state.roomId,`[CVC_EVENT ${state.id}:${row.id} ${kind}${source ? ` source=${source.id}` : ''}]\n${reply}`);
+    if (reply) this.db.prepare('INSERT INTO court_outbox(event_id,room_id,body) VALUES(?,?,?)').run(row.id,state.roomId,`${reply}\n\n[CVC_EVENT ${state.id}:${row.id} ${kind}${source ? ` source=${source.id}` : ''}]`);
     return row.id;
   }
   command(text) { return `@${this.clerkName} ${text}`; }
@@ -83,7 +95,7 @@ export class CourtEngine {
         state.briefs[role] = [{ref:`${briefPrefix(role)}1`,hash:digest(content),content,createdAt,sourceId:null,adoption:null}];
       }
       this.db.prepare('INSERT INTO court_cases(id,room_id,state) VALUES(?,?,?)').run(id,roomId,canonical(state));
-      this.event(state,'case_created',null,{principals,briefs:activeBriefs(state)},`Case ${id} is ready. Each owner must review and adopt their own brief. No human decisions have been recorded.\nReview briefs and commands: ${this.webUrl}/\n${roles.map(role=>`${principals.humans[role].username} (${role}):\n${JSON.stringify(state.briefs[role][0].content,null,2)}\n${this.briefCommand(state,state.briefs[role][0])}`).join('\n\n')}`);
+      this.event(state,'case_created',null,{principals,briefs:activeBriefs(state)},`A new case has started. Before the AI advocates can begin, each of you needs to read your own brief and accept it. Nobody has agreed to anything yet.\nYou can also review everything here: ${this.webUrl}/\n\n${roles.map(role=>`**${principals.humans[role].username}**, this is your brief:\n${describeBrief(state.briefs[role][0].content)}\nIf it looks right, copy and send:\n${this.briefCommand(state,state.briefs[role][0])}`).join('\n\n')}`);
       return this.snapshot(id);
     });
   }
@@ -143,7 +155,7 @@ export class CourtEngine {
         this.db.exec('ROLLBACK TO court_action; RELEASE court_action');
         if (!(error instanceof CourtError)) throw error;
         outcome = {accepted:false,code:error.code,message:error.message};
-        this.event(state,'command_rejected',source,{command:parsed?.type ?? null,...outcome},`Rejected: ${error.message}`);
+        this.event(state,'command_rejected',source,{command:parsed?.type ?? null,...outcome},`I couldn't do that. ${error.message}`);
       }
       this.db.prepare('INSERT INTO court_inbox(room_id,message_id,source_hash,source,outcome) VALUES(?,?,?,?,?)').run(source.roomId,source.id,sourceHash,canonical(source),canonical(outcome));
       return outcome;
@@ -152,7 +164,7 @@ export class CourtEngine {
   apply(state, command, source) {
     if (command.type === 'STATUS' || command.type === 'HELP') {
       const snapshot = this.snapshot(state.id);
-      this.event(state,'status',source,{},`${state.id}: ${snapshot.stage}. Both humans must approve the same current bundle. Review: ${this.webUrl}/`);
+      this.event(state,'status',source,{},`Right now the case is ${stageText(snapshot.stage)}. Nothing is final until both of you sign the same storyboard. Full view: ${this.webUrl}/`);
       return {accepted:true,kind:'status'};
     }
     const humanOnly = ['ADOPT','AMEND','ACCEPT','DECLINE','APPROVE','REVOKE','NEGOTIATE'].includes(command.type);
@@ -171,20 +183,20 @@ export class CourtEngine {
         demand(command.hash === brief.hash, 'DIGEST_MISMATCH', 'The brief digest does not match the displayed revision.');
         if (brief.adoption) return {accepted:true,kind:'already_adopted',ref:brief.ref};
         brief.adoption = {sourceId:source.id,sender:source.sender,at:this.now()};
-        this.event(state,'brief_adopted',source,{role,ref:brief.ref,hash:brief.hash},`${actor.username} adopted ${brief.ref}. Stage: ${stage(state)}.`);
+        this.event(state,'brief_adopted',source,{role,ref:brief.ref,hash:brief.hash},`Thanks ${actor.username}, your brief is accepted. Now ${stageText(stage(state))}.`);
         return {accepted:true,kind:'brief_adopted',ref:brief.ref};
       }
       const content = validateBrief(command.value,state.catalog);
       demand(digest(content) !== brief.hash, 'NO_CHANGE', 'The replacement brief is identical to the current brief.');
       if (command.type === 'AMEND') {
         const {previous,next} = this.amend(state,role,content,source);
-        this.event(state,'brief_amended',source,{role,previous,next},`${actor.username} adopted ${next.ref}, replacing ${previous}. All earlier storyboard approvals are historical. A fresh board is required.\n${JSON.stringify(content,null,2)}`);
+        this.event(state,'brief_amended',source,{role,previous,next},`${actor.username} updated their brief. Any earlier sign-offs no longer count, so a new storyboard is needed.\nThe new brief:\n${describeBrief(content)}`);
         return {accepted:true,kind:'brief_amended',ref:next.ref};
       }
       demand(!state.amendments.some(request=>request.role===role && request.status==='pending'), 'AMENDMENT_PENDING', 'This owner already has a pending amendment to resolve.');
       const request = {id:`A${state.amendments.length+1}`,role,baseRef:brief.ref,content,hash:digest({caseId:state.id,baseRef:brief.ref,content}),createdAt:this.now(),sourceId:source.id,proposedBy:source.sender,status:'pending'};
       state.amendments.push(request);
-      this.event(state,'amendment_requested',source,{request},`Only ${state.principals.humans[role].username} may decide ${request.id}, replacing ${brief.ref} with this exact brief:\n${JSON.stringify(content,null,2)}\n${this.command(`ACCEPT ${state.id} ${request.id} ${request.hash}`)}\nOr decline: ${this.command(`DECLINE ${state.id} ${request.id} ${request.hash}`)}`);
+      this.event(state,'amendment_requested',source,{request},`**${ownerName(state,role)}**, the AI advocates want to change your brief. Only you can decide. The new version would be:\n${describeBrief(content)}\n\nTo agree, copy and send:\n${this.command(`ACCEPT ${state.id} ${request.id} ${request.hash}`)}\nTo keep your brief as it is, send:\n${this.command(`DECLINE ${state.id} ${request.id} ${request.hash}`)}`);
       return {accepted:true,kind:'amendment_requested',requestId:request.id};
     }
     if (command.type === 'ACCEPT' || command.type === 'DECLINE') {
@@ -198,7 +210,7 @@ export class CourtEngine {
       if (command.type === 'ACCEPT') next = this.amend(state,request.role,request.content,source).next;
       request.status = command.type === 'ACCEPT' ? 'accepted' : 'declined';
       request.decision = {sourceId:source.id,sender:source.sender,at:this.now(),ref:next?.ref ?? null};
-      this.event(state,`amendment_${request.status}`,source,{request},`${actor.username} ${request.status} ${request.id}.${next ? ` ${request.baseRef} → ${next.ref}. Earlier board approvals cannot be reused; submit a fresh board.` : ' The brief is unchanged.'}`);
+      this.event(state,`amendment_${request.status}`,source,{request},`${actor.username} ${request.status === 'accepted' ? 'agreed to the change. Their brief is updated, and any earlier sign-offs no longer count. The advocates will work on a new storyboard.' : 'said no to the change. Their brief stays as it was.'}`);
       return {accepted:true,kind:`amendment_${request.status}`,ref:next?.ref ?? request.baseRef};
     }
     if (command.type === 'PROPOSE') {
@@ -225,14 +237,14 @@ export class CourtEngine {
       if (command.type === 'REVOKE') {
         demand(grant, 'NO_APPROVAL', 'You have no active approval on this revision to revoke.');
         grant.revokedBy = {sourceId:source.id,sender:source.sender,at:this.now()};
-        this.event(state,'approval_revoked',source,{role:actor.role,revision:board.revision,digest:command.hash},`${actor.username} revoked their approval of BOARD${board.revision}. Official export is blocked.`);
+        this.event(state,'approval_revoked',source,{role:actor.role,revision:board.revision,digest:command.hash},`${actor.username} took back their signature on storyboard v${board.revision}. It can't be exported until both of you sign again.`);
         return {accepted:true,kind:'approval_revoked'};
       }
       if (grant) return {accepted:true,kind:'already_approved'};
       const approval = {role:actor.role,platformUserId:actor.platformUserId,sender:source.sender,sourceId:source.id,sourceTimestamp:source.timestamp,recordedAt:this.now(),revision:board.revision,digest:command.hash,revokedBy:null};
       state.approvals.push(approval);
-      this.event(state,'approval_recorded',source,{approval},`${actor.username} approved BOARD${board.revision}, bundle ${command.hash}. ${currentGrants(state).length}/2 human approvals of this exact revision.`);
-      if (stage(state) === 'APPROVED') this.event(state,'artifact_approved',source,{revision:board.revision,digest:command.hash,approvals:currentGrants(state)},`Both distinct human owners approved BOARD${board.revision}, bundle ${command.hash}. Approved export: ${this.webUrl}/api/cases/${state.id}/boards/${board.revision}/export`);
+      this.event(state,'approval_recorded',source,{approval},`${actor.username} signed storyboard v${board.revision}. ${currentGrants(state).length} of 2 signatures so far.`);
+      if (stage(state) === 'APPROVED') this.event(state,'artifact_approved',source,{revision:board.revision,digest:command.hash,approvals:currentGrants(state)},`Done. Both of you signed storyboard v${board.revision}, so it's final. Download it here: ${this.webUrl}/api/cases/${state.id}/boards/${board.revision}/export`);
       return {accepted:true,kind:stage(state)==='APPROVED'?'artifact_approved':'approval_recorded'};
     }
     throw new CourtError('INVALID_COMMAND', 'Unknown court command.');
@@ -244,8 +256,8 @@ export class CourtEngine {
     state.currentBundle=null;state.boards.push(record);
     if(checks.every(check=>check.passed)) {
       if(!deferPreparation) this.prepareBoard(state,record,source);
-      else this.event(state,'board_checks_passed',source,{revision,checks},`BOARD${revision} passes the encoded checks. It still needs the creator's exact-board review before a preview can be prepared.`);
-    } else this.event(state,'check_failed',source,{revision,checks},`BOARD${revision} cannot be approved:\n${checks.filter(check=>!check.passed).map(check=>`- ${check.detail}`).join('\n')}`);
+      else this.event(state,'board_checks_passed',source,{revision,checks},`Storyboard v${revision} follows all the rules. Next, the creator's AI advocate will review it.`);
+    } else this.event(state,'check_failed',source,{revision,checks},`Storyboard v${revision} breaks the rules, so it can't be signed:\n${checks.filter(check=>!check.passed).map(check=>`- ${check.detail}`).join('\n')}`);
     return record;
   }
   prepareBoard(state,record,source,review=null) {
@@ -255,7 +267,7 @@ export class CourtEngine {
     const bundle=prepareBundle({caseId:state.id,revision,board:record.body,briefs,catalog:state.catalog,readyAt:this.now(),review});
     this.db.prepare('INSERT INTO court_bundles(digest,case_id,revision,manifest,html,script) VALUES(?,?,?,?,?,?)').run(bundle.digest,state.id,revision,bundle.manifest,Buffer.from(bundle.html),Buffer.from(bundle.script));
     record.bundleDigest=bundle.digest;record.readyAt=bundle.readyAt;record.review=review;state.currentBundle=bundle.digest;
-    this.event(state,'preview_ready',source,{revision,digest:bundle.digest,checks:record.checks,review},`BOARD${revision} is prepared against ${briefs.lead.ref}/${briefs.creator.ref}.${review?' The creator advocate recommends this exact revision; that is not human approval.':''} Each owner must inspect the frozen preview, then approve from their own account.\n${this.webUrl}/api/cases/${state.id}/boards/${revision}/preview\n${this.approvalCommand(state,record)}\nBoth humans must use that same command. No approval has been inferred.`);
+    this.event(state,'preview_ready',source,{revision,digest:bundle.digest,checks:record.checks,review},`Storyboard v${revision} is ready for you both to check.${review?' The creator\'s AI advocate recommends it, but that is not a signature. Only you two can sign.':''}\nPreview: ${this.webUrl}/api/cases/${state.id}/boards/${revision}/preview\n\nIf you're happy with it, each of you copy and send this from your own account:\n${this.approvalCommand(state,record)}`);
     return record;
   }
   enableNegotiation(caseId) {

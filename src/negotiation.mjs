@@ -14,7 +14,7 @@ export function initializeNegotiation(engine,state) {
     state.currentBundle=null;for(const board of state.boards)board.stale=true;
   }
   state.negotiation={enabled:true,run:1,status:state.currentBundle?'awaiting_humans':'waiting_mandates',fingerprint:fingerprint(state),proposalCount:0,maxProposals:2,currentTurnId:null,waitingAmendmentId:null,turns:[],reviews:[],block:null};
-  engine.event(state,'negotiation_enabled',null,{},'Automatic negotiation is enabled. Once both owners adopt their briefs, the lead proposes, the creator reviews, and the clerk prepares a final preview only after review and checks. Human decisions remain with their owners.');
+  engine.event(state,'negotiation_enabled',null,{},'The AI advocates will negotiate for you. Once you both accept your briefs, the lead\'s advocate drafts a storyboard and the creator\'s advocate reviews it. You two still make every final decision.');
   advanceNegotiation(engine,state);
 }
 function cancelTurn(engine,state,reason) {
@@ -28,14 +28,14 @@ function cancelTurn(engine,state,reason) {
 function block(engine,state,code,message,source=null) {
   const n=state.negotiation;
   n.status='blocked';n.block={code,message,at:engine.now()};n.currentTurnId=null;
-  engine.event(state,'negotiation_blocked',source,{code,message},`Negotiation paused: ${message}\nOwners can amend their own terms. After resolving the issue, a bound human may explicitly start a fresh bounded run with ${engine.command(`NEGOTIATE ${state.id}`)}.`);
+  engine.event(state,'negotiation_blocked',source,{code,message},`The negotiation is paused. ${message}\nYou can each change your own brief. When you're ready to try again, send:\n${engine.command(`NEGOTIATE ${state.id}`)}`);
 }
 function queue(engine,state,kind,{board=null,notes=[],attempt=0,repairOf=null}={}) {
   const n=state.negotiation,role=kind==='proposal'?'lead':'creator';
   const turn={id:'T'+randomUUID().replaceAll('-',''),run:n.run,kind,role,status:'queued',createdAt:engine.now(),fingerprint:fingerprint(state),briefs:bindings(state),boardRevision:board?.revision ?? null,boardHash:board?digest(board.body):null,notes,attempt,repairOf,requestEventId:null,requestId:null,replyId:null,invocationId:null,error:null};
   n.turns.push(turn);n.currentTurnId=turn.id;n.status=kind==='proposal'?'lead_queued':'creator_queued';n.block=null;
-  const target=board?`Review BOARD${board.revision}, hash ${turn.boardHash}.`:'Propose a complete four-panel storyboard against the current adopted briefs.';
-  turn.requestEventId=engine.event(state,'negotiation_turn_requested',null,{turnId:turn.id,run:n.run,kind,role,briefs:turn.briefs,boardRevision:turn.boardRevision,boardHash:turn.boardHash,attempt},`@${state.principals.agents[role].name} ${negotiationMarker}${state.id} ${turn.id}] ${target} This is a structured clerk-scheduled turn; do not grant human consent.\n${notes.length?`Feedback: ${notes.join(' ')}\n`:''}Return your structured result only for this turn. The clerk will pause if an owner amendment is needed.`);
+  const target=board?`Please review storyboard v${board.revision}.`:'Please draft a four-panel storyboard that fits both accepted briefs.';
+  turn.requestEventId=engine.event(state,'negotiation_turn_requested',null,{turnId:turn.id,run:n.run,kind,role,briefs:turn.briefs,boardRevision:turn.boardRevision,boardHash:turn.boardHash,attempt},`@${state.principals.agents[role].name} your turn. ${target}${notes.length?`\nFeedback to address: ${notes.join(' ')}`:''}\nYou can't sign for the owners. If you need one of them to change their brief, ask and I'll pause for them.\n\n${negotiationMarker}${state.id} ${turn.id}]`);
   return turn;
 }
 function nextProposal(engine,state,notes=[]) {
@@ -70,7 +70,7 @@ export function restartNegotiation(engine,state,source) {
   demand(!state.amendments.some(item=>item.status==='pending'),'HUMAN_DECISION_PENDING','The affected owner must resolve the pending amendment first.');
   demand(roles.every(role=>state.briefs[role].at(-1).adoption),'MANDATES_REQUIRED','Both current briefs must be adopted.');
   const n=state.negotiation;n.run++;n.proposalCount=0;n.status='idle';n.waitingAmendmentId=null;n.block=null;n.fingerprint=fingerprint(state);state.currentBundle=null;
-  engine.event(state,'negotiation_restarted',source,{run:n.run},'A human requested a fresh negotiation run, limited to two lead proposals.');
+  engine.event(state,'negotiation_restarted',source,{run:n.run},'Starting a fresh negotiation. The lead\'s advocate gets up to two tries.');
   advanceNegotiation(engine,state);
 }
 export function claimTurn(engine,state) {
@@ -153,7 +153,7 @@ export function completeTurn(engine,state,command,source,actor) {
   if(turn.kind==='proposal') {
     const board=engine.recordBoard(state,value.board,source,{deferPreparation:true,turnId:turn.id});
     turn.status='completed';turn.replyId=source.id;turn.summary=value.summary;n.proposalCount++;
-    engine.event(state,'negotiation_proposal_received',source,{turnId:turn.id,revision:board.revision,summary:value.summary},`${state.principals.agents.lead.name} proposed BOARD${board.revision}. The creator will review its exact content and the deterministic checks. No human approval is requested yet.`);
+    engine.event(state,'negotiation_proposal_received',source,{turnId:turn.id,revision:board.revision,summary:value.summary},`The lead's advocate drafted storyboard v${board.revision}. The creator's advocate will review it next. Nothing needs your attention yet.`);
     queue(engine,state,'review',{board});
     return {accepted:true,kind:'negotiation_proposal_received',revision:board.revision};
   }
@@ -161,7 +161,7 @@ export function completeTurn(engine,state,command,source,actor) {
   if(value.decision==='amend') requested=engine.apply(state,{type:'REQUEST',ref:value.amendment.briefRef,value:value.amendment.replacement},source);
   const review={...value,turnId:turn.id,sourceId:source.id,sender:source.sender,at:engine.now()};
   n.reviews.push(review);turn.status='completed';turn.replyId=source.id;turn.summary=value.summary;n.currentTurnId=null;
-  engine.event(state,'negotiation_review_received',source,{review},`Creator review of BOARD${turn.boardRevision}: ${value.summary}\nRecommendation: ${value.decision}. This is an advocate review, not either human's approval.${value.amendment?`\nOwner question: ${value.amendment.reason}`:''}`);
+  engine.event(state,'negotiation_review_received',source,{review},`The creator's advocate reviewed storyboard v${turn.boardRevision}: ${value.summary}\n${({recommend:'It recommends this version.',revise:'It asked for changes.',amend:'It wants an owner to change their brief.',block:'It refused this version.'})[value.decision] ?? `Decision: ${value.decision}.`} This is the AI's opinion, not a signature.${value.amendment?`\nWhy: ${value.amendment.reason}`:''}`);
   if(value.decision==='recommend') {
     engine.prepareBoard(state,state.boards.at(-1),source,review);n.status='awaiting_humans';
   } else if(value.decision==='amend') {n.waitingAmendmentId=requested.requestId;n.status='needs_human';}

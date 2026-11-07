@@ -14,7 +14,7 @@ const speakerOf = (state, sender) => {
   }
   return 'unknown';
 };
-const roomText = reply => reply ? reply.replace(/^\[CVC_EVENT [^\]]*\]\n?/, '') : null;
+const roomText = reply => reply ? reply.replace(/^\[CVC_EVENT [^\]]*\]\n?/, '').replace(/\n*\[CVC_EVENT [^\]]*\]\s*$/, '') : null;
 
 function beat(state, row) {
   const data = row.data, actor = speakerOf(state, data.actor);

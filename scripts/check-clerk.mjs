@@ -10,7 +10,7 @@ const client=new SwitchClient(config,config.actors.clerk);
 const requestId=await client.post(court?`@${config.actors.clerk.name} status ${court.caseId}`:`@${config.actors.clerk.name} status — clerk listener verification.`);
 const reply=await waitUntil(async()=>{
   const messages=await client.context();
-  const matches=messages.filter(message=>court?message.body.startsWith(`[CVC_EVENT ${court.caseId}:`)&&message.body.includes(` status source=${requestId}]`):message.body.startsWith(`[CLERK_STATUS source=${requestId}]`));
+  const matches=messages.filter(message=>court?message.body.includes(`[CVC_EVENT ${court.caseId}:`)&&message.body.includes(` status source=${requestId}]`):message.body.startsWith(`[CLERK_STATUS source=${requestId}]`));
   if(matches.length!==1) throw new Error('Waiting for exactly one deterministic clerk status reply.');
   if(matches[0].sender!==(court?.principals.clerk.sender ?? evidence.sourceSenderIds[0])) throw new Error('Clerk source identity changed.');
   return matches[0];
