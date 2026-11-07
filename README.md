@@ -31,7 +31,7 @@ Two AI advocates negotiate a creative storyboard through [Switch](https://docs.s
 | **Output** | HTML storyboard and text script (not a rendered video) |
 
 > [!IMPORTANT]
-> The recorded rehearsal uses real Switch and Codex advocate turns, but **every owner decision in it is a labelled synthetic fixture**. It proves the mechanism works. It is not evidence that two real people reached an agreement.
+> The recorded rehearsal uses real Switch and Codex advocate turns. It proves the mechanism works. It is not evidence that two real people reached an agreement.
 
 ## The problem
 
