@@ -266,7 +266,7 @@ function bench(perspectives) {
       <rect x="-120" y="-34" width="240" height="84" rx="3" fill="url(#bench-panel)" ${line(1.6)}/>
       <rect x="-120" y="-34" width="240" height="84" rx="3" fill="url(#grain)" opacity=".55"/>
       <path d="M-120 -34h240M-120 -34v84" stroke="#e0b07a" stroke-width="1.4" opacity=".45"/><path d="M120 -34v84H-120" stroke="#1b110b" stroke-width="2" opacity=".6"/>
-      <rect x="-96" y="-12" width="192" height="48" rx="3" fill="#000" opacity=".35" filter="url(#soft)"/>
+      <rect x="-96" y="-10" width="192" height="48" rx="3" fill="#000" opacity=".22"/>
       <rect class="bench-plaque" x="-92" y="-14" width="184" height="44" rx="2" fill="url(#metal)" ${line(1.6)}/>
       <rect x="-92" y="-14" width="184" height="44" rx="2" fill="url(#brushed)" opacity=".5"/>
       <rect x="-86" y="-8" width="172" height="32" fill="none" stroke="#7a5a2c" stroke-width="1"/>
@@ -275,7 +275,7 @@ function bench(perspectives) {
       <text y="22" text-anchor="middle" class="bench-role">${(perspectives[judge.id] ?? judge.perspective).toUpperCase()}</text>
     </g>`).join('');
   // Soft contact shadows where hands and instruments meet the bench top.
-  const contact = judges.flatMap(judge => [judge.x - 25, judge.x + 45, judge.x + 95].map(x => `<ellipse cx="${x}" cy="452" rx="44" ry="6" fill="#000" opacity=".45" filter="url(#soft)"/>`)).join('');
+  const contact = judges.flatMap(judge => [judge.x - 25, judge.x + 45, judge.x + 95].map(x => `<ellipse cx="${x}" cy="452" rx="44" ry="6" fill="url(#contact)"/>`)).join('');
   return `<g class="j-bench">
     <path d="M60 452H1140V600H60Z" fill="url(#bench-wood)" ${line(3)}/>
     <path d="M60 452H1140V600H60Z" fill="url(#grain)" opacity=".7"/>
@@ -310,6 +310,8 @@ const defs = `<defs>
   <radialGradient id="bench-glow" cx=".5" cy=".2" r=".6"><stop stop-color="#f6d9a2" stop-opacity=".35"/><stop offset="1" stop-color="#f6d9a2" stop-opacity="0"/></radialGradient>
   <radialGradient id="candle" cx=".5" cy=".5" r=".5"><stop stop-color="#ffcf87" stop-opacity=".55"/><stop offset="1" stop-color="#ffcf87" stop-opacity="0"/></radialGradient>
   <linearGradient id="ray" x2="0" y2="1"><stop stop-color="#ffe7bd" stop-opacity=".22"/><stop offset="1" stop-color="#ffe7bd" stop-opacity="0"/></linearGradient>
+  <radialGradient id="contact"><stop stop-color="#000" stop-opacity=".5"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  <radialGradient id="castshadow"><stop stop-color="#000" stop-opacity=".5"/><stop offset=".7" stop-color="#000" stop-opacity=".15"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
   <filter id="soft" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="6"/></filter>
   <filter id="haze" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter>
 </defs>`;
@@ -317,7 +319,7 @@ const defs = `<defs>
 // Judge chairs get velvet nap and the sitter's soft cast shadow.
 const staging = judge => `<g transform="translate(${judge.x - 150} 0)" aria-hidden="true">
   <path d="M48 470V156Q50 108 86 94Q118 68 150 64Q182 68 214 94Q250 108 252 156V470Z" fill="url(#velvet)"/>
-  <ellipse cx="128" cy="300" rx="96" ry="150" fill="#000" opacity=".45" filter="url(#haze)"/>
+  <ellipse cx="128" cy="300" rx="110" ry="170" fill="url(#castshadow)"/>
 </g>`;
 
 export function benchMarkup({perspectives = {}} = {}) {

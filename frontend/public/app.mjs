@@ -1,6 +1,7 @@
 import { characters, perspectives, judgeRoleMapping, speakers, createState, advance, resolveAppeal, exportPlan, script } from './hearing.mjs';
 import { benchMarkup } from './judges.mjs';
 import { avatarMarkup, setAvatarState } from './avatars.mjs';
+import { demoVoices } from './demo-voices.mjs';
 
 const $ = selector => document.querySelector(selector);
 const isDemo = new URLSearchParams(window.location.search).get('demo') === '1';
@@ -236,6 +237,7 @@ function render() {
   $('#harshil-state').textContent = event.speaker === 'harshil' ? (event.type === 'objection' ? 'Objecting' : 'Has the floor') : 'Listening';
   $('#daksh-state').textContent = event.speaker === 'daksh' ? (event.type === 'objection' ? 'Objecting' : 'Has the floor') : 'Listening';
   for (const [side, owner] of [['left', 'harshil'], ['right', 'daksh']]) document.querySelectorAll(`.advocate-mark.${side} .advocate-avatar`).forEach(avatar => setAvatarState(avatar, event.speaker === owner ? (event.type === 'objection' ? 'objecting' : 'speaking') : event.type === 'verdict' ? 'pleased' : 'idle'));
+  demoVoices(event);
   $('#session-label').textContent = state.complete ? 'THE CASE IS CLOSED' : awaiting ? 'AWAITING THE OWNERS’ DECISION' : 'THE COURT IS IN SESSION';
   const moment = $('#stage-moment');
   moment.hidden = !['objection', 'ruling', 'deadlock', 'appeal', 'verdict'].includes(event.type);

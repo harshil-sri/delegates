@@ -18,7 +18,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .eyebrow{font:500 10.5px/1.4 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
 
 /* Header */
-.top{position:fixed;inset:0 0 auto;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding:18px clamp(16px,3vw,40px);background:linear-gradient(#0e0a08f0,#0e0a0800);backdrop-filter:blur(2px)}
+.top{position:fixed;inset:0 0 auto;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding:18px clamp(16px,3vw,40px);background:linear-gradient(#0e0a08f0,#0e0a0800);}
 .mark{font:500 30px/1 var(--display);letter-spacing:-.03em}.mark i{color:var(--brass);font-style:normal}
 .case-chip{display:flex;gap:10px;align-items:center;font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-strong);padding:9px 14px;border-radius:999px}
 .case-chip #case-id{color:var(--cream)}.case-chip .sep{color:var(--faint)}
@@ -40,13 +40,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stage .scene:after{content:'';position:absolute;inset:0;z-index:6;pointer-events:none;background:linear-gradient(180deg,#0e0a08 0%,#0e0a0800 22%,#0e0a0800 62%,#0e0a08f2 100%)}
 .podium{position:absolute;bottom:10%;z-index:4;width:clamp(120px,11vw,190px);display:grid;justify-items:center;gap:10px}
 .podium-left{left:clamp(16px,4vw,70px)}.podium-right{right:clamp(16px,4vw,70px)}
-.podium-avatar{width:100%;filter:drop-shadow(0 18px 18px #0009)}
+.podium-avatar{position:relative;width:100%}
 .podium-avatar:after{content:'';display:block;height:16px;margin:-6px 8% 0;background:linear-gradient(#c79b55,#7a5728);border:1px solid #f0d49a66;border-radius:3px;box-shadow:0 8px 16px #000a}
 .podium-card{text-align:center;display:grid;gap:3px}
 .podium-card strong{font:500 clamp(18px,1.6vw,26px)/1 var(--display);letter-spacing:-.01em}
 .podium-card>span:last-child{font-size:12px;color:var(--muted)}
 .podium.is-active .podium-card strong{color:var(--brass)}
-.podium.is-active .podium-avatar{filter:drop-shadow(0 18px 18px #0009) drop-shadow(0 0 28px #e9b25b55)}
+.podium.is-active .podium-avatar:before{content:'';position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(#e9b25b40,transparent 65%);z-index:0}
 
 .phase{position:absolute;z-index:8;left:clamp(16px,4vw,70px);top:clamp(96px,14vh,150px);max-width:min(440px,30vw);pointer-events:none;text-shadow:0 2px 24px #0e0a08}
 .phase h1{margin:12px 0 10px;font:400 clamp(38px,4.4vw,74px)/.94 var(--display);letter-spacing:-.035em;text-wrap:balance}
@@ -54,7 +54,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .phase p{margin:0;color:#cdbb9c;font-size:15px;max-width:44ch}
 .stage[data-event="objection"] .phase .eyebrow,.stage[data-event="deadlock"] .phase .eyebrow{color:var(--vermilion)}
 
-.caption{position:absolute;z-index:9;left:50%;bottom:clamp(14px,3vh,34px);transform:translateX(-50%);width:min(880px,calc(100% - 32px));margin:0;padding:16px 22px 18px;background:#120c09d9;border:1px solid var(--line-strong);backdrop-filter:blur(8px)}
+.caption{position:absolute;z-index:9;left:50%;bottom:clamp(14px,3vh,34px);transform:translateX(-50%);width:min(880px,calc(100% - 32px));margin:0;padding:16px 22px 18px;background:#120c09d9;border:1px solid var(--line-strong);}
 .caption figcaption{display:flex;gap:14px;align-items:baseline;font:500 10.5px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
 .caption figcaption #caption-kind{color:var(--faint)}
 .caption blockquote{margin:8px 0 0;font:400 clamp(17px,1.5vw,22px)/1.35 var(--display);letter-spacing:-.005em;color:var(--cream);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -136,7 +136,8 @@ code{display:block;font:12px/1.5 var(--mono);color:var(--parchment);background:#
 /* Judges follow the lead/creator advocates as well as the demo speakers. */
 .scene[data-speaker="lead"] .j-pupil{transform:translateX(-3.5px)}.scene[data-speaker="creator"] .j-pupil{transform:translateX(3.5px)}
 .scene[data-speaker="lead"] .judge.is-listening .j-head{transform:rotate(-2.5deg)}.scene[data-speaker="creator"] .judge.is-listening .j-head{transform:rotate(2.5deg)}
-.stage .bench-svg{filter:drop-shadow(0 24px 30px #000c)}
+.stage .bench-svg{filter:none}
+.scene-background,.layer-bench,.podium,.phase{will-change:transform}
 
 .stage .ray{opacity:.35}.stage .rays{opacity:.45}
 @media(max-width:1000px){
@@ -153,3 +154,18 @@ code{display:block;font:12px/1.5 var(--mono);color:var(--parchment);background:#
   .replay-bar{top:auto;bottom:150px;right:16px}
 }
 @media(prefers-reduced-motion:reduce){.mode b{animation:none}}
+
+/* ── Speech bubbles over judges and advocates ─────────────────────────────── */
+.bubble{position:absolute;z-index:12;width:max-content;max-width:min(300px,26vw);padding:10px 14px 12px;background:#f4ead6;color:#1f150e;border:1px solid #c9a25a;box-shadow:0 14px 30px -10px #000c;pointer-events:none;opacity:0;transform-origin:50% 100%}
+.bubble:after{content:'';position:absolute;bottom:-9px;left:calc(50% - 9px);width:16px;height:16px;background:#f4ead6;border-right:1px solid #c9a25a;border-bottom:1px solid #c9a25a;transform:rotate(45deg)}
+.bubble b{display:block;font:600 9.5px/1.2 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#8a6a35;margin-bottom:4px}
+.bubble span{display:block;font:500 clamp(14px,1.05vw,17px)/1.28 var(--display);letter-spacing:-.005em}
+.bubble[data-tone="bad"]{background:#f6e2d9;border-color:#d4513a}.bubble[data-tone="bad"]:after{background:#f6e2d9;border-color:#d4513a}.bubble[data-tone="bad"] b{color:#b3412d}
+.bubble[data-tone="good"]{background:#e4efe6;border-color:#6fae95}.bubble[data-tone="good"]:after{background:#e4efe6;border-color:#6fae95}.bubble[data-tone="good"] b{color:#3f7d63}
+.judge-bubble{bottom:83%;transform:translateX(-50%)}
+.judge-bubble[data-judge="arata"]{left:20.8%}.judge-bubble[data-judge="vale"]{left:50%}.judge-bubble[data-judge="thorne"]{left:79.2%}
+.podium .bubble{bottom:calc(100% + 6px);max-width:min(340px,30vw)}
+.podium-left .bubble{left:8%}.podium-left .bubble:after{left:34px}
+.podium-right .bubble{right:8%}.podium-right .bubble:after{left:auto;right:34px}
+.seal-slot.is-signed .wax{animation:none}
+@media(max-width:1000px){.bubble{max-width:62vw}.judge-bubble[data-judge="arata"]{left:28%}.judge-bubble[data-judge="thorne"]{left:72%}}

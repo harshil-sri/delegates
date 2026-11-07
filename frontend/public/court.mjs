@@ -62,6 +62,8 @@ const state = {
   replayTimer: null,
   reconnecting: false,
   sessionId: 0,
+  signed: {},
+  verdict: false,
 };
 
 // ── Text helpers ────────────────────────────────────────────────────────────
@@ -112,6 +114,110 @@ function setAdvocates(active, mood) {
 }
 function replayEvent(event) { stage.dataset.event = ''; void stage.offsetWidth; stage.dataset.event = event; }
 
+// ── Voices: speech bubbles over every head, and judges' gestures ────────────
+const host = $('#bench-host');
+host.insertAdjacentHTML('beforeend', ['arata', 'vale', 'thorne'].map(id => `<div class="bubble judge-bubble" data-judge="${id}" aria-hidden="true"><b></b><span></span></div>`).join(''));
+for (const role of ['lead', 'creator']) $(`#podium-${role}`).insertAdjacentHTML('afterbegin', `<div class="bubble" data-who="${role}" aria-hidden="true"><b></b><span></span></div>`);
+const judgeNames = {arata: 'Justice Arata · the letter', vale: 'Justice Vale · presiding', thorne: 'Lord Justice Thorne · consent'};
+const bubbleTimers = new Map(), actTimers = new Map(), pending = new Set();
+let lastBeatAt = 0;
+function later(fn, ms) { const timer = setTimeout(() => { pending.delete(timer); fn(); }, ms); pending.add(timer); }
+function hush() { for (const timer of pending) clearTimeout(timer); pending.clear(); }
+function say(who, text, {tone = '', ms = 3800, delay = 0} = {}) {
+  if (!text) return;
+  const isJudge = who in judgeNames;
+  const el = isJudge ? host.querySelector(`.judge-bubble[data-judge="${who}"]`) : $(`#podium-${who} .bubble`);
+  if (!el) return;
+  const run = () => {
+    el.dataset.tone = tone;
+    el.querySelector('b').textContent = isJudge ? judgeNames[who] : who === 'lead' ? 'Counsel for the lead' : 'Counsel for the creator';
+    const line = clean(text);
+    el.querySelector('span').textContent = line.length > 170 ? `${line.slice(0, 167).trimEnd()}…` : line;
+    clearTimeout(bubbleTimers.get(who));
+    if (isJudge) judgeEl(who)?.setAttribute('data-talk', '');
+    if (gsapReady()) gsap.fromTo(el, {opacity: 0, y: 16, scale: .82}, {opacity: 1, y: 0, scale: 1, duration: .5, ease: 'back.out(2.2)', overwrite: true});
+    else el.style.opacity = 1;
+    bubbleTimers.set(who, setTimeout(() => {
+      if (isJudge) judgeEl(who)?.removeAttribute('data-talk');
+      if (gsapReady()) gsap.to(el, {opacity: 0, y: -8, duration: .35, ease: 'power2.in', overwrite: true}); else el.style.opacity = 0;
+    }, ms));
+  };
+  delay ? later(run, delay) : run();
+}
+function act(id, name, ms = 1700, delay = 0) {
+  const run = () => {
+    const el = judgeEl(id); if (!el) return;
+    el.removeAttribute('data-act'); void el.getBoundingClientRect(); el.setAttribute('data-act', name);
+    clearTimeout(actTimers.get(id)); actTimers.set(id, setTimeout(() => el.removeAttribute('data-act'), ms));
+  };
+  delay ? later(run, delay) : run();
+}
+// Between beats the bench is never still: instruments, glances, quiet conferences.
+const idleMoves = {arata: ['soroban', 'specs', 'nod', 'soroban', 'sigh'], vale: ['watch', 'tap', 'lean', 'watch', 'nod'], thorne: ['scales', 'chuckle', 'finger', 'scales', 'nod']};
+setInterval(() => {
+  if (isReducedMotion() || document.hidden || Date.now() - lastBeatAt < 2400) return;
+  const roll = Math.random();
+  if (roll < .16) { act('arata', 'confer-right'); act('vale', 'confer-left'); return; }
+  if (roll < .3) { act('vale', 'confer-right'); act('thorne', 'confer-left'); return; }
+  const id = ['arata', 'vale', 'thorne'][Math.floor(Math.random() * 3)];
+  if (judgeEl(id)?.hasAttribute('data-act')) return;
+  act(id, idleMoves[id][Math.floor(Math.random() * idleMoves[id].length)]);
+}, 2300);
+const ownerName = role => state.view?.cast?.owners?.[role]?.username ?? role;
+function chorus(beat) {
+  lastBeatAt = Date.now();
+  hush();
+  switch (beat.type) {
+    case 'filing': say('vale', 'The court is in session. Two briefs, one storyboard, and only people may decide.'); act('vale', 'tap'); act('thorne', 'nod', 900, 900); break;
+    case 'procedure': say('thorne', 'Advocates may argue. Only the owners may consent.', {delay: 300}); act('thorne', 'finger'); break;
+    case 'mandate': say('thorne', `${ownerName(beat.role)} adopts ${beat.ref}. Recorded, by the only person who could.`, {tone: 'good'}); act('thorne', 'nod'); act('arata', 'specs', 1500, 500); break;
+    case 'summons': say('vale', beat.target === 'creator' ? 'Counsel for the creator: review it exactly as filed.' : 'Counsel for the lead, you have the floor.'); act('vale', 'lean'); break;
+    case 'deliberating': act('arata', 'soroban'); act('vale', 'watch', 1800, 500); act('thorne', 'confer-left', 1600, 900); break;
+    case 'proposal':
+      say('lead', beat.quote, {ms: 5600});
+      act('arata', 'soroban', 1700, 900); act('thorne', 'scales', 1800, 1500);
+      say('arata', 'Four panels. Let me count the seconds.', {delay: 1800, ms: 3000}); break;
+    case 'objection':
+      if (beat.basis === 'rules') {
+        const failed = (beat.failed || []).map(check => check.code).join(' ');
+        act('vale', 'gavel', 1100, 200);
+        if (ROLE_JUDGES.thorne.test(failed)) { say('thorne', 'Sustained. One brief forbids that portrait. Consent is not ours to give.', {tone: 'bad', ms: 5000}); act('thorne', 'finger', 1500, 300); }
+        if (ROLE_JUDGES.vale.test(failed)) say('vale', 'It does not fit the panels or the thirty seconds.', {tone: 'bad', delay: 900});
+        else say('vale', 'Four panels, thirty seconds. That part holds.', {tone: 'good', delay: 1100, ms: 3200});
+        if (ROLE_JUDGES.arata.test(failed)) { say('arata', 'And the letter is broken: an unregistered asset.', {tone: 'bad', delay: 1900}); act('arata', 'specs', 1500, 1900); }
+      } else {
+        say('creator', beat.quote, {tone: 'bad', ms: 5600});
+        act('thorne', 'startle'); act('arata', 'confer-right', 1600, 900); act('vale', 'confer-left', 1600, 900);
+        say('vale', 'Noted. Only the owner of H1 can change H1.', {delay: 2400, ms: 3400});
+      }
+      break;
+    case 'appeal':
+      say('vale', `Recess. Only ${ownerName(beat.awaiting?.slice(6) ?? 'lead')} can answer this.`, {ms: 5200}); act('vale', 'gavel');
+      say('thorne', 'No advocate speaks until a person decides.', {delay: 1500, ms: 4200}); act('thorne', 'finger', 1500, 1500); act('arata', 'sigh', 1600, 900); break;
+    case 'decision':
+      say('thorne', beat.accepted ? `Consent given, by the right person. ${beat.ref ?? ''} now binds.` : 'Declined. The original terms stand.', {tone: beat.accepted ? 'good' : 'bad', ms: 4400});
+      act('thorne', beat.accepted ? 'chuckle' : 'sigh'); act('arata', 'soroban', 1500, 700); act('vale', 'nod', 900, 1200); break;
+    case 'ruling':
+      say('arata', 'To the letter. Every rule holds.', {tone: 'good'}); act('arata', 'nod');
+      say('vale', `BOARD${beat.boardRevision} passes.`, {tone: 'good', delay: 1000}); act('vale', 'gavel', 1100, 1000); act('thorne', 'scales', 1600, 500); break;
+    case 'endorsement':
+      say('creator', beat.quote, {tone: 'good', ms: 5400});
+      say('thorne', 'A recommendation. Not a signature.', {delay: 2000, ms: 3600}); act('thorne', 'finger', 1400, 2000); break;
+    case 'draft_verdict': say('vale', 'Frozen and hashed. Two signatures, or nothing.', {ms: 5000}); act('vale', 'gavel'); act('arata', 'specs', 1500, 700); act('thorne', 'nod', 900, 1300); break;
+    case 'signature': say('thorne', `${ownerName(beat.role)} signs this exact bundle.`, {tone: 'good'}); act('thorne', 'nod'); act('arata', 'soroban', 1500, 500); break;
+    case 'withdrawal': say('vale', 'A signature withdrawn. The export is locked again.', {tone: 'bad'}); act('vale', 'sigh'); break;
+    case 'verdict':
+      say('vale', 'So ordered. Approved by both owners.', {tone: 'good', ms: 5600}); act('vale', 'gavel');
+      act('thorne', 'chuckle', 900, 700); act('arata', 'nod', 900, 500);
+      say('thorne', 'Fair to both of them.', {delay: 1300, tone: 'good'}); say('arata', 'And not one second over.', {delay: 2300, tone: 'good'}); break;
+    case 'overruled':
+      if (beat.agentOverreach) { say('thorne', 'Overruled. The advocate is not the client.', {tone: 'bad', ms: 5000}); act('thorne', 'finger'); act('vale', 'startle'); act('arata', 'startle'); }
+      else if (beat.reason) say('vale', beat.reason, {tone: 'bad'});
+      break;
+    case 'recess': case 'turn_failed': say('vale', 'We pause. A person must restart this.', {tone: 'bad'}); act('vale', 'sigh'); break;
+  }
+}
+
 // ── Phase title, caption and stamp choreography ─────────────────────────────
 function setPhase(phase) {
   if (!phase) return;
@@ -129,8 +235,9 @@ function setCaption(beat) {
   const quote = $('#caption-text'), line = beatLine(beat) ?? '';
   quote.textContent = line;
   if (gsapReady() && line.length < 420) {
-    quote.innerHTML = [...line].map(c => `<span class="ch">${esc(c)}</span>`).join('');
-    gsap.to(quote.querySelectorAll('.ch'), {opacity: 1, duration: .01, stagger: Math.min(.018, 1.6 / line.length), ease: 'none'});
+    quote.innerHTML = line.split(' ').map(word => `<span class="ch">${esc(word)}</span>`).join(' ');
+    const words = quote.querySelectorAll('.ch');
+    gsap.to(words, {opacity: 1, duration: .25, stagger: Math.min(.06, 1.8 / words.length), ease: 'power1.out'});
   }
 }
 function stamp(text, tone = 'bad') {
@@ -201,8 +308,8 @@ function renderSeals(view, signed = view.approvals) {
     const isSigned = Boolean(signed?.[role]);
     return `<div class="seal-slot ${isSigned ? 'is-signed' : ''}" data-role="${role}"><div class="wax">${isSigned ? '§' : ''}</div><strong>${esc(view.cast.owners[role]?.username ?? role)}</strong><span>${isSigned ? 'Signed this exact bundle' : 'Not signed'}</span></div>`;
   }).join('');
-  if (state.mode === 'live' && view.exports) {
-    $('#exports').innerHTML = `<a href="${view.exports.html}">Approved storyboard</a><a href="${view.exports.script}">Script</a><a href="${view.exports.receipt}">Consent receipt</a>`;
+  if (view.exports && (state.mode === 'live' || (state.mode === 'replay' && state.verdict))) {
+    $('#exports').innerHTML = `<a href="${view.exports.html}" download>Approved storyboard</a><a href="${view.exports.script}" download>Script</a><a href="${view.exports.receipt}" target="_blank" rel="noopener">Consent receipt</a>`;
   } else {
     $('#exports').innerHTML = '';
   }
@@ -277,14 +384,19 @@ function perform(beat) {
     case 'appeal': setAdvocates(null); setJudges({all: 'is-listening'}); stamp('Recess', 'amber'); replayEvent('appeal'); break;
     case 'decision': setJudges({all: beat.accepted ? 'is-accepting' : 'is-rejecting'}); stamp(beat.accepted ? 'Amendment accepted' : 'Declined', beat.accepted ? 'good' : 'bad'); replayEvent('statement'); break;
     case 'draft_verdict': setJudges({vale: 'is-speaking', all: 'is-accepting'}); setAdvocates(null); stamp('Frozen for signature', 'gold'); replayEvent('ruling'); break;
-    case 'signature': setJudges({thorne: 'is-accepting', all: 'is-listening'}); stamp('Signed', 'gold'); break;
+    case 'signature': setJudges({thorne: 'is-accepting', all: 'is-listening'}); stamp('Signed', 'gold'); if (beat.role) { state.signed[beat.role] = true; renderSeals(state.view, state.signed); sealStamp(beat.role); } break;
     case 'withdrawal': setJudges({all: 'is-narrowing'}); stamp('Withdrawn', 'amber'); break;
-    case 'verdict': setJudges({all: 'is-accepting'}); setAdvocates('lead', 'pleased'); setAdvocates('creator', 'pleased'); stamp('Approved', 'good'); replayEvent('verdict'); break;
+    case 'verdict': setJudges({all: 'is-accepting'}); setAvatarState(avatars.lead(), 'pleased'); setAvatarState(avatars.creator(), 'pleased'); stamp('Approved', 'good'); replayEvent('verdict'); state.verdict = true; renderSeals(state.view, state.signed); break;
     case 'overruled': if (beat.agentOverreach) { setJudges({thorne: 'is-rejecting', all: 'is-assessing'}); setAdvocates(beat.speaker, 'idle'); stamp('Overruled'); replayEvent('objection'); } break;
     case 'recess': case 'turn_failed': setJudges({all: 'is-rejecting'}); setAdvocates(null); stamp('Paused', 'amber'); replayEvent('deadlock'); break;
     case 'mandate': setJudges({all: 'is-accepting'}); replayEvent('statement'); break;
     default: setJudges({all: 'is-listening'}); replayEvent('statement');
   }
+  chorus(beat);
+}
+function sealStamp(role) {
+  const wax = document.querySelector(`.seal-slot[data-role="${role}"] .wax`);
+  if (wax && gsapReady()) gsap.fromTo(wax, {scale: 2.6, rotate: -35, opacity: 0}, {scale: 1, rotate: 0, opacity: 1, duration: .55, ease: 'power4.in'});
 }
 
 // ── Replay: rebuild each moment of a real recorded session ──────────────────
@@ -310,6 +422,8 @@ function replayPhase(beat, view, briefs) {
     case 'ruling': return {code: 'Ruling', label: `BOARD${beat.boardRevision} passes every check.`, detail: 'Four panels, thirty seconds, permitted assets, exact copy.'};
     case 'endorsement': return {code: 'Recommendation', label: 'The creator advocate recommends it.', detail: 'A recommendation is advisory. It is not consent.'};
     case 'draft_verdict': return {code: 'Signatures', label: 'Frozen. Awaiting two signatures.', detail: 'The exact bundle is hashed. Each owner must approve it from their own account.'};
+    case 'signature': return {code: 'Signatures', label: `${owner(beat.role)} signs.`, detail: 'One signature is not consent. The export stays locked until both owners approve the same digest.'};
+    case 'verdict': return {code: 'Verdict', label: 'Approved, by both owners.', detail: 'The consent receipt binds the exact bytes, both briefs and both signatures. Anyone can verify it offline.'};
     default: return null;
   }
 }
@@ -321,7 +435,7 @@ const replayState = {
   index: 0,
   playing: false,
   timer: null,
-  dwell: beat => ({appeal: 6200, objection: 5200, decision: 4200, draft_verdict: 6000, proposal: 5200, endorsement: 4800, ruling: 4200, deliberating: 1600, summons: 2400})[beat.type] ?? 3200,
+  dwell: beat => ({filing: 4600, procedure: 3600, mandate: 3800, summons: 3000, deliberating: 2600, proposal: 7400, objection: 7200, appeal: 7400, decision: 5400, ruling: 5600, endorsement: 6800, draft_verdict: 6200, signature: 4400, verdict: 10000})[beat.type] ?? 3600,
 };
 
 function showReplayStep(i) {
@@ -347,6 +461,7 @@ function showReplayStep(i) {
     $('#beats').innerHTML = '';
     state.seenBeats.clear();
     state.performedBeats.clear();
+    state.signed = {}; state.verdict = false;
     renderSeals(replayView, {});
   }
   perform(beat);
@@ -455,6 +570,9 @@ function resetSession() {
   state.latestEventId = 0;
   state.view = null;
   state.reconnecting = false;
+  state.signed = {};
+  state.verdict = false;
+  hush();
 
   const bar = $('#replay-bar');
   if (bar) bar.hidden = true;
@@ -485,10 +603,10 @@ async function startReplay(note) {
   state.view = replay.view;
   state.briefs = replay.briefs;
   // Replay exports must NEVER link to live approvals
-  if (replay.view) replay.view.exports = null;
+  if (replay.view && !String(replay.view.exports?.html ?? '').startsWith('/data/')) replay.view.exports = null;
   setCast(replay.view);
   for (const board of replay.boards) state.boards.set(board.revision, board);
-  setMode('replay', 'Replay · recorded rehearsal');
+  setMode('replay', 'Recorded session');
   $('#foot-source').textContent = `${note} ${replay.label}`;
   $('#case-id').textContent = replay.caseId;
 
@@ -511,7 +629,7 @@ async function startReplay(note) {
 function updateConnectionStatus(ingestion = state.view?.ingestion) {
   if (state.mode !== 'live') return;
   if (ingestion?.state === 'live') {
-    setMode('live', 'Live · Switch room');
+    setMode('live', 'Live in Switch');
   } else if (ingestion?.state === 'paused') {
     setMode('offline', 'Room ingestion paused');
   } else if (ingestion?.state === 'starting' || !ingestion) {
@@ -678,6 +796,11 @@ async function startLive(caseId) {
     throw err;
   }
 
+  if (view.ingestion && view.ingestion.state !== 'live') {
+    const err = new Error('The Switch room is not being read right now');
+    err.kind = 'unreachable';
+    throw err;
+  }
   state.mode = 'live';
   hideRetryButton();
   $('#foot-source').textContent = 'Connected to the read-only clerk. Decisions are made only by the bound humans in the Switch room.';
@@ -796,7 +919,7 @@ async function init() {
   } catch (error) {
     if (error.kind === 'unreachable' || error.status === 502) {
       showRetryButton();
-      await startReplay(`Recorded replay · synthetic rehearsal fallback (live clerk unreachable: ${error.message}).`).catch(() => {
+      await startReplay('Recorded session (the live room is not running here).').catch(() => {
         setMode('offline', 'Court unavailable');
       });
     } else if (error.kind === 'not_found' || error.status === 404) {

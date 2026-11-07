@@ -1,21 +1,18 @@
 {
  "kind": "cvc-replay-v1",
- "label": "Recorded rehearsal: real Codex advocates through Switch; owner decisions are labelled synthetic test inputs; no human approvals.",
- "exportedAt": "2026-11-07T12:16:20.662Z",
+ "label": "Recorded rehearsal: real Codex advocate turns through Switch and a real clerk. Both owners are labelled synthetic test fixtures, including their final signatures; no real human signed.",
+ "exportedAt": "2026-11-07T16:18:22.601Z",
  "caseId": "CVFCD0532C99E1",
  "view": {
   "version": "cvc-court-view-v1",
   "caseId": "CVFCD0532C99E1",
-  "stage": "AWAITING_APPROVALS",
+  "stage": "APPROVED",
   "phase": {
-   "code": "SIGNATURES",
-   "label": "Awaiting signatures",
-   "detail": "synthetic-fixture-lead and synthetic-fixture-creator must approve the exact bundle.",
-   "speaker": null,
-   "waitingOn": [
-    "owner:lead",
-    "owner:creator"
-   ]
+   "code": "VERDICT",
+   "label": "Approved by both owners",
+   "detail": "The exact reviewed bundle is approved and exportable.",
+   "speaker": "clerk",
+   "waitingOn": []
   },
   "cast": {
    "clerk": {
@@ -40,7 +37,7 @@
      "username": "synthetic-fixture-lead",
      "briefRef": "H2",
      "adopted": true,
-     "signed": false,
+     "signed": true,
      "brief": {
       "finalCopy": [],
       "forbiddenAssets": [],
@@ -58,7 +55,7 @@
      "username": "synthetic-fixture-creator",
      "briefRef": "D1",
      "adopted": true,
-     "signed": false,
+     "signed": true,
      "brief": {
       "finalCopy": [
        "Made together. On our terms.",
@@ -182,13 +179,17 @@
    "manifest": "/api/cases/CVFCD0532C99E1/boards/2/manifest"
   },
   "approvals": {
-   "lead": false,
-   "creator": false,
-   "count": 0,
-   "command": "@cvc-clerk APPROVE CVFCD0532C99E1 BOARD2 faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e"
+   "lead": true,
+   "creator": true,
+   "count": 2,
+   "command": null
   },
   "adopt": {},
-  "exports": null,
+  "exports": {
+   "html": "/data/replay-storyboard.html",
+   "script": "/data/replay-script.txt",
+   "receipt": "/data/replay-receipt.json"
+  },
   "beats": [
    {
     "id": 1,
@@ -537,6 +538,47 @@
     "roomMessageId": "sw_408b47be75104737b4dc67ea770b2e1c",
     "delivery": "sent",
     "type": "draft_verdict",
+    "speaker": "clerk",
+    "boardRevision": 2,
+    "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e"
+   },
+   {
+    "id": 22,
+    "at": 1794068302577,
+    "kind": "approval_recorded",
+    "sourceId": "fixture-only-approval-1",
+    "text": "synthetic-fixture-lead approved BOARD2, bundle faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e. 1/2 human approvals of this exact revision.",
+    "roomMessageId": null,
+    "delivery": "pending",
+    "type": "signature",
+    "speaker": "owner:lead",
+    "role": "lead",
+    "boardRevision": 2,
+    "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e"
+   },
+   {
+    "id": 23,
+    "at": 1794068302584,
+    "kind": "approval_recorded",
+    "sourceId": "fixture-only-approval-2",
+    "text": "synthetic-fixture-creator approved BOARD2, bundle faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e. 2/2 human approvals of this exact revision.",
+    "roomMessageId": null,
+    "delivery": "pending",
+    "type": "signature",
+    "speaker": "owner:creator",
+    "role": "creator",
+    "boardRevision": 2,
+    "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e"
+   },
+   {
+    "id": 24,
+    "at": 1794068302585,
+    "kind": "artifact_approved",
+    "sourceId": "fixture-only-approval-2",
+    "text": "Both distinct human owners approved BOARD2, bundle faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e. Approved export: http://localhost:18802/api/cases/CVFCD0532C99E1/boards/2/export",
+    "roomMessageId": null,
+    "delivery": "pending",
+    "type": "verdict",
     "speaker": "clerk",
     "boardRevision": 2,
     "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e"

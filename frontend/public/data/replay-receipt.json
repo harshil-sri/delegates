@@ -1,0 +1,267 @@
+{
+ "caseId": "CVFCD0532C99E1",
+ "revision": 2,
+ "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
+ "manifest": {
+  "assets": [
+   {
+    "id": "notebook",
+    "sha256": "8fc51b988fbef85d8e91978990c12fb0670785d1fa2b8a80ceed936210441a3d"
+   },
+   {
+    "id": "hands-sketch",
+    "sha256": "b8867d24625cc12b26bdd73254dc9379e802add6b394889fc9a1d68eb0d56b46"
+   },
+   {
+    "id": "light-trails",
+    "sha256": "ba37ef0539eed3fd9535dea6f9fbab2a5b91f9fd351e78f37d605c24500af67b"
+   },
+   {
+    "id": "signal-mark",
+    "sha256": "d914b8134f20195c9703cf2c8db46da462cf0c59954862f9e29e43f752630f7d"
+   }
+  ],
+  "board": {
+   "briefs": {
+    "creator": "D1",
+    "lead": "H2"
+   },
+   "panels": [
+    {
+     "assetId": "notebook",
+     "onScreen": "SIGNAL",
+     "scene": "A notebook opens as vivid marks and quick annotations gather across the page with energetic rhythm.",
+     "seconds": 7,
+     "voiceover": "A personal signal begins with an idea made visible."
+    },
+    {
+     "assetId": "hands-sketch",
+     "onScreen": "MAKE YOUR MARK",
+     "scene": "Sketching hands turn the first marks into bold shapes, layered strokes, and a recognizable creative language.",
+     "seconds": 7,
+     "voiceover": "Every gesture adds character, momentum, and intent."
+    },
+    {
+     "assetId": "light-trails",
+     "onScreen": "IDEAS IN MOTION",
+     "scene": "Bright trails lift from the sketches, weave together, and accelerate through a vibrant field.",
+     "seconds": 8,
+     "voiceover": "Separate lines connect, amplify one another, and move forward together."
+    },
+    {
+     "assetId": "signal-mark",
+     "onScreen": "Made together. On our terms.\nVisuals: Daksh",
+     "scene": "The moving trails converge into the SIGNAL mark while the closing statement and credit settle clearly beneath it.",
+     "seconds": 8,
+     "voiceover": "Together, our ideas become SIGNAL."
+    }
+   ],
+   "title": "SIGNAL — Ideas in Motion"
+  },
+  "briefs": {
+   "creator": {
+    "ref": "D1",
+    "sha256": "e3a44f9fb93b17abf962591bfdead262976c9a7c58a3da3cfc424f08c30a1071"
+   },
+   "lead": {
+    "ref": "H2",
+    "sha256": "5ba1d7bf77cd1f3ff475c0d3984e1e419f92b920f12b8504a7faf842dbf3d97c"
+   }
+  },
+  "caseId": "CVFCD0532C99E1",
+  "catalogSha256": "3c1b9a1333c0ebb0d83aa18ed92d2b2314b3eb1ffc23a9c24581b380100fdb81",
+  "creatorReview": {
+   "amendment": null,
+   "at": 1793996998519,
+   "boardHash": "694621c76f1e1b67db571964f77ac62956aa571e4ea41c21b2fbb070243ed2af",
+   "boardRevision": 2,
+   "decision": "recommend",
+   "revisionNotes": [],
+   "sender": "@switch-agent-1de35bf6:localhost",
+   "sourceId": "sw_fa587b036fd545ccb33014e5a0c41849",
+   "summary": "BOARD2 passes every deterministic check and respects adopted briefs H2 and D1: it is a personal, energetic 30-second SIGNAL promo using permitted object-based assets, excludes portrait-daksh, and includes both required final-panel lines. Recommendation is advisory; both humans must later approve the exact board.",
+   "turnId": "T417d273bd9e84945a5b924fbe7b4dccb"
+  },
+  "files": {
+   "script.txt": "f5dc568b6e86cbe6c3781d73cf5b67bf7c167dbc2e8808ea006083fdb2fef47f",
+   "storyboard.html": "632181692774cc7d1f32e4a829df9f3ce338378c8e12b2e4c4d54e9d3d8da694"
+  },
+  "readyAt": 1793996998519,
+  "rendererVersion": "cvc-storyboard-html-v1",
+  "revision": 2,
+  "schema": "cvc-approval-bundle-v1"
+ },
+ "briefs": {
+  "lead": {
+   "adoption": {
+    "at": 1793996951034,
+    "sender": "fixture-only-sender-lead",
+    "sourceId": "fixture-only-source-3"
+   },
+   "content": {
+    "finalCopy": [],
+    "forbiddenAssets": [],
+    "goal": "A personal, energetic 30-second SIGNAL promo.",
+    "negotiable": [
+     "Opening shot, palette and scene order. Object-based treatment is permitted."
+    ],
+    "requiredAssets": [],
+    "requiredCopy": [
+     "SIGNAL"
+    ]
+   },
+   "createdAt": 1793996951034,
+   "hash": "5ba1d7bf77cd1f3ff475c0d3984e1e419f92b920f12b8504a7faf842dbf3d97c",
+   "ref": "H2",
+   "sourceId": "fixture-only-source-3"
+  },
+  "creator": {
+   "adoption": {
+    "at": 1793996901071,
+    "sender": "fixture-only-sender-creator",
+    "sourceId": "fixture-only-source-2"
+   },
+   "content": {
+    "finalCopy": [
+     "Made together. On our terms.",
+     "Visuals: Daksh"
+    ],
+    "forbiddenAssets": [
+     "portrait-daksh"
+    ],
+    "goal": "Contribute a recognizable creative voice while keeping the portrait-use boundary.",
+    "negotiable": [
+     "Object illustrations, text treatments, scene order and palette."
+    ],
+    "requiredAssets": [],
+    "requiredCopy": []
+   },
+   "createdAt": 1793996901061,
+   "hash": "e3a44f9fb93b17abf962591bfdead262976c9a7c58a3da3cfc424f08c30a1071",
+   "ref": "D1",
+   "sourceId": null
+  }
+ },
+ "amendments": [
+  {
+   "baseRef": "H1",
+   "content": {
+    "finalCopy": [],
+    "forbiddenAssets": [],
+    "goal": "A personal, energetic 30-second SIGNAL promo.",
+    "negotiable": [
+     "Opening shot, palette and scene order. Object-based treatment is permitted."
+    ],
+    "requiredAssets": [],
+    "requiredCopy": [
+     "SIGNAL"
+    ]
+   },
+   "createdAt": 1793996947632,
+   "decision": {
+    "at": 1793996951035,
+    "ref": "H2",
+    "sender": "fixture-only-sender-lead",
+    "sourceId": "fixture-only-source-3"
+   },
+   "hash": "bfb7d69988cc10aaedd9c0a0e40357ea4178949f1c417d064f501a9d04b0d202",
+   "id": "A1",
+   "proposedBy": "@switch-agent-1de35bf6:localhost",
+   "role": "lead",
+   "sourceId": "sw_fef58ea61f424fd9be1cfe4b52d73014",
+   "status": "accepted"
+  }
+ ],
+ "proposal": {
+  "sourceId": "sw_562ff508f545498ab0826e578294ca6f",
+  "sender": "@switch-agent-f02ce355:localhost"
+ },
+ "creatorReview": {
+  "amendment": null,
+  "at": 1793996998519,
+  "boardHash": "694621c76f1e1b67db571964f77ac62956aa571e4ea41c21b2fbb070243ed2af",
+  "boardRevision": 2,
+  "decision": "recommend",
+  "revisionNotes": [],
+  "sender": "@switch-agent-1de35bf6:localhost",
+  "sourceId": "sw_fa587b036fd545ccb33014e5a0c41849",
+  "summary": "BOARD2 passes every deterministic check and respects adopted briefs H2 and D1: it is a personal, energetic 30-second SIGNAL promo using permitted object-based assets, excludes portrait-daksh, and includes both required final-panel lines. Recommendation is advisory; both humans must later approve the exact board.",
+  "turnId": "T417d273bd9e84945a5b924fbe7b4dccb"
+ },
+ "approvals": [
+  {
+   "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
+   "platformUserId": "fixture-only-native-lead",
+   "recordedAt": 1794068302577,
+   "revision": 2,
+   "revokedBy": null,
+   "role": "lead",
+   "sender": "fixture-only-sender-lead",
+   "sourceId": "fixture-only-approval-1",
+   "sourceTimestamp": 1794068302571
+  },
+  {
+   "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
+   "platformUserId": "fixture-only-native-creator",
+   "recordedAt": 1794068302584,
+   "revision": 2,
+   "revokedBy": null,
+   "role": "creator",
+   "sender": "fixture-only-sender-creator",
+   "sourceId": "fixture-only-approval-2",
+   "sourceTimestamp": 1794068302581
+  }
+ ],
+ "checks": [
+  {
+   "code": "FOUR_PANELS",
+   "detail": "Exactly four panels.",
+   "passed": true
+  },
+  {
+   "code": "THIRTY_SECONDS",
+   "detail": "Planned duration totals 30 seconds.",
+   "passed": true
+  },
+  {
+   "code": "ASSET:notebook",
+   "detail": "Asset notebook must be registered and permitted.",
+   "passed": true
+  },
+  {
+   "code": "ASSET:hands-sketch",
+   "detail": "Asset hands-sketch must be registered and permitted.",
+   "passed": true
+  },
+  {
+   "code": "ASSET:light-trails",
+   "detail": "Asset light-trails must be registered and permitted.",
+   "passed": true
+  },
+  {
+   "code": "ASSET:signal-mark",
+   "detail": "Asset signal-mark must be registered and permitted.",
+   "passed": true
+  },
+  {
+   "code": "H2:COPY:SIGNAL",
+   "detail": "H2 requires the exact on-screen line: SIGNAL",
+   "passed": true
+  },
+  {
+   "code": "D1:FORBIDS:portrait-daksh",
+   "detail": "D1 forbids portrait-daksh.",
+   "passed": true
+  },
+  {
+   "code": "D1:FINAL:Made together. On our terms.",
+   "detail": "D1 requires the exact final-panel line: Made together. On our terms.",
+   "passed": true
+  },
+  {
+   "code": "D1:FINAL:Visuals: Daksh",
+   "detail": "D1 requires the exact final-panel line: Visuals: Daksh",
+   "passed": true
+  }
+ ]
+}
