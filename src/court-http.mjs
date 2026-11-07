@@ -83,7 +83,8 @@ export function createCourtServer(engine, {roomUrl, port = 18802, allowedOrigins
     if (request.method === 'HEAD') return send(200,'','text/event-stream; charset=utf-8');
     if (streams.size >= maxStreams) return send(503,{error:'Too many open court streams.'});
     response.writeHead(200,{'content-type':'text/event-stream; charset=utf-8','connection':'keep-alive','x-accel-buffering':'no'});
-    const write = (event,data,id) => response.write(`${id === undefined ? '' : `id: ${id}\n`}event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+    const open = () => !response.writableEnded && !response.destroyed;
+    const write = (event,data,id) => open() && response.write(`${id === undefined ? '' : `id: ${id}\n`}event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
     let ingestion = JSON.stringify(status());
     const flush = () => {
       const rows = engine.timeline(caseId,last ?? 0);
@@ -95,7 +96,7 @@ export function createCourtServer(engine, {roomUrl, port = 18802, allowedOrigins
     };
     response.write('retry: 3000\n\n');
     if (last === null || !flush()) { last = engine.lastEventId(caseId); write('court',view(caseId),last); }
-    const entry = {response, timer:null, heartbeat:null};
+    const entry = {response, timer:null, heartbeat:null, end:null};
     entry.timer = setInterval(() => {
       try {
         flush();
@@ -104,15 +105,17 @@ export function createCourtServer(engine, {roomUrl, port = 18802, allowedOrigins
       } catch (error) {
         console.error('Court stream failed:',error.message);
         write('error',{error:'The court stream failed; reconnect to resume.'});
-        response.end();
+        entry.end();
       }
     }, streamPollMs);
-    entry.heartbeat = setInterval(() => response.write(': heartbeat\n\n'), heartbeatMs);
+    entry.heartbeat = setInterval(() => { if (open()) response.write(': heartbeat\n\n'); }, heartbeatMs);
+    // Timers must stop before the response ends, or a later tick writes after end.
     const cleanup = () => { clearInterval(entry.timer); clearInterval(entry.heartbeat); streams.delete(entry); };
+    entry.end = () => { cleanup(); if (open()) response.end(); };
     response.on('close',cleanup);
     streams.add(entry);
   }
   const close = server.close.bind(server);
-  server.close = callback => { for (const entry of streams) entry.response.end(); return close(callback); };
+  server.close = callback => { for (const entry of [...streams]) entry.end(); return close(callback); };
   return server;
 }
