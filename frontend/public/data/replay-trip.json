@@ -1,0 +1,663 @@
+{
+ "kind": "cvc-trip-replay-v1",
+ "label": "Replay of a real trip-mode run in our Switch room on 8 Nov 2026. Messages are shortened for the screen; each keeps its Switch message ID.",
+ "caseId": "TRIP-NAINITAL",
+ "view": {
+  "version": "cvc-court-view-v1",
+  "caseId": "TRIP-NAINITAL",
+  "stage": "APPROVED",
+  "phase": {
+   "code": "Verdict",
+   "label": "Nainital it is.",
+   "detail": "Checked by the clerk. Approved by both people."
+  },
+  "cast": {
+   "clerk": {
+    "name": "cvc-clerk",
+    "kind": "deterministic"
+   },
+   "advocates": {
+    "lead": {
+     "name": "cvc-lead-advocate",
+     "label": "Harshil’s AI",
+     "model": "Codex"
+    },
+    "creator": {
+     "name": "cvc-creator-advocate",
+     "label": "Daksh’s AI",
+     "model": "Codex"
+    }
+   },
+   "owners": {
+    "lead": {
+     "username": "Harshil",
+     "adopted": true,
+     "signed": true
+    },
+    "creator": {
+     "username": "Daksh",
+     "adopted": true,
+     "signed": true
+    }
+   }
+  },
+  "question": null,
+  "approvals": {
+   "lead": true,
+   "creator": true,
+   "count": 2
+  },
+  "exports": null,
+  "beats": [
+   {
+    "id": 1,
+    "at": 1794084799040,
+    "roomMessageId": "sw_17c4d9cfd7ab44cf8896b6d050d5a07d",
+    "type": "filing",
+    "speaker": "clerk",
+    "label": "Fresh start",
+    "line": "Fresh start. Both schedules are clear. Harshil, tell your delegate your limits. Daksh, tell yours.",
+    "phase": {
+     "code": "Filing",
+     "label": "Two friends want one weekend away.",
+     "detail": "Each of them briefs their own AI delegate in a shared Switch room."
+    },
+    "lines": [
+     [
+      "vale",
+      "Court is in session. Two calendars, two budgets, one trip."
+     ],
+     [
+      "thorne",
+      "The delegates may argue. Only Harshil and Daksh may agree.",
+      {
+       "delay": 1800
+      }
+     ]
+    ]
+   },
+   {
+    "id": 2,
+    "at": 1794085045733,
+    "roomMessageId": "sw_e4a2df37a4c978f430fd15d5c1cac2b7",
+    "type": "instruction",
+    "speaker": "owner:lead",
+    "label": "Harshil, to his delegate",
+    "dwell": 6200,
+    "line": "“I have my job Monday to Friday, 9 to 6, and I can’t take any leave. Budget is around 8k per person. I’d love somewhere in the mountains.”",
+    "phase": {
+     "code": "Briefing",
+     "label": "Harshil briefs his AI.",
+     "detail": "In plain English, in the Switch room."
+    },
+    "focus": "lead",
+    "lines": [
+     [
+      "arata",
+      "Eight thousand rupees. I am writing that down.",
+      {
+       "delay": 1600
+      }
+     ]
+    ]
+   },
+   {
+    "id": 3,
+    "at": 1794085063721,
+    "roomMessageId": "sw_d9d7aa63bf08481da3b63ad00efa40b7",
+    "type": "mandate",
+    "role": "lead",
+    "speaker": "lead",
+    "label": "What it will protect",
+    "mood": "speaking",
+    "dwell": 5600,
+    "line": "I’ll protect: 🔒 your job, Mon–Fri 9 am–6 pm · 💰 up to ₹8,000 · 👍 somewhere in the mountains.",
+    "phase": {
+     "code": "Briefing",
+     "label": "Harshil’s AI knows his limits.",
+     "detail": "🔒 means a hard limit. The clerk will enforce it."
+    },
+    "focus": "lead",
+    "lines": [
+     [
+      "lead",
+      "Job is a hard limit. Budget ₹8,000. Mountains, please."
+     ],
+     [
+      "thorne",
+      "Harshil’s limits, in Harshil’s words.",
+      {
+       "delay": 1800,
+       "tone": "good"
+      }
+     ]
+    ]
+   },
+   {
+    "id": 4,
+    "at": 1794085053638,
+    "roomMessageId": "sw_9b838af7a483f3250c0fe38e8adb0ebd",
+    "type": "instruction",
+    "speaker": "owner:creator",
+    "label": "Daksh, to his delegate",
+    "dwell": 6800,
+    "line": "“I’m interning weekdays 10 to 7. My DBMS assignment is due Monday the 16th at 10am, so I need Sunday evening free. Up to 10k, and no overnight buses please.”",
+    "phase": {
+     "code": "Briefing",
+     "label": "Daksh briefs his AI.",
+     "detail": "Different job, different budget, one deadline."
+    },
+    "focus": "creator",
+    "lines": [
+     [
+      "vale",
+      "A deadline. Sunday evening is spoken for.",
+      {
+       "delay": 1800
+      }
+     ]
+    ]
+   },
+   {
+    "id": 5,
+    "at": 1794085089041,
+    "roomMessageId": "sw_8d738a9bdb684df6af6848a869a71dad",
+    "type": "mandate",
+    "role": "creator",
+    "speaker": "creator",
+    "label": "What it will protect",
+    "mood": "speaking",
+    "dwell": 5800,
+    "line": "I’ll protect: 🔒 DBMS work, Sun 15 Nov 6 pm → Mon 10 am · 🚫 no overnight buses · 💰 up to ₹10,000 · internship hours (flexible).",
+    "phase": {
+     "code": "Briefing",
+     "label": "Daksh’s AI knows his limits.",
+     "detail": "Two hard limits: the deadline and no overnight buses."
+    },
+    "focus": "creator",
+    "lines": [
+     [
+      "creator",
+      "Sunday evening is locked. No overnight buses."
+     ],
+     [
+      "thorne",
+      "Daksh’s limits, in Daksh’s words.",
+      {
+       "delay": 1800,
+       "tone": "good"
+      }
+     ]
+    ]
+   },
+   {
+    "id": 6,
+    "at": 1794085067286,
+    "roomMessageId": "sw_14921d1be6dc89baa3dfa91f5723ae0d",
+    "type": "instruction",
+    "speaker": "owner:creator",
+    "label": "Daksh, to Harshil’s delegate",
+    "dwell": 4200,
+    "line": "“@cvc-lead-advocate Harshil is free this Friday.”",
+    "phase": {
+     "code": "Boundary",
+     "label": "Daksh talks to the wrong AI.",
+     "detail": "He tries to tell Harshil’s delegate what Harshil can do."
+    },
+    "focus": "lead",
+    "mood": "thinking",
+    "moodRole": "lead",
+    "lines": [
+     [
+      "arata",
+      "Hm. That is not his delegate.",
+      {
+       "delay": 1400
+      }
+     ]
+    ]
+   },
+   {
+    "id": 7,
+    "at": 1794085089544,
+    "roomMessageId": "sw_abb79c1dd2b04dd08c2eb02204342d02",
+    "type": "overruled",
+    "agentOverreach": true,
+    "speaker": "clerk",
+    "label": "Objection",
+    "stamp": [
+     "Objection",
+     "bad"
+    ],
+    "dwell": 7400,
+    "line": "Harshil’s delegate only takes instructions from Harshil. Daksh, tell your own delegate instead.",
+    "phase": {
+     "code": "Objection",
+     "label": "Only Harshil can speak for Harshil.",
+     "detail": "The clerk refuses it. Nobody can brief someone else’s AI."
+    },
+    "lines": [
+     [
+      "thorne",
+      "Objection sustained. That delegate answers only to Harshil.",
+      {
+       "tone": "bad",
+       "ms": 5200
+      }
+     ],
+     [
+      "vale",
+      "Daksh, brief your own delegate.",
+      {
+       "delay": 2400,
+       "tone": "bad"
+      }
+     ]
+    ]
+   },
+   {
+    "id": 8,
+    "at": 1794085184281,
+    "roomMessageId": "sw_5bf865628a377daf26af356c19d73262",
+    "type": "instruction",
+    "speaker": "owner:lead",
+    "label": "Harshil, to the clerk",
+    "dwell": 4600,
+    "line": "“Plan a weekend trip for us from Delhi in the next couple of weeks.”",
+    "phase": {
+     "code": "Request",
+     "label": "Harshil asks for a plan.",
+     "detail": "The clerk is plain code. It does the calendar maths, not the talking."
+    },
+    "lines": [
+     [
+      "vale",
+      "Clerk, the calendars.",
+      {
+       "delay": 1200
+      }
+     ]
+    ]
+   },
+   {
+    "id": 9,
+    "at": 1794085186014,
+    "roomMessageId": "sw_d141c30a16ba4c60b5f03a3e01966653",
+    "type": "summons",
+    "target": "lead",
+    "speaker": "clerk",
+    "label": "Shared free time",
+    "showBoard": 0,
+    "dwell": 7600,
+    "line": "I lined up both calendars for six weeks. You’re both free Fri 13 Nov (48 h, ends at Daksh’s Sunday block) and every weekend from Fri 20 Nov (63 h). Hard limits I’ll enforce: Harshil’s job, Daksh’s DBMS deadline. Harshil’s delegate proposes first.",
+    "phase": {
+     "code": "Calendar",
+     "label": "The clerk finds when both are free.",
+     "detail": "Both calendars overlaid. Hard limits are not up for debate."
+    },
+    "focus": "vale",
+    "lines": [
+     [
+      "vale",
+      "The 13th is cut short by the deadline. The 20th is clear.",
+      {
+       "ms": 4600
+      }
+     ],
+     [
+      "lead",
+      "Then I will propose the 20th.",
+      {
+       "delay": 2600
+      }
+     ]
+    ]
+   },
+   {
+    "id": 10,
+    "type": "deliberating",
+    "speaker": "lead",
+    "dwell": 2400
+   },
+   {
+    "id": 11,
+    "at": 1794085211621,
+    "roomMessageId": "sw_2ba2893facd24c5da8bfa5b18b991421",
+    "type": "proposal",
+    "speaker": "lead",
+    "label": "Plan v1",
+    "boardRevision": 1,
+    "dwell": 8200,
+    "quote": "Nainital. Harshil gets his mountains, and overnight trains keep Daksh off buses. Back in Delhi Sunday 9 pm, about ₹6,500 each.",
+    "line": "I propose Nainital: the mountain weekend Harshil wants, with overnight trains so Daksh avoids buses. Leave Fri 20 Nov 10:05 pm, back in Delhi Sun 22 Nov 9 pm. About ₹6,500 each.",
+    "phase": {
+     "code": "Motion",
+     "label": "Harshil’s AI proposes Nainital.",
+     "detail": "Next, the clerk checks it against both calendars and budgets."
+    },
+    "lines": [
+     [
+      "lead",
+      "Nainital. Mountains for Harshil, trains not buses for Daksh. ₹6,500 each.",
+      {
+       "ms": 5600
+      }
+     ],
+     [
+      "arata",
+      "₹6,500. Under both budgets.",
+      {
+       "delay": 2200
+      }
+     ],
+     [
+      "vale",
+      "Back Sunday at nine. Monday is safe.",
+      {
+       "delay": 3400
+      }
+     ]
+    ]
+   },
+   {
+    "id": 12,
+    "at": 1794085211797,
+    "roomMessageId": "sw_0df5786b1989490a944623d775abebf8",
+    "type": "ruling",
+    "speaker": "clerk",
+    "label": "Clerk check",
+    "dwell": 6000,
+    "line": "✅ Clerk check, plan v1: fits Harshil’s schedule, within his ₹8,000. Fits Daksh’s schedule, within his ₹10,000. Daksh’s delegate, your review.",
+    "phase": {
+     "code": "Ruling",
+     "label": "The plan passes every check.",
+     "detail": "Both calendars, both budgets, every hard limit."
+    },
+    "lines": [
+     [
+      "arata",
+      "To the rupee. Both budgets hold.",
+      {
+       "tone": "good"
+      }
+     ],
+     [
+      "vale",
+      "Both calendars hold.",
+      {
+       "delay": 1100,
+       "tone": "good"
+      }
+     ]
+    ]
+   },
+   {
+    "id": 13,
+    "type": "deliberating",
+    "speaker": "creator",
+    "dwell": 2400
+   },
+   {
+    "id": 14,
+    "at": 1794085225560,
+    "roomMessageId": "sw_5e7ca853b1254808ac18120607417684",
+    "type": "endorsement",
+    "speaker": "creator",
+    "label": "Daksh’s AI reviews",
+    "dwell": 7000,
+    "quote": "This works for Daksh: his schedule, his budget, no overnight buses, and a buffer before Monday.",
+    "line": "✅ This works for Daksh: it fits his schedule and budget, avoids overnight buses, and leaves a comfortable buffer before Monday. Subject to both of you approving it.",
+    "phase": {
+     "code": "Review",
+     "label": "Daksh’s AI agrees.",
+     "detail": "Advice, not consent. Only the people can sign."
+    },
+    "lines": [
+     [
+      "creator",
+      "Works for Daksh. No buses, and Monday is safe.",
+      {
+       "tone": "good",
+       "ms": 5200
+      }
+     ],
+     [
+      "thorne",
+      "A recommendation. Not a signature.",
+      {
+       "delay": 2200
+      }
+     ]
+    ]
+   },
+   {
+    "id": 15,
+    "at": 1794085225649,
+    "roomMessageId": "sw_f857868d134d4ea9a2cc84e3cb5ef602",
+    "type": "draft_verdict",
+    "speaker": "clerk",
+    "label": "Ready to approve",
+    "stamp": [
+     "Agreed, not booked",
+     "gold"
+    ],
+    "showBoard": 1,
+    "dwell": 6400,
+    "line": "🤝 The delegates agree on plan v1. It passes both calendars and budgets, but nothing is booked until you both say yes. Each of you send: @cvc-clerk approve",
+    "phase": {
+     "code": "Signatures",
+     "label": "Now the humans decide.",
+     "detail": "Each person approves from their own Switch account."
+    },
+    "lines": [
+     [
+      "vale",
+      "The delegates agree. Now both of you must say yes.",
+      {
+       "ms": 5000
+      }
+     ]
+    ]
+   },
+   {
+    "id": 16,
+    "at": 1794085278866,
+    "roomMessageId": "sw_3633c88a4c20018e5ebb0cb93c40cbdd",
+    "type": "signature",
+    "role": "lead",
+    "speaker": "owner:lead",
+    "label": "Approved",
+    "dwell": 4600,
+    "line": "✅ Harshil approved plan v1. Waiting for Daksh (1 of 2).",
+    "phase": {
+     "code": "Signatures",
+     "label": "Harshil says yes.",
+     "detail": "One approval is not enough."
+    },
+    "lines": [
+     [
+      "thorne",
+      "Harshil approves. One of two.",
+      {
+       "tone": "good"
+      }
+     ]
+    ]
+   },
+   {
+    "id": 17,
+    "at": 1794085281848,
+    "roomMessageId": "sw_93f671b6c56dd7b929dc3a16e73fe63d",
+    "type": "signature",
+    "role": "creator",
+    "speaker": "owner:creator",
+    "label": "Approved",
+    "dwell": 3600,
+    "line": "✅ Daksh approved plan v1 (2 of 2).",
+    "phase": {
+     "code": "Signatures",
+     "label": "Daksh says yes.",
+     "detail": "Both people, the same plan."
+    },
+    "lines": [
+     [
+      "thorne",
+      "Daksh approves. Two of two.",
+      {
+       "tone": "good"
+      }
+     ]
+    ]
+   },
+   {
+    "id": 18,
+    "at": 1794085283555,
+    "roomMessageId": "sw_b7df907c827b4c0a9af37acc9a1e7aa9",
+    "type": "verdict",
+    "speaker": "clerk",
+    "label": "Trip locked",
+    "stamp": [
+     "Trip locked",
+     "good"
+    ],
+    "dwell": 11000,
+    "line": "🔒 Trip locked. Harshil and Daksh both approved plan v1: Nainital, Fri 20 → Sun 22 Nov. Neither delegate agreed on its own. The clerk checked both calendars, and both humans signed.",
+    "phase": {
+     "code": "Verdict",
+     "label": "Nainital it is.",
+     "detail": "Checked by the clerk. Approved by both people."
+    },
+    "lines": [
+     [
+      "vale",
+      "So ordered. Nainital it is.",
+      {
+       "tone": "good",
+       "ms": 5600
+      }
+     ],
+     [
+      "thorne",
+      "Fair to both of them.",
+      {
+       "delay": 1300,
+       "tone": "good"
+      }
+     ],
+     [
+      "arata",
+      "And ₹1,500 under budget.",
+      {
+       "delay": 2300,
+       "tone": "good"
+      }
+     ]
+    ]
+   }
+  ]
+ },
+ "briefs": {
+  "lead": [
+   {
+    "goal": "A mountain weekend that never touches his job.",
+    "hard": [
+     "Job: Mon–Fri, 9 am–6 pm, no leave"
+    ],
+    "soft": [
+     "Budget up to ₹8,000",
+     "Likes the mountains"
+    ]
+   }
+  ],
+  "creator": [
+   {
+    "goal": "A trip that leaves his DBMS deadline safe.",
+    "hard": [
+     "DBMS work: Sun 15 Nov 6 pm → Mon 10 am",
+     "No overnight buses"
+    ],
+    "soft": [
+     "Internship Mon–Fri 10–7",
+     "Budget up to ₹10,000"
+    ]
+   }
+  ]
+ },
+ "boards": [
+  {
+   "revision": 0,
+   "kind": "trip",
+   "title": "When you’re both free",
+   "meta": "The clerk lined up both calendars for the next 6 weeks",
+   "panels": [
+    {
+     "when": "Fri 13 Nov",
+     "title": "48 hours",
+     "detail": "Fri 6 pm → Sun 6 pm. Ends where Daksh’s DBMS block starts."
+    },
+    {
+     "when": "Fri 20 Nov",
+     "title": "63 hours",
+     "detail": "Fri 6 pm → Mon 9 am. A full weekend."
+    },
+    {
+     "when": "Fri 27 Nov",
+     "title": "63 hours",
+     "detail": "Fri 6 pm → Mon 9 am."
+    },
+    {
+     "when": "Fri 4 Dec",
+     "title": "63 hours",
+     "detail": "Fri 6 pm → Mon 9 am."
+    }
+   ],
+   "checks": []
+  },
+  {
+   "revision": 1,
+   "kind": "trip",
+   "title": "Plan v1 · Nainital mountain weekend",
+   "meta": "Leave Fri 20 Nov, 10:05 pm · back Sun 22 Nov, 9 pm · about ₹6,500 each",
+   "panels": [
+    {
+     "when": "Fri night",
+     "title": "Overnight train",
+     "detail": "Board the Ranikhet Express from Delhi after dinner. Train, not a bus."
+    },
+    {
+     "when": "Sat morning",
+     "title": "Up to Nainital",
+     "detail": "Reach Kathgodam, shared cab up the hill, check in near Mall Road."
+    },
+    {
+     "when": "Sat afternoon",
+     "title": "Naini Lake",
+     "detail": "Boat on the lake, then walk Mall Road and the lakefront."
+    },
+    {
+     "when": "Sun",
+     "title": "Snow View, then home",
+     "detail": "Himalayan views in the morning, Shatabdi back to Delhi by 9 pm."
+    }
+   ],
+   "checks": [
+    {
+     "passed": true,
+     "detail": "Fits Harshil’s work week"
+    },
+    {
+     "passed": true,
+     "detail": "Within Harshil’s ₹8,000"
+    },
+    {
+     "passed": true,
+     "detail": "Clear of Daksh’s Sunday-evening DBMS block"
+    },
+    {
+     "passed": true,
+     "detail": "Within Daksh’s ₹10,000"
+    }
+   ]
+  }
+ ]
+}

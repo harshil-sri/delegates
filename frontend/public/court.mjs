@@ -45,7 +45,7 @@ motionQuery?.addEventListener?.('change', event => {
 const isReducedMotion = () => Boolean(motionQuery?.matches || reduced);
 const gsapReady = () => Boolean(window.gsap && !isReducedMotion());
 
-const perspectives = {arata: 'The letter', vale: 'Feasibility', thorne: 'Consent'};
+const perspectives = {arata: 'The budget', vale: 'The calendar', thorne: 'Consent'};
 const ROLE_JUDGES = {thorne: /REQUIRES|FORBIDS|ASSET:/, vale: /FOUR_PANELS|THIRTY_SECONDS/, arata: /COPY|FINAL|ASSET:/};
 
 let currentSessionId = 0;
@@ -95,12 +95,13 @@ const plainName = (username, role) => !username || /^synthetic-fixture-/.test(us
 function speakerName(speaker, view = state.view) {
   if (!view) return speaker;
   if (speaker === 'clerk') return 'The clerk';
-  if (speaker === 'lead' || speaker === 'creator') return speaker === 'lead' ? 'Lead’s AI' : 'Creator’s AI';
+  if (speaker === 'lead' || speaker === 'creator') return view.cast.advocates?.[speaker]?.label ?? (speaker === 'lead' ? 'Lead’s AI' : 'Creator’s AI');
   if (speaker?.startsWith('owner:')) return plainName(view.cast.owners[speaker.slice(6)]?.username, speaker.slice(6));
   return speaker || 'Unknown';
 }
-const kindLabel = {filing: 'Case opened', procedure: 'Rules', mandate: 'Brief agreed', summons: 'Called to speak', deliberating: 'Thinking', proposal: 'Proposal', ruling: 'Checks pass', objection: 'Objection', endorsement: 'Recommendation', appeal: 'Paused for a person', decision: 'Decision', draft_verdict: 'Ready to sign', signature: 'Signed', withdrawal: 'Signature withdrawn', verdict: 'Approved', recess: 'Paused', turn_failed: 'Paused', overruled: 'Overruled'};
+const kindLabel = {instruction: 'Instruction', filing: 'Case opened', procedure: 'Rules', mandate: 'Brief agreed', summons: 'Called to speak', deliberating: 'Thinking', proposal: 'Proposal', ruling: 'Checks pass', objection: 'Objection', endorsement: 'Recommendation', appeal: 'Paused for a person', decision: 'Decision', draft_verdict: 'Ready to sign', signature: 'Signed', withdrawal: 'Signature withdrawn', verdict: 'Approved', recess: 'Paused', turn_failed: 'Paused', overruled: 'Overruled'};
 function beatLine(beat) {
+  if (beat.line) return beat.line;
   switch (beat.type) {
     case 'proposal': return plain(beat.quote);
     case 'endorsement': return plain(beat.quote);
@@ -150,7 +151,7 @@ function focus(target, hold = 3600) {
   gsap.to(scene, {scale: target in judgeNames ? 1.22 : 1.3, transformOrigin: origin, duration: 1.1, ease: 'power3.inOut', overwrite: true});
   cameraTimer = setTimeout(() => gsap.to(scene, {scale: 1, duration: 1.2, ease: 'power3.inOut', overwrite: true}), hold);
 }
-const judgeNames = {arata: 'Justice Arata · the letter', vale: 'Justice Vale · presiding', thorne: 'Lord Justice Thorne · consent'};
+const judgeNames = {arata: 'Justice Arata · the budget', vale: 'Justice Vale · the calendar', thorne: 'Lord Justice Thorne · consent'};
 const bubbleTimers = new Map(), actTimers = new Map(), pending = new Set();
 let lastBeatAt = 0;
 function later(fn, ms) { const timer = setTimeout(() => { pending.delete(timer); fn(); }, ms); pending.add(timer); }
@@ -162,7 +163,7 @@ function say(who, text, {tone = '', ms = 3800, delay = 0} = {}) {
   if (!el) return;
   const run = () => {
     el.dataset.tone = tone;
-    el.querySelector('b').textContent = isJudge ? judgeNames[who] : who === 'lead' ? 'Counsel for the lead' : 'Counsel for the creator';
+    el.querySelector('b').textContent = isJudge ? judgeNames[who] : `Counsel for ${ownerName(who)}`;
     const line = clean(text);
     typewrite(el.querySelector('span'), line.length > 170 ? `${line.slice(0, 167).trimEnd()}…` : line, {voice: isJudge ? who : who, cps: 70});
     clearTimeout(bubbleTimers.get(who));
@@ -206,6 +207,16 @@ function chorus(beat) {
   if (beat.type === 'proposal') focus('lead', 4200);
   if (beat.type === 'endorsement') focus('creator', 4200);
   if (['appeal', 'verdict', 'draft_verdict'].includes(beat.type)) focus('vale', 3400);
+  if (beat.focus) focus(beat.focus, 3800);
+  if (beat.lines) {
+    for (const [who, text, opts = {}] of beat.lines) {
+      say(who, text, opts);
+      if (who in judgeNames) act(who, opts.tone === 'bad' ? 'finger' : opts.tone === 'good' ? 'nod' : idleMoves[who][0], 1600, opts.delay ?? 0);
+    }
+    if (['overruled', 'draft_verdict', 'verdict'].includes(beat.type)) act('vale', 'gavel', 1100, 200);
+    if (beat.type === 'overruled') { act('arata', 'startle'); act('vale', 'startle', 900, 0); }
+    return;
+  }
   switch (beat.type) {
     case 'filing': say('vale', 'The court is in session. Two briefs, one storyboard, and only people may decide.'); act('vale', 'tap'); act('thorne', 'nod', 900, 900); break;
     case 'procedure': say('thorne', 'Advocates may argue. Only the owners may consent.', {delay: 300}); act('thorne', 'finger'); break;
@@ -270,7 +281,7 @@ function setPhase(phase) {
 }
 function setCaption(beat) {
   $('#caption-speaker').textContent = speakerName(beat.speaker);
-  $('#caption-kind').textContent = kindLabel[beat.type] ?? beat.kind;
+  $('#caption-kind').textContent = beat.label ?? kindLabel[beat.type] ?? beat.kind;
   const quote = $('#caption-text'), line = beatLine(beat) ?? '';
   const voice = beat.speaker?.startsWith('owner:') ? 'owner' : ['lead', 'creator'].includes(beat.speaker) ? beat.speaker : 'clerk';
   const box = $('#caption');
@@ -278,7 +289,7 @@ function setCaption(beat) {
   box.dataset.voice = voice;
   typewrite(quote, line.length > 360 ? `${line.slice(0, 357).trimEnd()}…` : line, {voice, onDone: () => box.classList.add('is-done')});
 }
-function stamp(text, tone = 'bad') {
+function stampEl(text, tone = 'bad') {
   const el = $('#stamp');
   el.dataset.tone = tone; $('#stamp-text').textContent = text;
   if (!gsapReady()) { el.style.opacity = 1; setTimeout(() => { el.style.opacity = 0; }, 1600); return; }
@@ -299,6 +310,10 @@ function renderBriefs(owners, briefs = null) {
     const agreed = brief.adopted ?? owner.adopted;
     const wants = [...(content?.requiredAssets ?? []), ...(content?.requiredCopy ?? []), ...(content?.finalCopy ?? [])];
     const refuses = content?.forbiddenAssets ?? [];
+    if (content?.hard) return `<div class="brief" data-role="${role}"><span class="seal ${agreed ? '' : 'pending'}">${agreed ? 'BRIEFED' : 'WAITING'}</span>
+      <h3>${esc(plainName(owner.username, role))}</h3><span class="who">${esc(content.goal ?? '')}</span>
+      <dl><div><dt>Hard limits 🔒</dt><dd>${content.hard.map(item => `<span class="tag hard">${esc(item)}</span>`).join('')}</dd></div>
+      <div><dt>Also</dt><dd>${(content.soft ?? []).map(item => `<span class="tag">${esc(item)}</span>`).join('')}</dd></div></dl></div>`;
     return `<div class="brief" data-role="${role}"><span class="seal ${agreed ? '' : 'pending'}">${agreed ? 'AGREED' : 'DRAFT'}</span>
       <h3>${esc(plainName(owner.username, role))}</h3><span class="who">${esc(content?.goal ?? '')}</span>
       <dl><div><dt>Wants</dt><dd>${wants.map(item => `<span class="tag">${esc(friendly(item))}</span>`).join('') || 'Nothing specific'}</dd></div>
@@ -309,13 +324,20 @@ function renderBriefs(owners, briefs = null) {
 function renderBoard(board, {animate = false} = {}) {
   const grid = $('#board');
   if (!board) {
-    grid.innerHTML = '<div class="board-empty">The advocates have not proposed a storyboard yet.</div>';
+    grid.innerHTML = '<div class="board-empty">The delegates have not proposed a plan yet.</div>';
     $('#checks').innerHTML = '';
-    $('#board-title').textContent = 'No storyboard yet';
+    $('#board-title').textContent = 'No plan yet';
     $('#board-meta').textContent = '';
     return;
   }
   $('#board-title').textContent = plain(board.title || 'Storyboard');
+  if (board.kind === 'trip') {
+    $('#board-meta').textContent = board.meta ?? '';
+    grid.innerHTML = (board.panels || []).map(panel => `<div class="card trip-card"><span class="when">${esc(panel.when)}</span><div class="on">${esc(panel.title)}</div><p>${esc(panel.detail)}</p></div>`).join('');
+    $('#checks').innerHTML = (board.checks ?? []).map(check => `<li data-pass="${check.passed}">${check.passed ? '✓' : '✕'} ${esc(check.detail)}</li>`).join('');
+    if (animate && gsapReady()) gsap.from(grid.querySelectorAll('.card'), {y: 60, rotate: (i) => (i - 1.5) * 4, opacity: 0, duration: .8, ease: 'expo.out', stagger: .08});
+    return;
+  }
   const total = (board.panels || []).reduce((sum, panel) => sum + (panel.seconds || 0), 0);
   $('#board-meta').textContent = `${(board.panels || []).length} scenes · ${total} seconds${board.stale ? ' · old draft' : ''}`;
   grid.innerHTML = (board.panels || []).map((panel, index) => {
@@ -374,7 +396,7 @@ function renderBeatListItem(beat) {
   const li = document.createElement('li');
   li.className = 'beat'; li.dataset.type = beat.type;
   const time = new Date(beat.at || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'});
-  li.innerHTML = `<span class="n">${String(beat.id ?? '').padStart(3, '0')}</span><span class="who">${esc(speakerName(beat.speaker))}</span><span class="what"><b>${esc(kindLabel[beat.type] ?? beat.type)}</b><span>${esc((beatLine(beat) ?? '').slice(0, 320))}</span><small>${time}${beat.roomMessageId ? ` · Switch ${esc(beat.roomMessageId)}` : beat.sourceId ? ` · source ${esc(beat.sourceId)}` : ''}</small></span>`;
+  li.innerHTML = `<span class="n">${String(beat.id ?? '').padStart(3, '0')}</span><span class="who">${esc(speakerName(beat.speaker))}</span><span class="what"><b>${esc(beat.label ?? kindLabel[beat.type] ?? beat.type)}</b><span>${esc((beatLine(beat) ?? '').slice(0, 320))}</span><small>${time}${beat.roomMessageId ? ` · Switch ${esc(beat.roomMessageId)}` : beat.sourceId ? ` · source ${esc(beat.sourceId)}` : ''}</small></span>`;
   const list = $('#beats');
   list.prepend(li);
 }
@@ -405,6 +427,7 @@ function perform(beat) {
   scene.dataset.speaker = speaker;
   setCaption(beat);
   addBeat(beat);
+  const stamp = (text, tone) => stampEl(...(beat.stamp ?? [text, tone]));
   switch (beat.type) {
     case 'summons': setAdvocates(beat.target, 'thinking'); setJudges({all: 'is-listening'}); replayEvent('statement'); break;
     case 'deliberating': setAdvocates(beat.speaker, 'thinking'); break;
@@ -429,6 +452,8 @@ function perform(beat) {
     case 'mandate': setJudges({all: 'is-accepting'}); replayEvent('statement'); break;
     default: setJudges({all: 'is-listening'}); replayEvent('statement');
   }
+  if (beat.mood) setAdvocates(beat.moodRole ?? beat.speaker, beat.mood);
+  if (beat.showBoard != null && state.boards.has(beat.showBoard)) renderBoard(state.boards.get(beat.showBoard), {animate: true});
   chorus(beat);
 }
 function sealStamp(role) {
@@ -447,6 +472,7 @@ function orderBeats(beats) {
   return list;
 }
 function replayPhase(beat, view, briefs) {
+  if (beat.phase) return beat.phase;
   const owner = role => view.cast.owners[role].username;
   switch (beat.type) {
     case 'filing': case 'procedure': return {code: 'Filing', label: 'A case is filed.', detail: 'Two people, two AI advocates, one storyboard.'};
@@ -472,7 +498,7 @@ const replayState = {
   index: 0,
   playing: false,
   timer: null,
-  dwell: beat => ({filing: 4600, procedure: 3600, mandate: 3800, summons: 3000, deliberating: 2600, proposal: 7400, objection: 7200, appeal: 7400, decision: 5400, ruling: 5600, endorsement: 6800, draft_verdict: 6200, signature: 4400, verdict: 10000})[beat.type] ?? 3600,
+  dwell: beat => beat.dwell ?? ({filing: 4600, procedure: 3600, mandate: 3800, summons: 3000, deliberating: 2600, proposal: 7400, objection: 7200, appeal: 7400, decision: 5400, ruling: 5600, endorsement: 6800, draft_verdict: 6200, signature: 4400, verdict: 10000})[beat.type] ?? 3600,
 };
 
 function showReplayStep(i) {
@@ -618,7 +644,7 @@ function resetSession() {
   $('#beats').innerHTML = '';
   $('#checks').innerHTML = '';
   $('#board').innerHTML = '';
-  $('#board-title').textContent = 'No storyboard yet';
+  $('#board-title').textContent = 'No plan yet';
   $('#board-meta').textContent = '';
   $('#exports').innerHTML = '';
   $('#sign-note').textContent = 'An advocate can argue for its owner. It can never consent for them.';
@@ -631,7 +657,7 @@ function resetSession() {
 
 async function startReplay(note) {
   const sessionId = resetSession();
-  const replayResponse = await fetch('/data/replay-signal.json');
+  const replayResponse = await fetch('/data/replay-trip.json');
   if (!replayResponse.ok) throw new Error(`replay fetch ${replayResponse.status}`);
   const replay = await replayResponse.json();
   if (sessionId !== state.sessionId) return;
@@ -643,8 +669,8 @@ async function startReplay(note) {
   if (replay.view && !String(replay.view.exports?.html ?? '').startsWith('/data/')) replay.view.exports = null;
   setCast(replay.view);
   for (const board of replay.boards) state.boards.set(board.revision, board);
-  setMode('replay', 'Recorded session');
-  $('#foot-source').textContent = `${note} ${replay.label}`;
+  setMode('replay', 'Recorded run');
+  $('#foot-source').textContent = note ? `${note} ${replay.label}` : replay.label;
   $('#case-id').textContent = replay.caseId;
 
   replayState.view = replay.view;
@@ -871,8 +897,8 @@ async function startLive(caseId) {
 
 function setCast(view) {
   for (const role of ["lead", "creator"]) {
-    $(`#${role}-model`).textContent = "Codex";
-    $(`#${role}-name`).textContent = role === "lead" ? "Lead’s AI" : "Creator’s AI";
+    $(`#${role}-model`).textContent = view.cast.advocates?.[role]?.model ?? "Codex";
+    $(`#${role}-name`).textContent = view.cast.advocates?.[role]?.label ?? (role === "lead" ? "Lead’s AI" : "Creator’s AI");
     $(`#${role}-for`).textContent = `for ${plainName(view.cast.owners[role]?.username, role)}`;
   }
 }
@@ -945,7 +971,7 @@ async function init() {
   $('#case-id').textContent = caseId;
 
   if (isExplicitReplay) {
-    await startReplay('Replay mode requested (?replay=1). Replaying recorded rehearsal.').catch(() => {
+    await startReplay('').catch(() => {
       setMode('offline', 'Court unavailable');
       showRetryButton();
     });
@@ -957,7 +983,7 @@ async function init() {
   } catch (error) {
     if (error.kind === 'unreachable' || error.status === 502) {
       showRetryButton();
-      await startReplay('Recorded session (the live room is not running here).').catch(() => {
+      await startReplay('The live room is not running here.').catch(() => {
         setMode('offline', 'Court unavailable');
       });
     } else if (error.kind === 'not_found' || error.status === 404) {
