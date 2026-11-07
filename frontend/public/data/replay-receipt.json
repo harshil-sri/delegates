@@ -192,24 +192,24 @@
   {
    "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
    "platformUserId": "fixture-only-native-lead",
-   "recordedAt": 1794068302577,
+   "recordedAt": 1794068627346,
    "revision": 2,
    "revokedBy": null,
    "role": "lead",
    "sender": "fixture-only-sender-lead",
    "sourceId": "fixture-only-approval-1",
-   "sourceTimestamp": 1794068302571
+   "sourceTimestamp": 1794068627333
   },
   {
    "digest": "faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e",
    "platformUserId": "fixture-only-native-creator",
-   "recordedAt": 1794068302584,
+   "recordedAt": 1794068627359,
    "revision": 2,
    "revokedBy": null,
    "role": "creator",
    "sender": "fixture-only-sender-creator",
    "sourceId": "fixture-only-approval-2",
-   "sourceTimestamp": 1794068302581
+   "sourceTimestamp": 1794068627357
   }
  ],
  "checks": [

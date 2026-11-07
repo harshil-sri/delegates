@@ -1,0 +1,4 @@
+# Recorded-session exports are hashed into the consent receipt: keep exact bytes.
+frontend/public/data/replay-storyboard.html -text
+frontend/public/data/replay-script.txt -text
+frontend/public/data/replay-receipt.json -text

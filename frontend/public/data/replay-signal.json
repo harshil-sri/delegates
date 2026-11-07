@@ -1,7 +1,7 @@
 {
  "kind": "cvc-replay-v1",
  "label": "Recorded rehearsal: real Codex advocate turns through Switch and a real clerk. Both owners are labelled synthetic test fixtures, including their final signatures; no real human signed.",
- "exportedAt": "2026-11-07T16:18:22.601Z",
+ "exportedAt": "2026-11-07T16:23:47.382Z",
  "caseId": "CVFCD0532C99E1",
  "view": {
   "version": "cvc-court-view-v1",
@@ -544,7 +544,7 @@
    },
    {
     "id": 22,
-    "at": 1794068302577,
+    "at": 1794068627346,
     "kind": "approval_recorded",
     "sourceId": "fixture-only-approval-1",
     "text": "synthetic-fixture-lead approved BOARD2, bundle faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e. 1/2 human approvals of this exact revision.",
@@ -558,7 +558,7 @@
    },
    {
     "id": 23,
-    "at": 1794068302584,
+    "at": 1794068627359,
     "kind": "approval_recorded",
     "sourceId": "fixture-only-approval-2",
     "text": "synthetic-fixture-creator approved BOARD2, bundle faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e. 2/2 human approvals of this exact revision.",
@@ -572,7 +572,7 @@
    },
    {
     "id": 24,
-    "at": 1794068302585,
+    "at": 1794068627359,
     "kind": "artifact_approved",
     "sourceId": "fixture-only-approval-2",
     "text": "Both distinct human owners approved BOARD2, bundle faaea023c0acf33eba01ae556b9549bc52c149045900f73982480158e0f6396e. Approved export: http://localhost:18802/api/cases/CVFCD0532C99E1/boards/2/export",
