@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Bench · Delegates</title>
+  <link rel="icon" href="/art/seal.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/courtroom.css">
+  <link rel="stylesheet" href="/judges.css">
+  <link rel="stylesheet" href="/bench.css">
+  <script type="module" src="/bench.mjs"></script>
+</head>
+<body class="bench-page">
+  <header class="bench-header"><a class="brand" href="/">delegates<span class="brand-dot">.</span></a><span class="eyebrow">THE BENCH · THREE PERSPECTIVES, ONE PLAN</span></header>
+  <main>
+    <section class="court-stage bench-stage" id="bench-stage" data-event="statement"><div class="scene" id="court-scene" data-speaker="clerk"></div></section>
+    <nav class="bench-controls" aria-label="Rehearse the bench">
+      <div><span class="eyebrow">THE FLOOR</span><button data-speaker="harshil">GPT speaks</button><button data-speaker="daksh">Claude speaks</button><button data-speaker="panel">Bench speaks</button></div>
+      <div><span class="eyebrow">DELIBERATION</span><button data-state="is-assessing">Deliberate</button><button data-verdict>Mixed verdict</button><button data-state="is-accepting">All accept</button><button data-state="is-rejecting">All reject</button></div>
+      <div><span class="eyebrow">MOMENTS</span><button data-event="objection">Objection!</button><button data-event="ruling">Ruling · gavel</button><button data-event="deadlock">Deadlock</button><button data-event="verdict">Verdict</button></div>
+    </nav>
+    <section class="bench-cards" id="bench-cards"></section>
+  </main>
+</body>
+</html>

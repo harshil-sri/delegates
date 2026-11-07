@@ -297,9 +297,10 @@ describe('hearing.mjs', () => {
   test('characters and speakers exports', () => {
     assert.equal(characters.length, 3, 'Should have 3 characters');
     assert.deepEqual(characters.map(character => character.id), ['japan-inspired', 'woman', 'victorian-inspired']);
-    assert.ok(characters.every(character => !('name' in character) && !('perspective' in character)), 'Artwork must not invent names or silently assign roles');
+    assert.ok(characters.every(character => !('asset' in character)), 'Judges are original inline SVG, never external reference art');
     assert.deepEqual(perspectives, ['Fairness', 'Feasibility', 'Cost']);
-    assert.deepEqual(judgeRoleMapping, { Fairness: null, Feasibility: null, Cost: null });
+    assert.deepEqual(judgeRoleMapping, { Fairness: 'victorian-inspired', Feasibility: 'woman', Cost: 'japan-inspired' });
+    for (const character of characters) assert.equal(judgeRoleMapping[character.perspective], character.id, `${character.name} sits for ${character.perspective}`);
     assert.ok(Object.isFrozen(judgeRoleMapping), 'Mapping is explicit configuration, not mutable hearing state');
 
     assert.ok(speakers.clerk, 'Should have clerk speaker');

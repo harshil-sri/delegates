@@ -1,11 +1,11 @@
 export const characters = [
-  { id: 'japan-inspired', asset: '/art/panel/japan-reference.svg' },
-  { id: 'woman', asset: '/art/panel/woman-reference.svg' },
-  { id: 'victorian-inspired', asset: '/art/panel/british-reference.svg' },
+  { id: 'japan-inspired', name: 'Justice Sōjirō Arata', perspective: 'Cost' },
+  { id: 'woman', name: 'Justice Imani Vale', perspective: 'Feasibility' },
+  { id: 'victorian-inspired', name: 'Lord Justice Barnaby Thorne', perspective: 'Fairness' },
 ];
 
 export const perspectives = ['Fairness', 'Feasibility', 'Cost'];
-export const judgeRoleMapping = Object.freeze({ Fairness: null, Feasibility: null, Cost: null });
+export const judgeRoleMapping = Object.freeze({ Fairness: 'victorian-inspired', Feasibility: 'woman', Cost: 'japan-inspired' });
 
 export const speakers = {
   clerk: { name: 'The Clerk', role: 'Court record', initials: 'C', kind: 'clerk' },
