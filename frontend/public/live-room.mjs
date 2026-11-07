@@ -253,6 +253,10 @@ export function startLive({ interval = 1500 } = {}) {
       if (!response.ok) throw new Error(String(response.status));
       const { messages = [] } = await response.json();
       setStatus(true, 'Live from the Switch room. Every message here was posted in Mattermost.');
+      // After a clerk reset the feed starts over, so drop what it no longer has.
+      const current = new Set(messages.map(m => m.id));
+      for (const id of [...shown]) if (!current.has(id)) { shown.delete(id); log.querySelector(`[data-event="${CSS.escape(id)}"]`)?.remove(); }
+      $('#mobile-count').textContent = shown.size;
       const fresh = messages.filter(m => !shown.has(m.id));
       if (fresh.length) {
         const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
