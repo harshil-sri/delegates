@@ -1,6 +1,6 @@
 # Frontend visual review
 
-The approved contract is `delegates-courtroom-design-blueprint.md`, narrowed by
+The approved contract is `docs/design/delegates-courtroom-design-blueprint.md`, narrowed by
 the demo-only interview in `.plans/courtroom-frontend-spec.md`.
 
 ## Observed and corrected

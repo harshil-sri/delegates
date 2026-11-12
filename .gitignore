@@ -47,3 +47,7 @@ Thumbs.db
 
 # Cache
 .cache
+
+# Agent workspace
+.plans/
+graphify-out/

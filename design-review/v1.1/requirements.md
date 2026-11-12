@@ -1,6 +1,6 @@
 # v1.1 redesign contract and traceability
 
-Source of truth: `delegates-courtroom-design-blueprint-v1.1.md`, all 863 lines.
+Source of truth: `docs/design/delegates-courtroom-design-blueprint-v1.1.md`, all 863 lines.
 This review supersedes the old implementation's visual direction, not the
 working backend or existing consent rules. The November 7 artwork is rejected.
 
